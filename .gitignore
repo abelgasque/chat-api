@@ -1,0 +1,6 @@
+#cache
+.vs
+.vscode
+bin
+obj
+SecurityApp.csproj.user
