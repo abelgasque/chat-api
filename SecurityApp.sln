@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityApp.Web", "SecurityApp.Web\SecurityApp.Web.csproj", "{EF67514E-80F0-4FFB-BE0A-500605B40DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityApp.Web", "SecurityApp.Web\SecurityApp.Web.csproj", "{EF67514E-80F0-4FFB-BE0A-500605B40DFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityApp.Api", "SecurityApp.Api\SecurityApp.Api.csproj", "{D3D7F1BD-CFB1-42ED-A417-532970A77C18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EF67514E-80F0-4FFB-BE0A-500605B40DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF67514E-80F0-4FFB-BE0A-500605B40DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF67514E-80F0-4FFB-BE0A-500605B40DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3D7F1BD-CFB1-42ED-A417-532970A77C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D7F1BD-CFB1-42ED-A417-532970A77C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D7F1BD-CFB1-42ED-A417-532970A77C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D7F1BD-CFB1-42ED-A417-532970A77C18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
