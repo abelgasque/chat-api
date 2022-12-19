@@ -1,31 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using SecurityApp.Api.Entities.Settings;
 using System.Reflection;
 using System;
 using System.Linq;
 
-namespace SecurityApp.Api.Entities.Model
+namespace SecurityApp.Web.Entities.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly ApplicationSettings _settings;
-
-        public ApplicationDbContext(
-            DbContextOptions<ApplicationDbContext> options,
-            IOptions<ApplicationSettings> settings
-        ) : base(options)
-        {
-            _settings = settings.Value;
-        }
-
         public DbSet<CustomerEntity> Customer { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_settings.GetConnectionString);
-            base.OnConfiguring(optionsBuilder);
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

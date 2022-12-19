@@ -18,5 +18,5 @@ services:
       DbUser: "SA"
       Password: "secapp@2022"
       Database: "SECURITYAPP_DB"
-    ports: 
+    ports:
       - "8090:80"

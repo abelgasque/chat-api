@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace SecurityApp.Api.Entities.Model
+namespace SecurityApp.Web.Entities.Models
 {
     public class CustomerEntity
     {
@@ -15,7 +15,7 @@ namespace SecurityApp.Api.Entities.Model
         public bool Active { get; set; }
     }
 
-    public class LogAppConfig : IEntityTypeConfiguration<CustomerEntity>
+    public class CustomerConfig : IEntityTypeConfiguration<CustomerEntity>
     {
         public void Configure(EntityTypeBuilder<CustomerEntity> builder)
         {

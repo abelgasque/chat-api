@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SecurityApp.Api.Entities.Model;
-using SecurityApp.Api.Entities.Settings;
+using SecurityApp.Web.Entities.Settings;
+using SecurityApp.Web.Entities.Models;
 
 namespace SecurityApp.Web
 {
@@ -33,6 +33,19 @@ namespace SecurityApp.Web
             });
 
             services.Configure<ApplicationSettings>(_configuration.GetSection("ApplicationSettings"));
+
+            var settingsSection = _configuration.GetSection("ApplicationSettings");
+            var settings = settingsSection.Get<ApplicationSettings>();
+
+            var server = _configuration["DbServer"] ?? settings.Server;
+            var port = _configuration["DbPort"] ?? settings.Port; 
+            var db = _configuration["Database"] ?? settings.Database;
+            var user = _configuration["DbUser"] ?? settings.UserId; 
+            var password = _configuration["Password"] ?? settings.PasswordDb;
+
+            var connectionString = string.Format(settings.ConnectionString, server, port, db, user, password);
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
             //var securitySettingsSection = _configuration.GetSection("SecuritySettings");
             //var securitySettings = securitySettingsSection.Get<SecuritySettings>();
