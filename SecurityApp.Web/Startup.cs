@@ -5,8 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SecurityApp.Web.Entities.Models;
-using SecurityApp.Web.Entities.Settings;
+using Microsoft.OpenApi.Models;
+using SecurityApp.Web.Infrastructure.Entities.Models;
+using SecurityApp.Web.Infrastructure.Entities.Settings;
+using SecurityApp.Web.Infrastructure.Repositories;
+using SecurityApp.Web.Infrastructure.Services;
 
 namespace SecurityApp.Web
 {
@@ -68,7 +71,36 @@ namespace SecurityApp.Web
             //    };
             //});
 
-            //services.AddTransient<MailRepository>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SecurityApp", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Insirir um token válido",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer",
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{ }
+                    }
+                });
+            });
+
+            services.AddTransient<CustomerRepository>();
+            services.AddTransient<CustomerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -99,6 +131,9 @@ namespace SecurityApp.Web
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint($"v1/swagger.json", "SecurityApp v1"));
 
             app.UseSpa(spa =>
             {

@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace SecurityApp.Web.Entities
+namespace SecurityApp.Web.Infrastructure.Entities.Models
 {
-    public class CustomerEntity
+    public class CustomerModel
     {
-        public CustomerEntity() { }
-
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Mail { get; set; }
@@ -15,9 +13,9 @@ namespace SecurityApp.Web.Entities
         public bool Active { get; set; }
     }
 
-    public class CustomerConfig : IEntityTypeConfiguration<CustomerEntity>
+    public class CustomerConfig : IEntityTypeConfiguration<CustomerModel>
     {
-        public void Configure(EntityTypeBuilder<CustomerEntity> builder)
+        public void Configure(EntityTypeBuilder<CustomerModel> builder)
         {
             builder.ToTable("CUSTOMER");
             builder.HasKey(e => e.Id);

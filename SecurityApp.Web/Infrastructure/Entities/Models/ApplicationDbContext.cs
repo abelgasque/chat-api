@@ -3,11 +3,11 @@ using System.Reflection;
 using System;
 using System.Linq;
 
-namespace SecurityApp.Web.Entities.Models
+namespace SecurityApp.Web.Infrastructure.Entities.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<CustomerEntity> Customer { get; set; }
+        public DbSet<CustomerModel> Customer { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
@@ -24,9 +24,9 @@ namespace SecurityApp.Web.Entities.Models
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
 
-            modelBuilder.Entity<CustomerEntity>()
+            modelBuilder.Entity<CustomerModel>()
             .HasData(
-                new CustomerEntity
+                new CustomerModel
                 {
                     Id = Guid.NewGuid(),
                     Name = "Usuário Admin",
