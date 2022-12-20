@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace SecurityApp.Web.Entities.Models
+namespace SecurityApp.Web.Entities
 {
     public class CustomerEntity
     {

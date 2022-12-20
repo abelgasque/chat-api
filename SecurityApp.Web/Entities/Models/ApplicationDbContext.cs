@@ -23,6 +23,19 @@ namespace SecurityApp.Web.Entities.Models
                 dynamic configurationInstance = Activator.CreateInstance(type);
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
+
+            modelBuilder.Entity<CustomerEntity>()
+            .HasData(
+                new CustomerEntity
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Usuário Admin",
+                    Mail = "usuario@admin.com",
+                    Password = "admin",
+                    Active = true
+                }
+            );
+
             base.OnModelCreating(modelBuilder);
         }
     }

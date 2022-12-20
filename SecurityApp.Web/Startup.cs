@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SecurityApp.Web.Entities.Settings;
 using SecurityApp.Web.Entities.Models;
+using SecurityApp.Web.Entities.Settings;
 
 namespace SecurityApp.Web
 {
