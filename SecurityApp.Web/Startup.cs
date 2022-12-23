@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SecurityApp.Web.Infrastructure.Entities.Middlewares;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using SecurityApp.Web.Infrastructure.Entities.Settings;
 using SecurityApp.Web.Infrastructure.Repositories;
@@ -100,7 +101,7 @@ namespace SecurityApp.Web
             });
 
             services.AddTransient<CustomerRepository>();
-            services.AddTransient<CustomerService>();
+            services.AddTransient<CustomerService>();            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -121,6 +122,7 @@ namespace SecurityApp.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             if (!env.IsDevelopment())
             {
