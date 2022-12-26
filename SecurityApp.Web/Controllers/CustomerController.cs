@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using SecurityApp.Web.Infrastructure.Services;
 using System;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 namespace SecurityApp.Web.Controllers
 {
     [ApiController]
-    //[Authorize(Roles = UserRoleConstant.CodeAdmin)]
-    [Route("v1/customer")]
+    [Authorize]
+    [Route("v1/api/customer")]
     public class CustomerController : ControllerBase
     {
         private readonly CustomerService _service;
@@ -18,7 +19,7 @@ namespace SecurityApp.Web.Controllers
             _service = service;
         }
 
-        /// POST: customer
+        /// POST: v1/api/customer
         /// <summary>
         /// Endpoint that inserts customer
         /// </summary>
@@ -30,11 +31,12 @@ namespace SecurityApp.Web.Controllers
                 return new BadRequestObjectResult(this.ModelState);
             }
 
-            return new OkObjectResult(await _service.CreateAsync(pEntity));
+            await _service.CreateAsync(pEntity);
+            return new OkObjectResult(pEntity);
         }
 
 
-        /// GET: customer
+        /// GET: v1/api/customer/{id}
         /// <summary>
         /// Endpoint that read customer by id
         /// </summary>
@@ -44,17 +46,17 @@ namespace SecurityApp.Web.Controllers
             return new OkObjectResult(await _service.ReadById(pId));
         }
 
-        /// GET: customer
+        /// GET: v1/api/customer
         /// <summary>
         /// Endpoint that read customer
         /// </summary>
         [HttpGet]
         public async Task<ActionResult> Read()
         {
-            return new OkObjectResult(await _service.Read());
+            return new OkObjectResult(await _service.Read(null));
         }
 
-        /// PUT: customer
+        /// PUT: v1/api/customer
         /// <summary>
         /// Endpoint that updates customer
         /// </summary>
@@ -66,10 +68,11 @@ namespace SecurityApp.Web.Controllers
                 return new BadRequestObjectResult(this.ModelState);
             }
 
-            return new OkObjectResult(await _service.UpdateAsync(pEntity));
+            await _service.UpdateAsync(pEntity);
+            return new OkObjectResult(pEntity);
         }
 
-        /// PUT: customer
+        /// DELETE: v1/api/customer
         /// <summary>
         /// Endpoint that delete customer
         /// </summary>

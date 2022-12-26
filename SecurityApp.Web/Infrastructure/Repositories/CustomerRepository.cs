@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SecurityApp.Web.Infrastructure.Entities.Exceptions;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using System;
 using System.Linq;
@@ -15,19 +16,26 @@ namespace SecurityApp.Web.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<CustomerModel> CreateAsync(CustomerModel pEntity)
+        public async Task CreateAsync(CustomerModel pEntity)
         {
             _context.Customer.Add(pEntity);
-            int nuResult = await _context.SaveChangesAsync();
-            return (nuResult > 0) ? pEntity : null;
+            if (!(await _context.SaveChangesAsync() > 0)) 
+            { 
+                throw new Exception("There was an error create record");
+            }
         }
 
         public async Task<CustomerModel> ReadById(Guid pId)
         {
-            return await _context.Customer.AsNoTracking().Where(e => e.Id == pId).FirstOrDefaultAsync();
+            return await _context.Customer.AsNoTracking().Where(e => e.Id.Equals(pId)).FirstOrDefaultAsync();
         }
 
-        public async Task<object> Read()
+        public async Task<CustomerModel> ReadByMail(string pMail)
+        {
+            return await _context.Customer.AsNoTracking().Where(e => e.Mail.Equals(pMail)).FirstOrDefaultAsync();
+        }
+
+        public async Task<object> Read(CustomerModel pEntity)
         {
             IQueryable<CustomerModel> query = _context.Customer.AsNoTracking();
             return new
@@ -37,11 +45,13 @@ namespace SecurityApp.Web.Infrastructure.Repositories
             };
         }
 
-        public async Task<CustomerModel> UpdateAsync(CustomerModel pEntity)
+        public async Task UpdateAsync(CustomerModel pEntity)
         {
             _context.Customer.Update(pEntity);
-            int nuResult = await _context.SaveChangesAsync();
-            return (nuResult > 0) ? pEntity : null;
+            if (!(await _context.SaveChangesAsync() > 0))
+            {
+                throw new Exception("There was an error update record");
+            }
         }
 
         public async Task DeleteAsync(CustomerModel pEntity)

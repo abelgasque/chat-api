@@ -4,6 +4,15 @@ namespace SecurityApp.Web.Infrastructure.Entities.Settings
 {
     public class ApplicationSettings
     {
+        [JsonProperty("Secret")]
+        public string Secret { get; set; }
+
+        [JsonProperty("ExpireIn")]
+        public int ExpireIn { get; set; }
+
+        [JsonProperty("AuthAttempts")]
+        public int AuthAttempts { get; set; }
+        
         [JsonProperty("ConnectionString")]
         public string ConnectionString { get; set; }
 

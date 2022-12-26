@@ -9,6 +9,6 @@ namespace SecurityApp.Web.Infrastructure.Entities.Exceptions
     {
         public BadRequestException() { }
 
-        public BadRequestException(string message) : base(message) { }
+        public BadRequestException(string message) : base(message) { }        
     }
 }

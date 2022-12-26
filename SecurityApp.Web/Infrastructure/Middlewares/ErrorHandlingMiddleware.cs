@@ -2,12 +2,10 @@
 using Newtonsoft.Json;
 using SecurityApp.Web.Infrastructure.Entities.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace SecurityApp.Web.Infrastructure.Entities.Middlewares
+namespace SecurityApp.Web.Infrastructure.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
@@ -18,7 +16,7 @@ namespace SecurityApp.Web.Infrastructure.Entities.Middlewares
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context /* other dependencies */)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
@@ -35,9 +33,8 @@ namespace SecurityApp.Web.Infrastructure.Entities.Middlewares
             var code = HttpStatusCode.InternalServerError;
             
             if (exception is UnauthorizedException) code = HttpStatusCode.Unauthorized;
-            else if (exception is BadRequestException) code = HttpStatusCode.BadRequest;            
-            else code = HttpStatusCode.InternalServerError;
-
+            else if (exception is BadRequestException) code = HttpStatusCode.BadRequest;
+            
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 

@@ -29,10 +29,13 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
                 new CustomerModel
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Usuário Admin",
+                    FirstName = "Usuário",
+                    LastName = "Admin",
                     Mail = "usuario@admin.com",
                     Password = "admin",
-                    Active = true
+                    AuthAttempts = 0,
+                    Active = true,
+                    Block = false,
                 }
             );
 
