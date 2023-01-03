@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SecurityApp.Web.Infrastructure.Entities.Filter;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using SecurityApp.Web.Infrastructure.Services;
 using System;
@@ -51,9 +52,9 @@ namespace SecurityApp.Web.Controllers
         /// Endpoint that read customer
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult> Read()
+        public async Task<ActionResult> Read([FromQuery] CustomerFilter pFilter)
         {
-            return new OkObjectResult(await _service.Read(null));
+            return new OkObjectResult(await _service.Read(pFilter));
         }
 
         /// PUT: v1/api/customer

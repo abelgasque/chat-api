@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SecurityApp.Web.Infrastructure.Entities.DTO;
 using SecurityApp.Web.Infrastructure.Entities.Exceptions;
+using SecurityApp.Web.Infrastructure.Entities.Filter;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using System;
 using System.Linq;
@@ -35,13 +38,15 @@ namespace SecurityApp.Web.Infrastructure.Repositories
             return await _context.Customer.AsNoTracking().Where(e => e.Mail.Equals(pMail)).FirstOrDefaultAsync();
         }
 
-        public async Task<object> Read(CustomerModel pEntity)
+        public async Task<object> Read(CustomerFilter pEntity)
         {
             IQueryable<CustomerModel> query = _context.Customer.AsNoTracking();
-            return new
+            query = query.Skip((pEntity.Page - 1) * pEntity.Size).Take(pEntity.Size);
+
+            return new PaginationResponseDTO
             {
-                total = query.Select(x => new { x.Id }).Count(),
-                data = await query.ToListAsync(),
+                Total = query.Select(x => new { x.Id }).Count(),
+                Data = await query.ToListAsync(),
             };
         }
 

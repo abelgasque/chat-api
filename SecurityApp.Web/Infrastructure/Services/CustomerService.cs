@@ -1,4 +1,5 @@
 ﻿using SecurityApp.Web.Infrastructure.Entities.Exceptions;
+using SecurityApp.Web.Infrastructure.Entities.Filter;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using SecurityApp.Web.Infrastructure.Repositories;
 using System;
@@ -40,7 +41,7 @@ namespace SecurityApp.Web.Infrastructure.Services
             return entity;
         }
 
-        public async Task<object> Read(CustomerModel pEntity)
+        public async Task<object> Read(CustomerFilter pEntity)
         {
             return await _repository.Read(pEntity);
         }

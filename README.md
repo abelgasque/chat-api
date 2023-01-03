@@ -1,5 +1,6 @@
-# Aplicação de segurança
+# Security Application
 
-## Implantação da aplicação no Docker
+## Deploying the application on Docker
 
-docker-compose up --build
+In a terminal on the application path run the command:
+`docker-compose up --build`
