@@ -9,7 +9,11 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
     {
         public Guid Id { get; set; }
 
-        [Required]        
+        public DateTime? CreationDate { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
+
+        [Required]      
         [MaxLength(50)]
         public string FirstName { get; set; }
 
@@ -44,6 +48,8 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id).HasColumnName("CUSTOMER");
+            builder.Property(e => e.CreationDate).HasColumnName("CREATION_DATE");
+            builder.Property(e => e.UpdateDate).HasColumnName("UPDATE_DATE");
             builder.Property(e => e.FirstName).HasColumnName("FIRST_NAME").IsRequired().HasMaxLength(50);
             builder.Property(e => e.LastName).HasColumnName("LAST_NAME").IsRequired().HasMaxLength(100);
             builder.Property(e => e.Mail).HasColumnName("MAIL").IsRequired().HasMaxLength(250);

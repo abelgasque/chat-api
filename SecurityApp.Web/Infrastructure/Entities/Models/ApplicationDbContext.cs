@@ -29,6 +29,8 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
                 new CustomerModel
                 {
                     Id = Guid.NewGuid(),
+                    CreationDate = DateTime.Now,
+                    UpdateDate = null,
                     FirstName = "Usuário",
                     LastName = "Admin",
                     Mail = "usuario@admin.com",
