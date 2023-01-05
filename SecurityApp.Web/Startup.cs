@@ -14,6 +14,9 @@ using SecurityApp.Web.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.IO;
+using System.Reflection;
+using System;
 
 namespace SecurityApp.Web
 {
@@ -74,16 +77,32 @@ namespace SecurityApp.Web
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SecurityApp", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Version = "v1",
+                    Title = "Security Application",
+                    Description = "An example security application with ASP.NET Core Web API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Abel Gasque",
+                        Email = "contato.abelgasque@gmail.com",
+                        Url = new Uri("https://abelgasque.dev")
+                    },
+                });
+               
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Insirir um token válido",
+                    Description = "Enter a valid token",
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
                     Scheme = "bearer",
                 });
+                
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -136,7 +155,7 @@ namespace SecurityApp.Web
             });
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint($"v1/swagger.json", "SecurityApp v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Security Application v1"));
 
             app.UseSpa(spa =>
             {
