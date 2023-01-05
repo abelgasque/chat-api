@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace SecurityApp.Web.Controllers
 {
-    [ApiController]
-    [AllowAnonymous]
-    [Route("v1/api/token")]
+    [ApiController, AllowAnonymous, Route("v1/api/token")]
     public class TokenController : ControllerBase
     {
         private readonly TokenService _service;

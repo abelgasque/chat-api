@@ -24,6 +24,7 @@ namespace SecurityApp.Web.Infrastructure.Services
                 throw new BadRequestException("E-mail already registered") { };
             }
 
+            pEntity.CreationDate = DateTime.Now;
             await _repository.CreateAsync(pEntity);
         }
 
@@ -53,9 +54,14 @@ namespace SecurityApp.Web.Infrastructure.Services
 
             if (customerValid != null && !(customerValid.Id.Equals(pEntity.Id)))
             {
-                throw new BadRequestException("E-mail already registered") { };
+                throw new BadRequestException("Email already registered") { };
             }
-            if (!entity.Equals(pEntity)) await _repository.UpdateAsync(pEntity);
+
+            if (!entity.Equals(pEntity))
+            {
+                pEntity.UpdateDate = DateTime.Now;
+                await _repository.UpdateAsync(pEntity);
+            }
         }
 
         public async Task DeleteAsync(Guid pId)
