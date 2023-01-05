@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SecurityApp.Web.Infrastructure.Entities.DTO;
-using SecurityApp.Web.Infrastructure.Entities.Exceptions;
 using SecurityApp.Web.Infrastructure.Entities.Filter;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using System;
@@ -41,12 +39,32 @@ namespace SecurityApp.Web.Infrastructure.Repositories
         public async Task<object> Read(CustomerFilter pEntity)
         {
             IQueryable<CustomerModel> query = _context.Customer.AsNoTracking();
-            query = query.Skip((pEntity.Page - 1) * pEntity.Size).Take(pEntity.Size);
+            if (pEntity.Id != null) query = query.Where(e => e.Id.Equals(pEntity.Id));
+            if (!string.IsNullOrEmpty(pEntity.FirstName)) query = query.Where(e => e.FirstName.Contains(pEntity.FirstName));
+            if (!string.IsNullOrEmpty(pEntity.LastName)) query = query.Where(e => e.LastName.Contains(pEntity.LastName));
+            if (!string.IsNullOrEmpty(pEntity.Mail)) query = query.Where(e => e.Mail.Contains(pEntity.Mail));
+            if (pEntity.Active != null) query = query.Where(e => e.Active.Equals(pEntity.Active));
+            if (pEntity.Block != null) query = query.Where(e => e.Block.Equals(pEntity.Block));
+
+            if (pEntity.CreationDateStart.HasValue && pEntity.CreationDateEnd.HasValue)
+            {
+                query = query.Where(e => e.CreationDate >= pEntity.CreationDateStart && e.CreationDate <= pEntity.CreationDateEnd);
+            }
+
+            if (pEntity.UpdateDateStart.HasValue && pEntity.UpdateDateEnd.HasValue)
+            {
+                query = query.Where(e => e.UpdateDate >= pEntity.UpdateDateStart && e.UpdateDate <= pEntity.UpdateDateEnd);
+            }
+
+            int count = query.Select(x => new { x.Id }).Count();
+            query = query.Skip((pEntity.Page - 1) * pEntity.Size).Take(pEntity.Size).OrderBy(e => e.CreationDate);
 
             return new PaginationResponseDTO
             {
-                Total = query.Select(x => new { x.Id }).Count(),
-                Data = await query.ToListAsync(),
+                Page = pEntity.Page,
+                Size = pEntity.Size,
+                Total = count,
+                Data = await query.Select(e => new CustomerDTO(e) { }).ToListAsync(),
             };
         }
 

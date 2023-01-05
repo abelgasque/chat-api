@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using SecurityApp.Web.Infrastructure.Entities.DTO;
 using SecurityApp.Web.Infrastructure.Entities.Exceptions;
 using SecurityApp.Web.Infrastructure.Entities.Models;
@@ -49,39 +48,31 @@ namespace SecurityApp.Web.Infrastructure.Services
         public async Task<TokenDTO> Login(UserDTO pEntity)
         {
             CustomerModel customer = await _service.ReadByMail(pEntity.Username);
-            string msgError = string.Empty;
+            
             if ((!customer.Active) || (customer.Block))
-            {
-                msgError = "Usuário bloqueado ou inátivo!";
-            }
-
+            {                
+                throw new UnauthorizedException("User blocked or inactive!") { };
+            } 
+            
             if (customer.AuthAttempts >= _settings.AuthAttempts)
+            {                
+                customer.Block = true;                
+                await _service.UpdateAsync(customer);
+                throw new UnauthorizedException("User blocked temporarily!") { };
+            } 
+            
+            if (!customer.Password.Equals(pEntity.Password))                
             {
-                msgError = "Usuário bloqueado temporariamente!";
-                customer.Block = true;
+                customer.AuthAttempts = (customer.AuthAttempts += 1);
+                await _service.UpdateAsync(customer);
+                throw new UnauthorizedException("Invalid password!") { };                
             }
 
-            if (!customer.Password.Equals(pEntity.Password))
-            {
-                msgError = "Senha inválida!";                
-            }
-
-            bool hasError = (!string.IsNullOrEmpty(msgError));
-            customer.AuthAttempts = (hasError) ? (customer.AuthAttempts += 1) : 0;
+            customer.AuthAttempts = 0;
             await _service.UpdateAsync(customer);            
-
-            if (hasError)
-            {
-                 throw new UnauthorizedException(msgError) { };
-            }
             
             var token = GenerateToken();
-            token.Customer = new {
-                Id = customer.Id,
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                Mail = customer.Mail,
-            };
+            token.Customer = new CustomerDTO(customer) { };
             return token;
         }
     }

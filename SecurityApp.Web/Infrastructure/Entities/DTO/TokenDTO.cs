@@ -6,6 +6,6 @@
 
         public string AccessToken { get; set; }
         public int ExpiresIn { get; set; }
-        public object Customer { get; set; }
+        public CustomerDTO Customer { get; set; }
     }
 }
