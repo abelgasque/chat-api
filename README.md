@@ -1,6 +1,6 @@
 # Security Application
 
-An example security application with ASP.NET Core Web API, responsible for the core web system using the same domain network. When starting the command deployed application in Docker, we will have the virtualization of the system for the local application development environment.
+A sample security application with ASP.NET Core Web API, responsible for the main web system using the same domain network. When starting using the deployment command in Docker, we will have system virtualization for the local application development environment.
 
 ## Use the Angular project template with ASP.NET Core
 
