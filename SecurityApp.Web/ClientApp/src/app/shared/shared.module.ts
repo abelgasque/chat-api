@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SharedService } from './shared.service';
 
 let components = [
   NavbarComponent,
@@ -13,7 +18,14 @@ let components = [
   declarations: components,
   exports: components,
   imports: [
-    CommonModule
+    CommonModule,
+
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule
   ],
+  providers: [
+    SharedService
+  ]
 })
 export class SharedModule { }
