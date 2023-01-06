@@ -1,6 +1,29 @@
 # Security Application
 
-## Deploying the application on Docker
+An example security application with ASP.NET Core Web API, responsible for the core web system using the same domain network. When starting the command deployed application in Docker, we will have the virtualization of the system for the local application development environment.
+
+## Use the Angular project template with ASP.NET Core
+
+The ASP.NET Core with Angular project template provides a convenient starting point for ASP.NET Core apps using Angular and the Angular CLI to implement a rich, client-side user interface (UI).
+
+The project template is equivalent to creating both an ASP.NET Core project to act as a web API and an Angular CLI project to act as a UI. This project combination offers the convenience of hosting both projects in a single ASP.NET Core project that can be built and published as a single unit.
+
+The project template isn't meant for server-side rendering (SSR).
+
+## Command deployed application in Docker
 
 In a terminal on the application path run the command:
-`docker-compose up --build`
+
+```docker-compose up --build```
+
+## Admin Credentials
+**Username:** `contato.abelgasque@gmail.com`
+
+**Password:** `admin`
+
+
+*Note:* Credentials can be added or changed in the [ApplicationDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/SecurityApp.Web/Infrastructure/Entities/Models/ApplicationDbContext.cs) file and generating a new migration before deploying to the development environment.
+
+## References
+
+[Use the Angular project template with ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-7.0&tabs=visual-studio)

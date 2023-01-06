@@ -27,16 +27,16 @@ namespace SecurityApp.Web.Controllers
         ///
         ///     POST v1/api/customer
         ///     {
-        ///         Id = null,
-        ///         CreationDate = null,
-        ///         UpdateDate = null,
-        ///         FirstName = "Abel",
-        ///         LastName = "Gasque L. Silva",
-        ///         Mail = "contato.abelgasque@gmail.com",
-        ///         Password = "admin",
-        ///         AuthAttempts = 0,
-        ///         Active = true,
-        ///         Block = false,
+        ///         "id" = null,
+        ///         "creationDate" = null,
+        ///         "updateDate" = null,
+        ///         "firstName" = "Abel",
+        ///         "lastName" = "Gasque L. Silva",
+        ///         "mail" = "contato.abelgasque@gmail.com",
+        ///         "password" = "admin",
+        ///         "authAttempts" = 0,
+        ///         "active" = true,
+        ///         "block" = false,
         ///     }
         ///
         /// </remarks>
@@ -93,16 +93,16 @@ namespace SecurityApp.Web.Controllers
         ///
         ///     PUT v1/api/customer
         ///     {
-        ///         Id = "3fa85f64-5717-4562-b3fc-2c963f66afa6,
-        ///         CreationDate = "2023-01-05T22:43:18.237Z",
-        ///         UpdateDate = null,
-        ///         FirstName = "Abel",
-        ///         LastName = "Gasque L. Silva",
-        ///         Mail = "contato.abelgasque@gmail.com",
-        ///         Password = "admin",
-        ///         AuthAttempts = 0,
-        ///         Active = true,
-        ///         Block = false,
+        ///         "id" = "3fa85f64-5717-4562-b3fc-2c963f66afa6,
+        ///         "creationDate" = "2023-01-05T22:43:18.237Z",
+        ///         "updateDate" = null,
+        ///         "firstName" = "Abel",
+        ///         "lastName" = "Gasque L. Silva",
+        ///         "mail" = "contato.abelgasque@gmail.com",
+        ///         "password" = "admin",
+        ///         "authAttempts" = 0,
+        ///         "active" = true,
+        ///         "block" = false,
         ///     }
         ///
         /// </remarks>
@@ -128,7 +128,7 @@ namespace SecurityApp.Web.Controllers
         /// </summary>
         /// <param name="pId"></param>
         /// <returns>Returns only the status or exception code on failure</returns>
-        /// <response code="200">Returns only the status code of the request</response>
+        /// <response code="204">Returns only the status code of the request</response>
         /// <response code="404">Exception return if record does not exist</response>
         [HttpDelete("{pId}")]
         public async Task<ActionResult> DeleteAsync(Guid pId)
