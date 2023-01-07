@@ -2,7 +2,7 @@
 
 A sample security application with ASP.NET Core Web API, responsible for the main web system using the same domain network. When starting using the deployment command in Docker, we will have system virtualization for the local application development environment.
 
-## Use the Angular project template with ASP.NET Core
+## Using the Angular with ASP.NET Core
 
 The ASP.NET Core with Angular project template provides a convenient starting point for ASP.NET Core apps using Angular and the Angular CLI to implement a rich, client-side user interface (UI).
 
