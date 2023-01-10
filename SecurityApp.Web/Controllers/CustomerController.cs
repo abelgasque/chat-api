@@ -27,16 +27,16 @@ namespace SecurityApp.Web.Controllers
         ///
         ///     POST v1/api/customer
         ///     {
-        ///         "id" = null,
-        ///         "creationDate" = null,
-        ///         "updateDate" = null,
-        ///         "firstName" = "Abel",
-        ///         "lastName" = "Gasque L. Silva",
-        ///         "mail" = "contato.abelgasque@gmail.com",
-        ///         "password" = "admin",
-        ///         "authAttempts" = 0,
-        ///         "active" = true,
-        ///         "block" = false,
+        ///         "id": null,
+        ///         "creationDate": null,
+        ///         "updateDate": null,
+        ///         "firstName": "Abel",
+        ///         "lastName": "Gasque L. Silva",
+        ///         "mail": "contato.abelgasque@gmail.com",
+        ///         "password": "admin",
+        ///         "authAttempts": 0,
+        ///         "active": true,
+        ///         "block": false,
         ///     }
         ///
         /// </remarks>
@@ -93,16 +93,16 @@ namespace SecurityApp.Web.Controllers
         ///
         ///     PUT v1/api/customer
         ///     {
-        ///         "id" = "3fa85f64-5717-4562-b3fc-2c963f66afa6,
-        ///         "creationDate" = "2023-01-05T22:43:18.237Z",
-        ///         "updateDate" = null,
-        ///         "firstName" = "Abel",
-        ///         "lastName" = "Gasque L. Silva",
-        ///         "mail" = "contato.abelgasque@gmail.com",
-        ///         "password" = "admin",
-        ///         "authAttempts" = 0,
-        ///         "active" = true,
-        ///         "block" = false,
+        ///         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6,
+        ///         "creationDate": "2023-01-05T22:43:18.237Z",
+        ///         "updateDate": null,
+        ///         "firstName": "Abel",
+        ///         "lastName": "Gasque L. Silva",
+        ///         "mail": "contato.abelgasque@gmail.com",
+        ///         "password": "admin",
+        ///         "authAttempts": 0,
+        ///         "active": true,
+        ///         "block": false,
         ///     }
         ///
         /// </remarks>
