@@ -20,7 +20,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
 
     CoreModule,
-    SharedModule,
     NgbModule,
   ],
   providers: [],
