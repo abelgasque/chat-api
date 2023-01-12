@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { SharedService } from '../../shared.service';
 
 @Component({
@@ -8,7 +10,10 @@ import { SharedService } from '../../shared.service';
 })
 export class NavbarComponent {
 
-  constructor(public sharedService: SharedService) { }
+  constructor(
+    public router: Router,
+    public sharedService: SharedService,
+  ) { }
 
   toggleSidebar() {
     this.sharedService.openedSidebar = !this.sharedService.openedSidebar;

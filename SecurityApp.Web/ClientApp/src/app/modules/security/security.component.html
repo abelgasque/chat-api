@@ -1,6 +1,25 @@
-<div class="row">
-    <div class="col-12">
-        <router-outlet></router-outlet>
+<div class="row container__box">
+    <div class="col-12 box">
+        <nav mat-tab-nav-bar>
+            <a mat-tab-link [routerLink]="['/security', 'sign-in']" 
+                (click)="activeLink = 'sign-in'"
+                [active]="activeLink == 'sign-in'">
+                Sign in
+            </a>
+
+            <a mat-tab-link [routerLink]="['/security', 'sign-up']"
+                (click)="activeLink = 'sign-up'"
+                [active]="activeLink == 'sign-up'">
+                Sign up
+            </a>
+        </nav>
+
+        <div class="router__links">
+            <router-outlet></router-outlet>
+        </div>
+
+        <div class="a__back">
+            <a href="#" [routerLink]="['/']">Back to start</a>
+        </div>
     </div>
 </div>
-
