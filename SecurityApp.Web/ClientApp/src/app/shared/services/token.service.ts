@@ -11,7 +11,7 @@ export class TokenService {
   private baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = `${environment.baseUrlApi}/token`;
+    this.baseUrl = `${environment.baseUrlApi}/v1/api/token`;
   }
 
   signIn(user: UserDTO) {

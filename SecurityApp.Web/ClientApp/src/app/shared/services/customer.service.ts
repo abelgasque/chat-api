@@ -11,7 +11,7 @@ export class CustomerService {
   private baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = `${environment.baseUrlApi}/customer`;
+    this.baseUrl = `${environment.baseUrlApi}/v1/api/customer`;
   }
 
   createLeadAsync(customer: CustomerLeadDTO) {

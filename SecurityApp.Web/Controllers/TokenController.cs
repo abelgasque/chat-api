@@ -26,7 +26,7 @@ namespace SecurityApp.Web.Controllers
         ///     POST v1/api/token
         ///     {
         ///         "username": "contato.abelgasque@gmail.com",
-        ///         "password": "admin",
+        ///         "password": "admin"
         ///     }
         ///
         /// </remarks>

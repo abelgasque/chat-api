@@ -37,7 +37,7 @@ namespace SecurityApp.Web.Controllers
         ///         "password": "admin",
         ///         "authAttempts": 0,
         ///         "active": true,
-        ///         "block": false,
+        ///         "block": false
         ///     }
         ///
         /// </remarks>
@@ -135,7 +135,7 @@ namespace SecurityApp.Web.Controllers
         ///         "password": "admin",
         ///         "authAttempts": 0,
         ///         "active": true,
-        ///         "block": false,
+        ///         "block": false
         ///     }
         ///
         /// </remarks>
