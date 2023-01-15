@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" *ngIf="!this.router.url.includes('security')">
-    <button mat-icon-button (click)="toggleSidebar()" *ngIf="this.coreService.token !== ''">
+    <button mat-icon-button (click)="sharedService.toggleSidebar()" *ngIf="this.coreService.token !== ''">
         <mat-icon>menu</mat-icon>
     </button>
 
@@ -17,6 +17,6 @@
 
     <button mat-button (click)="signOut()" *ngIf="this.coreService.token !== ''">
         Sign out
-        <mat-icon>logout</mat-icon>        
+        <mat-icon>logout</mat-icon>
     </button>
 </mat-toolbar>

@@ -17,10 +17,6 @@ export class NavbarComponent {
     public sharedService: SharedService,
   ) { }
 
-  toggleSidebar() {
-    this.sharedService.openedSidebar = !this.sharedService.openedSidebar;
-  }
-
   signOut() {
     this.sharedService.openedSidebar = false;
     this.coreService.setTokenLocalStorage('');

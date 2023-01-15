@@ -6,6 +6,10 @@ import { Injectable } from '@angular/core';
 export class SharedService {
 
   public openedSidebar: boolean = false;
-  
+
   constructor() { }
+
+  toggleSidebar() {
+    this.openedSidebar = !this.openedSidebar;
+  }
 }

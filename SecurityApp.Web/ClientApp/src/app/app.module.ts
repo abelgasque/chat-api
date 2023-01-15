@@ -19,9 +19,10 @@ import { CoreModule } from './core/core.module';
     BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,
-
-    CoreModule,
+    
     NgbModule,
+
+    CoreModule,    
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
