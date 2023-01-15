@@ -21,4 +21,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngSubmit() {
+    console.log('form', this.form.value)
+  }
 }

@@ -1,17 +1,22 @@
 <mat-toolbar color="primary" *ngIf="!this.router.url.includes('security')">
-    <button mat-icon-button (click)="toggleSidebar()">
+    <button mat-icon-button (click)="toggleSidebar()" *ngIf="this.coreService.token !== ''">
         <mat-icon>menu</mat-icon>
     </button>
-    
+
     <span [routerLink]="['']">Security App</span>
 
     <span class="example-spacer"></span>
-    
-    <button mat-button [routerLink]="['/security', 'sign-in']">
+
+    <button mat-button [routerLink]="['/security', 'sign-in']" *ngIf="this.coreService.token === ''">
         Sign in
     </button>
-    
-    <button mat-button [routerLink]="['/security', 'sign-up']">
+
+    <button mat-button [routerLink]="['/security', 'sign-up']" *ngIf="this.coreService.token === ''">
         Sign up
+    </button>
+
+    <button mat-button (click)="signOut()" *ngIf="this.coreService.token !== ''">
+        Sign out
+        <mat-icon>logout</mat-icon>        
     </button>
 </mat-toolbar>

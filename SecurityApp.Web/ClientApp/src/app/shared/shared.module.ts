@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SharedService } from './shared.service';
+import { HttpClientModule } from '@angular/common/http';
 
 let components = [
   NavbarComponent,
@@ -21,6 +22,7 @@ let components = [
   imports: [
     CommonModule,
     RouterModule,
+    HttpClientModule,
 
     MatButtonModule,
     MatToolbarModule,
