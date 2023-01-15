@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CoreService } from 'src/app/core/core.service';
 
 import { TokenService } from 'src/app/shared/services/token.service';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,6 +19,7 @@ export class SignInComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private coreService: CoreService,
+    private sharedService: SharedService,
     private tokenService: TokenService,
 
   ) {
@@ -31,6 +33,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngSubmit() {
+    this.sharedService.openSpinner();
     this.tokenService.signIn(this.form.value).subscribe({
       next: (response: any) => {
         this.coreService.setTokenLocalStorage(response.accessToken);
@@ -40,6 +43,9 @@ export class SignInComponent implements OnInit {
       error: (e) => {
         console.error(e);
         this.form.reset();
+      },
+      complete: () => {
+        this.sharedService.closeSpinner();
       }
     });
   }

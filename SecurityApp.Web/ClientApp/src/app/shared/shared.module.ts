@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
+import { SharedService } from './shared.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { SharedService } from './shared.service';
-import { HttpClientModule } from '@angular/common/http';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 let components = [
   NavbarComponent,
   SidebarComponent,
+  SpinnerComponent,
 ]
 
 @NgModule({
@@ -26,7 +30,9 @@ let components = [
 
     MatButtonModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+
+    ProgressSpinnerModule,
   ],
   providers: [
     SharedService
