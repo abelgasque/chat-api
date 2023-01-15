@@ -4,8 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -19,8 +17,6 @@ import { CoreModule } from './core/core.module';
     BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,
-    
-    NgbModule,
 
     CoreModule,    
   ],
