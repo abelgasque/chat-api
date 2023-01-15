@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SecurityApp.Web.Infrastructure.Entities.DTO;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,6 +8,20 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
 {
     public class CustomerModel
     {
+        public CustomerModel() { }
+
+        public CustomerModel(CustomerLeadDTO pEntity)
+        {
+            Id = Guid.NewGuid();
+            FirstName = pEntity.FirstName;
+            LastName = null;
+            Mail = pEntity.Mail;
+            Password = pEntity.Password;
+            AuthAttempts = 0;
+            Active = true;
+            Block = false;
+        }
+
         public Guid Id { get; set; }
 
         public DateTime? CreationDate { get; set; }
@@ -17,7 +32,6 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
         [MaxLength(50)]
         public string FirstName { get; set; }
 
-        [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
         
@@ -51,7 +65,7 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
             builder.Property(e => e.CreationDate).HasColumnName("CREATION_DATE");
             builder.Property(e => e.UpdateDate).HasColumnName("UPDATE_DATE");
             builder.Property(e => e.FirstName).HasColumnName("FIRST_NAME").IsRequired().HasMaxLength(50);
-            builder.Property(e => e.LastName).HasColumnName("LAST_NAME").IsRequired().HasMaxLength(100);
+            builder.Property(e => e.LastName).HasColumnName("LAST_NAME").HasMaxLength(100);
             builder.Property(e => e.Mail).HasColumnName("MAIL").IsRequired().HasMaxLength(250);
             builder.Property(e => e.Password).HasColumnName("PASSWORD").IsRequired().HasMaxLength(50);
             builder.Property(e => e.AuthAttempts).HasColumnName("AUTH_ATTEMPTS").IsRequired();

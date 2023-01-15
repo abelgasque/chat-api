@@ -49,7 +49,6 @@ namespace SecurityApp.Web.Migrations
                         .HasColumnName("FIRST_NAME");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("LAST_NAME");
@@ -80,11 +79,11 @@ namespace SecurityApp.Web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("12c67a9f-4111-43e1-94f5-167c1ae0d20b"),
+                            Id = new Guid("43c49001-7ab4-4db3-b4ed-c099da67ca72"),
                             Active = true,
                             AuthAttempts = 0,
                             Block = false,
-                            CreationDate = new DateTime(2023, 1, 5, 20, 12, 10, 869, DateTimeKind.Local).AddTicks(3635),
+                            CreationDate = new DateTime(2023, 1, 15, 16, 31, 39, 203, DateTimeKind.Local).AddTicks(2471),
                             FirstName = "Abel",
                             LastName = "Gasque L. Silva",
                             Mail = "contato.abelgasque@gmail.com",

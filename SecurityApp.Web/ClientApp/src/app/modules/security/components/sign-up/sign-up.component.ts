@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { CustomerService } from 'src/app/shared/services/customer.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +13,11 @@ export class SignUpComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private customerService: CustomerService
+  ) {
     this.form = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
       mail: ['', [Validators.required, Validators.email, Validators.maxLength(250)]],
@@ -18,10 +25,17 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngSubmit() {
-    console.log('form', this.form.value)
+    this.customerService.createLeadAsync(this.form.value).subscribe({
+      next: (response: any) => {
+        this.router.navigate(['/security', 'sign-in']);
+      },
+      error: (e) => {
+        console.error(e);
+        this.form.reset();
+      }
+    })
   }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SecurityApp.Web.Infrastructure.Entities.DTO;
 using SecurityApp.Web.Infrastructure.Entities.Filter;
 using SecurityApp.Web.Infrastructure.Entities.Models;
 using SecurityApp.Web.Infrastructure.Services;
@@ -56,6 +57,38 @@ namespace SecurityApp.Web.Controllers
             return new OkObjectResult(pEntity);
         }
 
+        /// POST: v1/api/customer/lead
+        /// <summary>
+        /// Endpoint that inserts customer lead
+        /// </summary>
+        /// <remarks>
+        /// Exemplo:
+        ///
+        ///     POST v1/api/customer/lead
+        ///     {
+        ///         "firstName": "Abel",
+        ///         "mail": "contato.abelgasque@gmail.com",
+        ///         "password": "admin"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="pEntity"></param>
+        /// <returns>Returns created entity model</returns>
+        /// <response code="200">Returns customer of the request</response>
+        /// <response code="404">Exception return if record does not exist, model invalid or email already registered</response>
+        [HttpPost("lead")]
+        [AllowAnonymous]
+        public async Task<ActionResult> CreateLeadAsync([FromBody] CustomerLeadDTO pEntity)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return new BadRequestObjectResult(this.ModelState);
+            }
+
+            CustomerModel entity = new CustomerModel(pEntity);
+            await _service.CreateAsync(entity);
+            return new OkObjectResult(entity);
+        }
 
         /// GET: v1/api/customer/{id}
         /// <summary>
