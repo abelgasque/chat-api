@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from '../shared/guards/auth.guard';
+
 import { PageRedirectComponent } from '../shared/pages/page-redirect/page-redirect.component';
 import { CoreComponent } from './core.component';
 
@@ -9,9 +11,19 @@ const routes: Routes = [
     path: '',
     component: CoreComponent,
     children: [
-      { path: '', loadChildren: () => import('src/app/modules/home/home.module').then(m => m.HomeModule) },
-      { path: 'security', loadChildren: () => import('src/app/modules/security/security.module').then(m => m.SecurityModule) },
-      { path: 'customer', loadChildren: () => import('src/app/modules/customer/customer.module').then(m => m.CustomerModule) },
+      {
+        path: '',
+        loadChildren: () => import('src/app/modules/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'security',
+        loadChildren: () => import('src/app/modules/security/security.module').then(m => m.SecurityModule)
+      },
+      {
+        path: 'customer',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('src/app/modules/customer/customer.module').then(m => m.CustomerModule)
+      },
 
       { path: 'page-not-found', component: PageRedirectComponent },
       { path: 'page-not-authorized', component: PageRedirectComponent },
