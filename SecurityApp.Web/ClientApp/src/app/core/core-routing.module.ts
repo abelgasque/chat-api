@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageRedirectComponent } from '../shared/components/page-redirect/page-redirect.component';
+
+import { PageRedirectComponent } from '../shared/pages/page-redirect/page-redirect.component';
 import { CoreComponent } from './core.component';
 
 const routes: Routes = [
