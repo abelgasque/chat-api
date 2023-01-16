@@ -10,11 +10,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { SharedService } from './shared.service';
+import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
 let components = [
+  FooterComponent,
   NavbarComponent,
   SidebarComponent,
   SpinnerComponent,

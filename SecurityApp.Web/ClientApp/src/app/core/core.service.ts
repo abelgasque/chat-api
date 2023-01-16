@@ -13,7 +13,6 @@ export class CoreService {
   constructor() {
     this.token = this.getTokenLocalStorage();
     this.customer = this.getCustomerLocalStorage();
-    console.log(this.customer);
   }
 
   getTokenLocalStorage() {
