@@ -33,7 +33,6 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
     MatIconModule,
     MatTabsModule,
 
-
     SecurityRoutingModule
   ],
   providers: [

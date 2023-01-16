@@ -16,7 +16,7 @@ export class CoreService {
   }
 
   getTokenLocalStorage() {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('access_token');
     if (token != null) return token;
     return '';
   }
@@ -24,9 +24,9 @@ export class CoreService {
   setTokenLocalStorage(token: string) {
     this.token = token;
     if (token != '') {
-      localStorage.setItem('token', this.token);
+      localStorage.setItem('access_token', this.token);
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem('access_token');
     }
   }
 
