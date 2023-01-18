@@ -8,17 +8,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './widgets/sidebar/sidebar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MessageComponent } from './components/message/message.component';
 
 let components = [
   FooterComponent,
   NavbarComponent,
   SidebarComponent,
   SpinnerComponent,
+  MessageComponent,
 ]
 
 @NgModule({
@@ -32,9 +36,12 @@ let components = [
     MatToolbarModule,
     MatIconModule,
     MatListModule,
-    
+
     ProgressSpinnerModule,
+    ToastModule,
   ],
-  providers: []
+  providers: [
+    MessageService,
+  ]
 })
 export class SharedModule { }

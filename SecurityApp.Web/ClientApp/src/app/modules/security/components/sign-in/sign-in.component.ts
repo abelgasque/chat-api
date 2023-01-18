@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CoreService } from 'src/app/core/core.service';
 
+import { CoreService } from 'src/app/core/core.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 import { TokenService } from 'src/app/shared/services/token.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
@@ -21,7 +22,7 @@ export class SignInComponent implements OnInit {
     private coreService: CoreService,
     private sharedService: SharedService,
     private tokenService: TokenService,
-
+    private messagesService: MessagesService,
   ) {
     this.form = this.fb.group({
       username: ['', [Validators.required, Validators.email, Validators.maxLength(250)]],
@@ -39,12 +40,13 @@ export class SignInComponent implements OnInit {
         this.coreService.setTokenLocalStorage(response.accessToken);
         this.coreService.setCustomerLocalStorage(response.customer);
         this.router.navigate(['/']);
+        this.messagesService.success('Success', 'User logged in successfully!');
+        this.sharedService.closeSpinner();
       },
       error: (e) => {
         console.error(e);
         this.form.reset();
-      },
-      complete: () => {
+        this.messagesService.error('Error', 'Problem sign in with user!');
         this.sharedService.closeSpinner();
       }
     });

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { CustomerService } from 'src/app/shared/services/customer.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private customerService: CustomerService,
     private sharedService: SharedService,
+    private messagesService: MessagesService,
   ) {
     this.form = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -34,12 +36,13 @@ export class SignUpComponent implements OnInit {
     this.customerService.createLeadAsync(this.form.value).subscribe({
       next: (response: any) => {
         this.router.navigate(['/security', 'sign-in']);
+        this.messagesService.success('Success', 'User created successfully!');
+        this.sharedService.closeSpinner();
       },
       error: (e) => {
         console.error(e);
         this.form.reset();
-      },
-      complete: () => {
+        this.messagesService.error('Error', 'Problem creating user!');
         this.sharedService.closeSpinner();
       }
     })

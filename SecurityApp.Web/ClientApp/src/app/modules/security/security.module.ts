@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { SecurityRoutingModule } from './security-routing.module';
-import { SecurityService } from './security.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SecurityComponent } from './security.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
@@ -36,7 +36,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
     SecurityRoutingModule
   ],
   providers: [
-    SecurityService,
+    MessagesService,
   ]
 })
 export class SecurityModule { }
