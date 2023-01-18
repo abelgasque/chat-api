@@ -57,7 +57,7 @@ namespace SecurityApp.Web.Infrastructure.Repositories
             }
 
             int count = query.Select(x => new { x.Id }).Count();
-            query = query.Skip((pEntity.Page - 1) * pEntity.Size).Take(pEntity.Size).OrderBy(e => e.CreationDate);
+            query = query.OrderByDescending(e => e.CreationDate).Skip((pEntity.Page - 1) * pEntity.Size).Take(pEntity.Size);
 
             return new PaginationResponseDTO
             {
