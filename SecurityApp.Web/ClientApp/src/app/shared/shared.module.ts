@@ -5,10 +5,10 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
-import { SharedService } from './shared.service';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './widgets/sidebar/sidebar.component';
@@ -31,11 +31,10 @@ let components = [
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
-
+    MatListModule,
+    
     ProgressSpinnerModule,
   ],
-  providers: [
-    SharedService
-  ]
+  providers: []
 })
 export class SharedModule { }
