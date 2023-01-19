@@ -6,6 +6,7 @@ using SecurityApp.Web.Infrastructure.Entities.Models;
 using SecurityApp.Web.Infrastructure.Entities.Settings;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,32 +46,68 @@ namespace SecurityApp.Web.Infrastructure.Services
             };
         }
 
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Secret)),
+                ValidateLifetime = false
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            if (
+                securityToken is not JwtSecurityToken jwtSecurityToken ||
+                !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase)
+            ) throw new UnauthorizedException("Invalid token!");
+
+            return principal;
+        }
+
         public async Task<TokenDTO> Login(UserDTO pEntity)
         {
             CustomerModel customer = await _service.ReadByMail(pEntity.Username);
-            
+
             if ((!customer.Active) || (customer.Block))
-            {                
+            {
                 throw new UnauthorizedException("User blocked or inactive!") { };
-            } 
-            
+            }
+
             if (customer.AuthAttempts >= _settings.AuthAttempts)
-            {                
-                customer.Block = true;                
+            {
+                customer.Block = true;
                 await _service.UpdateAsync(customer);
                 throw new UnauthorizedException("User blocked temporarily!") { };
-            } 
-            
-            if (!customer.Password.Equals(pEntity.Password))                
+            }
+
+            if (!customer.Password.Equals(pEntity.Password))
             {
                 customer.AuthAttempts = (customer.AuthAttempts += 1);
                 await _service.UpdateAsync(customer);
-                throw new UnauthorizedException("Invalid password!") { };                
+                throw new UnauthorizedException("Invalid password!") { };
             }
 
             customer.AuthAttempts = 0;
-            await _service.UpdateAsync(customer);            
-            
+            await _service.UpdateAsync(customer);
+
+            var token = GenerateToken();
+            token.Customer = new CustomerDTO(customer) { };
+            return token;
+        }
+
+        public async Task<TokenDTO> Refresh(RefreshTokenDTO pEntity)
+        {
+            CustomerModel customer = await _service.ReadById(pEntity.Id);
+            var principal = GetPrincipalFromExpiredToken(pEntity.AccessToken);
+
+            if (principal is null)
+            {
+                throw new BadRequestException("Invalid access token or refresh token!");
+            }
+
             var token = GenerateToken();
             token.Customer = new CustomerDTO(customer) { };
             return token;
