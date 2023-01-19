@@ -44,10 +44,8 @@ export class SignInComponent implements OnInit {
         this.sharedService.closeSpinner();
       },
       error: (e) => {
-        console.error(e);
-        this.form.reset();
-        this.messagesService.error('Error', 'Problem sign in with user!');
-        this.sharedService.closeSpinner();
+        this.messagesService.errorHandler(e);
+        this.form.reset();        
       }
     });
   }

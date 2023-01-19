@@ -40,10 +40,8 @@ export class SignUpComponent implements OnInit {
         this.sharedService.closeSpinner();
       },
       error: (e) => {
-        console.error(e);
+        this.messagesService.errorHandler(e);
         this.form.reset();
-        this.messagesService.error('Error', 'Problem creating user!');
-        this.sharedService.closeSpinner();
       }
     })
   }
