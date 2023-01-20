@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { CustomerDTO } from '../shared/models/customerDTO.interface';
+import { CustomerDTO } from '../models/customerDTO.interface';
 
 @Injectable({
   providedIn: 'root'

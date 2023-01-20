@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CoreService } from 'src/app/core/core.service';
+import { CoreService } from 'src/app/shared/services/core.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { TokenService } from 'src/app/shared/services/token.service';
-import { SharedService } from 'src/app/shared/shared.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-sign-in',

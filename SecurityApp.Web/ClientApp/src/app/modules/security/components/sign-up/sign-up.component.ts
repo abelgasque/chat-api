@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { CustomerService } from 'src/app/shared/services/customer.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
-import { SharedService } from 'src/app/shared/shared.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-sign-up',

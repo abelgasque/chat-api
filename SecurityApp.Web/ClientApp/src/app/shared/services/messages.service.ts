@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
 
-import { SharedService } from '../shared.service';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'

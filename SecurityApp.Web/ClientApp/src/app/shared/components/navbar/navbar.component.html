@@ -15,7 +15,7 @@
         Sign up
     </button>
 
-    <button mat-button (click)="signOut()" *ngIf="this.coreService.token !== ''">
+    <button mat-button (click)="securityService.signOut()" *ngIf="this.coreService.token !== ''">
         Sign out
         <mat-icon>logout</mat-icon>
     </button>

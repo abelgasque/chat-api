@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CoreService } from 'src/app/core/core.service';
-import { SharedService } from 'src/app/shared/shared.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { CoreService } from 'src/app/shared/services/core.service';
+import { SecurityService } from 'src/app/shared/services/security.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,12 +16,6 @@ export class NavbarComponent {
     public router: Router,
     public coreService: CoreService,
     public sharedService: SharedService,
+    public securityService: SecurityService,
   ) { }
-
-  signOut() {
-    this.sharedService.openedSidebar = false;
-    this.coreService.setTokenLocalStorage('');
-    this.coreService.setCustomerLocalStorage({});
-    this.router.navigate(['/']);
-  }
 }

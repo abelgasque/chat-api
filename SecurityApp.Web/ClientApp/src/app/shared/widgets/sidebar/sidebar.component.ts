@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CoreService } from 'src/app/core/core.service';
-import { SharedService } from '../../shared.service';
+import { CoreService } from 'src/app/shared/services/core.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-sidebar',
