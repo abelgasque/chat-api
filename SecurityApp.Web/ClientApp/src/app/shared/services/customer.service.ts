@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
@@ -16,5 +16,16 @@ export class CustomerService {
 
   createLeadAsync(customer: CustomerLeadDTO) {
     return this.http.post<any>(`${this.baseUrl}/lead`, customer);
+  }
+
+  readAsync(filtro: any) {
+    let params = new HttpParams({
+      fromObject: {
+        page: filtro.page.toString(),
+        size: filtro.size.toString()
+      }
+    });
+
+    return this.http.get<any>(`${this.baseUrl}`, { params });
   }
 }
