@@ -1,3 +1,24 @@
 .row {
     width: 100%;
 }
+
+th,
+.mat-paginator {
+    background-color: #cfcfcf;
+}
+
+table {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.mat-form-field {
+    width: 100%;
+    margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+    .input__space {
+        padding-top: 12px;
+    }
+}

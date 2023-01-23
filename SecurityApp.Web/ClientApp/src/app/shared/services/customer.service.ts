@@ -26,6 +26,33 @@ export class CustomerService {
       }
     });
 
+    if (filtro.firstName) {
+      params = params.append('firstName', filtro.firstName);
+    }
+
+    if (filtro.lastName) {
+      params = params.append('lastName', filtro.lastName);
+    }
+
+    if (filtro.mail) {
+      params = params.append('mail', filtro.mail);
+    }
+
+    if (filtro.active) {
+      params = params.append('active', filtro.active.toString());
+    }
+
+    if (filtro.block) {
+      params = params.append('block', filtro.block.toString());
+    }
     return this.http.get<any>(`${this.baseUrl}`, { params });
+  }
+
+  readByIdAsync(id: string) {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
+
+  deleteByIdAsync(id: string) {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }
 }

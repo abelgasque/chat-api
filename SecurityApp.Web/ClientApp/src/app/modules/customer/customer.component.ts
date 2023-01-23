@@ -1,9 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-
-import { LazyLoadEvent } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { CustomerService } from 'src/app/shared/services/customer.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
+
+export interface CustomerFilter {
+  id: string;
+  creationDateStart: string;
+  creationDateEnd: string;
+  updateDateStart: string;
+  updateDateEnd: string;
+  firstName: string;
+  lastName: string;
+  mail: string;
+  active: boolean;
+  block: boolean;
+}
 
 @Component({
   selector: 'app-customer',
@@ -12,45 +27,86 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 })
 export class CustomerComponent implements OnInit {
 
-  data: any[] = [];
-  totalRecords: number = 25;
+  data = new MatTableDataSource();
+  displayedColumns: string[];
+  totalRecords: number = 10;
   page: number = 1;
-  size: number = 25;
-  loading: boolean = true;
+  size: number = 10;
+  form: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private customerService: CustomerService,
+    private sharedService: SharedService,
     private messagesService: MessagesService
-  ) { }
+  ) {
+    this.displayedColumns = [
+      'fisrtName', 'lastName', 'mail', 'dtCreation', 'dtUpdate', 'active', 'block', 'actions'
+    ];
+    this.form = this.fb.group({
+      firstName: ['', [Validators.maxLength(50)]],
+      lastName: ['', [Validators.maxLength(250)]],
+      mail: ['', [Validators.maxLength(250)]],
+      active: [''],
+      block: [''],
+    });
+  }
 
-  ngOnInit(): void { }
-
-  pagination(event: LazyLoadEvent) {
-    let first = event.first ?? 25;
-    this.size = event.rows ?? 25;
-    this.page = (Math.floor(first / this.size + 1)) ?? 1;
+  ngOnInit(): void {
     this.read();
   }
 
   read() {
-    this.loading = true;
-
-    let filter = {
-      size: this.size,
-      page: this.page
-    };
-
+    this.sharedService.openSpinner();
+    let filter = Object.assign({}, { size: this.size, page: this.page }, this.form.value);
+    console.log(filter);
     this.customerService.readAsync(filter).subscribe({
       next: (resp: any) => {
-        this.data = resp.data;
+        this.data.data = resp.data;
         this.totalRecords = resp.total;
         this.size = resp.size;
-        this.loading = false;
+        this.sharedService.closeSpinner();
       },
       error: (error: any) => {
         this.messagesService.errorHandler(error);
-        this.loading = false;
       }
     })
   }
+
+  readById(id: string) {
+    this.sharedService.openSpinner();
+    this.customerService.readByIdAsync(id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.sharedService.closeSpinner();
+      },
+      error: (error: any) => {
+        this.messagesService.errorHandler(error);
+      }
+    })
+  }
+
+  delete(id: string) {
+    this.sharedService.openSpinner();
+    this.customerService.deleteByIdAsync(id).subscribe({
+      next: (resp: any) => {
+        this.read();
+        this.sharedService.closeSpinner();
+      },
+      error: (error: any) => {
+        this.messagesService.errorHandler(error);
+      }
+    })
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.size = event.pageSize;
+    this.page = (event.pageIndex + 1);
+    this.read();
+  }
+
+  clear() {
+    this.form.reset();
+  }
+
 }
