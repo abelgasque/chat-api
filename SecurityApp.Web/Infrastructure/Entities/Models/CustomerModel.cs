@@ -52,6 +52,21 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
 
         [Required]
         public bool Block { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CustomerModel model &&
+                   Id.Equals(model.Id) &&
+                   CreationDate == model.CreationDate &&
+                   UpdateDate == model.UpdateDate &&
+                   FirstName == model.FirstName &&
+                   LastName == model.LastName &&
+                   Mail == model.Mail &&
+                   Password == model.Password &&
+                   AuthAttempts == model.AuthAttempts &&
+                   Active == model.Active &&
+                   Block == model.Block;
+        }
     }
 
     public class CustomerConfig : IEntityTypeConfiguration<CustomerModel>

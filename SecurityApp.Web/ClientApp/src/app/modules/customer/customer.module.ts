@@ -11,15 +11,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerComponent } from './customer.component';
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { DialogCustomerComponent } from './components/dialog-customer/dialog-customer.component';
 
 @NgModule({
   declarations: [
-    CustomerComponent
+    CustomerComponent,
+    DialogCustomerComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +39,7 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [
     AuthGuard,

@@ -20,8 +20,8 @@ namespace SecurityApp.Web.Infrastructure.Repositories
         public async Task CreateAsync(CustomerModel pEntity)
         {
             _context.Customer.Add(pEntity);
-            if (!(await _context.SaveChangesAsync() > 0)) 
-            { 
+            if (!(await _context.SaveChangesAsync() > 0))
+            {
                 throw new Exception("There was an error create record");
             }
         }
@@ -48,12 +48,20 @@ namespace SecurityApp.Web.Infrastructure.Repositories
 
             if (pEntity.CreationDateStart.HasValue && pEntity.CreationDateEnd.HasValue)
             {
-                query = query.Where(e => e.CreationDate >= pEntity.CreationDateStart && e.CreationDate <= pEntity.CreationDateEnd);
+                DateTime dtStartRange = pEntity.CreationDateStart.Value;
+                DateTime dtEndRange = pEntity.CreationDateEnd.Value;
+                query = query.Where(e =>
+                                e.CreationDate >= new DateTime(dtStartRange.Year, dtStartRange.Month, dtStartRange.Day)
+                                && e.CreationDate <= new DateTime(dtEndRange.Year, dtEndRange.Month, dtEndRange.Day, 23, 59, 59));
             }
 
             if (pEntity.UpdateDateStart.HasValue && pEntity.UpdateDateEnd.HasValue)
             {
-                query = query.Where(e => e.UpdateDate >= pEntity.UpdateDateStart && e.UpdateDate <= pEntity.UpdateDateEnd);
+                DateTime dtStartRange = pEntity.UpdateDateStart.Value;
+                DateTime dtEndRange = pEntity.UpdateDateEnd.Value;
+                query = query.Where(e =>
+                                e.UpdateDate >= new DateTime(dtStartRange.Year, dtStartRange.Month, dtStartRange.Day)
+                                && e.UpdateDate <= new DateTime(dtEndRange.Year, dtEndRange.Month, dtEndRange.Day, 23, 59, 59));
             }
 
             int count = query.Select(x => new { x.Id }).Count();

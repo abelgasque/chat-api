@@ -24,6 +24,7 @@ namespace SecurityApp.Web.Infrastructure.Services
                 throw new BadRequestException("E-mail already registered") { };
             }
 
+            pEntity.Id = Guid.NewGuid();
             pEntity.CreationDate = DateTime.Now;
             await _repository.CreateAsync(pEntity);
         }
@@ -49,7 +50,7 @@ namespace SecurityApp.Web.Infrastructure.Services
 
         public async Task UpdateAsync(CustomerModel pEntity)
         {
-            CustomerModel entity = await _repository.ReadById(pEntity.Id);
+            CustomerModel entity = await ReadById(pEntity.Id);
             CustomerModel customerValid = await _repository.ReadByMail(pEntity.Mail);
 
             if (customerValid != null && !(customerValid.Id.Equals(pEntity.Id)))

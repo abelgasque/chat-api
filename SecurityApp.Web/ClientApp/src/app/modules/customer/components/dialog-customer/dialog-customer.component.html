@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>{{(hasData) ? 'Update' : 'Save'}} customer</h2>
+<mat-dialog-content>
+    <form class="row" [formGroup]="form">
+        <div class="col-sm-12 col-md-3">
+            <mat-form-field class="input__space">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput formControlName="firstName" placeholder="Enter your first name"
+                    maxlength="50" [disabled]="loading">
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <mat-form-field class="input__space">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput formControlName="lastName" placeholder="Enter your last name"
+                    maxlength="250" [disabled]="loading">
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <mat-form-field class="input__space">
+                <mat-label>Email</mat-label>
+                <input type="text" matInput formControlName="mail" placeholder="Enter your email" maxlength="250"
+                    [disabled]="loading">
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <mat-form-field class="input__space">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password" placeholder="Enter your password"
+                    maxlength="50" [disabled]="loading">
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 col-md-2">
+            <mat-form-field appearance="fill">
+                <mat-label>Active</mat-label>
+                <mat-select formControlName="active" [disabled]="loading">
+                    <mat-option>Select</mat-option>
+                    <mat-option [value]="true">Yes</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 col-md-2">
+            <mat-form-field appearance="fill">
+                <mat-label>Block</mat-label>
+                <mat-select formControlName="block" [disabled]="loading">
+                    <mat-option>Select</mat-option>
+                    <mat-option [value]="true">Yes</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button type="button" (click)="clear()" color="warn" [disabled]="loading">Cancel</button>
+    <button mat-raised-button type="button" (click)="ngSubmit()" color="primary" style="margin-left: 5px;"
+        [disabled]="!form.valid || loading" cdkFocusInitial>
+        {{(hasData) ? 'Update' : 'Save'}}
+    </button>
+</mat-dialog-actions>

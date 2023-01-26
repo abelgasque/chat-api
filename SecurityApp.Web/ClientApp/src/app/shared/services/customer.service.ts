@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
+import { Customer } from '../models/customer.interface';
+import { CustomerFilter } from '../models/customerFilter.interface';
 import { CustomerLeadDTO } from '../models/customerLeadDTO.interface';
 
 @Injectable({
@@ -14,11 +16,15 @@ export class CustomerService {
     this.baseUrl = `${environment.baseUrlApi}/v1/api/customer`;
   }
 
+  createAsync(customer: Customer) {
+    return this.http.post<any>(`${this.baseUrl}`, customer);
+  }
+
   createLeadAsync(customer: CustomerLeadDTO) {
     return this.http.post<any>(`${this.baseUrl}/lead`, customer);
   }
 
-  readAsync(filtro: any) {
+  readAsync(filtro: CustomerFilter) {
     let params = new HttpParams({
       fromObject: {
         page: filtro.page.toString(),
@@ -50,6 +56,10 @@ export class CustomerService {
 
   readByIdAsync(id: string) {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
+
+  updateAsync(customer: Customer) {
+    return this.http.put<any>(`${this.baseUrl}`, customer);
   }
 
   deleteByIdAsync(id: string) {

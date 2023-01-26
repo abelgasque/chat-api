@@ -1,24 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
+import { Customer } from 'src/app/shared/models/customer.interface';
 import { CustomerService } from 'src/app/shared/services/customer.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
-
-export interface CustomerFilter {
-  id: string;
-  creationDateStart: string;
-  creationDateEnd: string;
-  updateDateStart: string;
-  updateDateEnd: string;
-  firstName: string;
-  lastName: string;
-  mail: string;
-  active: boolean;
-  block: boolean;
-}
+import { DialogCustomerComponent } from './components/dialog-customer/dialog-customer.component';
 
 @Component({
   selector: 'app-customer',
@@ -36,6 +26,7 @@ export class CustomerComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private dialog: MatDialog,
     private customerService: CustomerService,
     private sharedService: SharedService,
     private messagesService: MessagesService
@@ -59,7 +50,6 @@ export class CustomerComponent implements OnInit {
   read() {
     this.sharedService.openSpinner();
     let filter = Object.assign({}, { size: this.size, page: this.page }, this.form.value);
-    console.log(filter);
     this.customerService.readAsync(filter).subscribe({
       next: (resp: any) => {
         this.data.data = resp.data;
@@ -76,8 +66,8 @@ export class CustomerComponent implements OnInit {
   readById(id: string) {
     this.sharedService.openSpinner();
     this.customerService.readByIdAsync(id).subscribe({
-      next: (resp: any) => {
-        console.log(resp);
+      next: (resp: Customer) => {
+        this.openDialog(resp);
         this.sharedService.closeSpinner();
       },
       error: (error: any) => {
@@ -109,4 +99,20 @@ export class CustomerComponent implements OnInit {
     this.form.reset();
   }
 
+  newCustomer() {
+    this.openDialog(undefined);
+  }
+
+  openDialog(customer?: Customer) {
+    let dialogRef = this.dialog.open(DialogCustomerComponent, {
+      width: '95vw',
+      data: customer
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.read();
+      }
+    });
+  }
 }
