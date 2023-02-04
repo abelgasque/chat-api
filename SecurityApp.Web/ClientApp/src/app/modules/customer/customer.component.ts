@@ -35,6 +35,10 @@ export class CustomerComponent implements OnInit {
       'fisrtName', 'lastName', 'mail', 'dtCreation', 'dtUpdate', 'active', 'block', 'actions'
     ];
     this.form = this.fb.group({
+      creationDateStart: [''],
+      creationDateEnd: [''],
+      updateDateStart: [''],
+      updateDateEnd: [''],
       firstName: ['', [Validators.maxLength(50)]],
       lastName: ['', [Validators.maxLength(250)]],
       mail: ['', [Validators.maxLength(250)]],

@@ -9,7 +9,7 @@
 
         <form class="row" [formGroup]="form" (ngSubmit)="read()">
             <div class="col-sm-12 col-md-2">
-                <mat-form-field class="input__space">
+                <mat-form-field appearance="fill">
                     <mat-label>First Name</mat-label>
                     <input type="text" matInput formControlName="firstName" placeholder="Enter your first name"
                         maxlength="50">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-sm-12 col-md-2">
-                <mat-form-field class="input__space">
+                <mat-form-field appearance="fill">
                     <mat-label>Last Name</mat-label>
                     <input type="text" matInput formControlName="lastName" placeholder="Enter your last name"
                         maxlength="250">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-sm-12 col-md-4">
-                <mat-form-field class="input__space">
+                <mat-form-field appearance="fill">
                     <mat-label>Email</mat-label>
                     <input type="text" matInput formControlName="mail" placeholder="Enter your email" maxlength="250">
                 </mat-form-field>
@@ -52,6 +52,31 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+
+            <div class="col-sm-12 col-md-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Date Creation</mat-label>
+                    <mat-date-range-input [rangePicker]="creationDate">
+                        <input matStartDate placeholder="Start date" formControlName="creationDateStart">
+                        <input matEndDate placeholder="End date" formControlName="creationDateEnd">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="creationDate"></mat-datepicker-toggle>
+                    <mat-date-range-picker #creationDate></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-sm-12 col-md-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Date Update</mat-label>
+                    <mat-date-range-input [rangePicker]="updateDate">
+                        <input matStartDate placeholder="Start date" formControlName="updateDateStart">
+                        <input matEndDate placeholder="End date" formControlName="updateDateEnd">
+                    </mat-date-range-input>                    
+                    <mat-date-range-picker #updateDate></mat-date-range-picker>                    
+                    <mat-datepicker-toggle matSuffix [for]="updateDate"></mat-datepicker-toggle>
+                </mat-form-field>                
+            </div>
+
 
             <div class="col-12">
                 <button mat-raised-button type="submit" color="primary">

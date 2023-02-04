@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -51,6 +52,17 @@ export class CustomerService {
     if (filtro.block) {
       params = params.append('block', filtro.block.toString());
     }
+    
+    if (filtro.creationDateStart && filtro.creationDateEnd) {
+      params = params.append('creationDateStart', formatDate(filtro.creationDateStart, 'yyyy-MM-dd', 'en').toString());
+      params = params.append('creationDateEnd', formatDate(filtro.creationDateEnd, 'yyyy-MM-dd', 'en').toString());
+    }
+
+    if (filtro.updateDateStart && filtro.updateDateEnd) {
+      params = params.append('updateDateStart', formatDate(filtro.updateDateStart, 'yyyy-MM-dd', 'en').toString());
+      params = params.append('updateDateEnd', formatDate(filtro.updateDateEnd, 'yyyy-MM-dd', 'en').toString());
+    }
+
     return this.http.get<any>(`${this.baseUrl}`, { params });
   }
 
