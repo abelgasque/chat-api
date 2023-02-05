@@ -26,6 +26,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    console.log(state.url);
     if (this.coreService.token.length <= 0) {
       this.router.navigate(['/page-not-authorized']);
     } else if (!this.coreService.isValidToken()) {
@@ -40,6 +41,7 @@ export class AuthGuard implements CanActivate {
         next: (resp: any) => {
           this.coreService.setTokenLocalStorage(resp.accessToken);
           this.coreService.setCustomerLocalStorage(resp.customer);
+          this.router.navigate([state.url]);
           this.messagesService.success('Success', 'User logged in successfully!');
           this.sharedService.closeSpinner();
           return true;
