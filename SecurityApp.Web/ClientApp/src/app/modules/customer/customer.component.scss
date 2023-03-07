@@ -9,8 +9,14 @@ th,
 
 table {
     margin-top: 10px;
+    min-width: 1000px;
     width: 100%;
 }
+
+.table-container {
+    overflow-x: auto; 
+    max-width: 100%; 
+  }
 
 .mat-form-field {
     width: 100%;

@@ -71,10 +71,10 @@
                     <mat-date-range-input [rangePicker]="updateDate">
                         <input matStartDate placeholder="Start date" formControlName="updateDateStart">
                         <input matEndDate placeholder="End date" formControlName="updateDateEnd">
-                    </mat-date-range-input>                    
-                    <mat-date-range-picker #updateDate></mat-date-range-picker>                    
+                    </mat-date-range-input>
+                    <mat-date-range-picker #updateDate></mat-date-range-picker>
                     <mat-datepicker-toggle matSuffix [for]="updateDate"></mat-datepicker-toggle>
-                </mat-form-field>                
+                </mat-form-field>
             </div>
 
 
@@ -96,65 +96,67 @@
     </mat-expansion-panel>
 </mat-accordion>
 
-<table mat-table [dataSource]="data">
+<div class="table-container mat-elevation-z8">
+    <table mat-table [dataSource]="data" class="mat-elevation-z8" matSort>
 
-    <ng-container matColumnDef="fisrtName">
-        <th mat-header-cell *matHeaderCellDef> First Name </th>
-        <td mat-cell *matCellDef="let col"> {{col.firstName}}</td>
-    </ng-container>
+        <ng-container matColumnDef="fisrtName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+            <td mat-cell *matCellDef="let col"> {{col.firstName}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef> Last Name </th>
-        <td mat-cell *matCellDef="let col">{{col.lastName}}</td>
-    </ng-container>
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+            <td mat-cell *matCellDef="let col">{{col.lastName}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="mail">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let col">{{col.mail}}</td>
-    </ng-container>
+        <ng-container matColumnDef="mail">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td mat-cell *matCellDef="let col">{{col.mail}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="dtCreation">
-        <th mat-header-cell *matHeaderCellDef style="width: 10pc;"> Date Creation </th>
-        <td mat-cell *matCellDef="let col"> {{col.creationDate | date : 'yyyy-MM-dd hh:mm'}}</td>
-    </ng-container>
+        <ng-container matColumnDef="dtCreation">
+            <th mat-header-cell *matHeaderCellDef style="width: 10pc;" mat-sort-header> Date Creation </th>
+            <td mat-cell *matCellDef="let col"> {{col.creationDate | date : 'yyyy-MM-dd hh:mm'}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="dtUpdate">
-        <th mat-header-cell *matHeaderCellDef style="width: 10pc;"> Date Update </th>
-        <td mat-cell *matCellDef="let col"> {{col.updateDate | date : 'yyyy-MM-dd hh:mm'}}</td>
-    </ng-container>
+        <ng-container matColumnDef="dtUpdate">
+            <th mat-header-cell *matHeaderCellDef style="width: 10pc;" mat-sort-header> Date Update </th>
+            <td mat-cell *matCellDef="let col"> {{col.updateDate | date : 'yyyy-MM-dd hh:mm'}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="active">
-        <th mat-header-cell *matHeaderCellDef style="width: 5pc;"> Active </th>
-        <td mat-cell *matCellDef="let col"> {{col.active}}</td>
-    </ng-container>
+        <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef style="width: 5pc;" mat-sort-header> Active </th>
+            <td mat-cell *matCellDef="let col"> {{col.active}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="block">
-        <th mat-header-cell *matHeaderCellDef style="width: 5pc;"> Block </th>
-        <td mat-cell *matCellDef="let col"> {{col.block}}</td>
-    </ng-container>
+        <ng-container matColumnDef="block">
+            <th mat-header-cell *matHeaderCellDef style="width: 5pc;" mat-sort-header> Block </th>
+            <td mat-cell *matCellDef="let col"> {{col.block}}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef style="width: 5pc;"> Actions </th>
-        <td mat-cell *matCellDef="let col">
-            <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
-                <mat-icon>settings</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="readById(col.id)">
-                    <mat-icon>edit</mat-icon>
-                    <span>Update</span>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="width: 5pc;" mat-sort-header> Actions </th>
+            <td mat-cell *matCellDef="let col">
+                <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
+                    <mat-icon>settings</mat-icon>
                 </button>
-                <button mat-menu-item (click)="delete(col.id)">
-                    <mat-icon>delete</mat-icon>
-                    <span>Delete</span>
-                </button>
-            </mat-menu>
-        </td>
-    </ng-container>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="readById(col.id)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Update</span>
+                    </button>
+                    <button mat-menu-item (click)="delete(col.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
 <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalRecords" [pageSize]="size"
     [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true" aria-label="Select page">
 </mat-paginator>
