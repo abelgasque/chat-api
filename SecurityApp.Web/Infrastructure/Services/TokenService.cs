@@ -78,19 +78,19 @@ namespace SecurityApp.Web.Infrastructure.Services
 
             if (customer.AuthAttempts >= _settings.AuthAttempts)
             {
-                customer.Block = true;
+                customer.SetBlock(true);
                 await _service.UpdateAsync(customer);
                 throw new UnauthorizedException("User blocked temporarily!") { };
             }
 
             if (!customer.Password.Equals(pEntity.Password))
             {
-                customer.AuthAttempts = (customer.AuthAttempts += 1);
+                customer.SetAuthAttempts(customer.AuthAttempts + 1);
                 await _service.UpdateAsync(customer);
                 throw new UnauthorizedException("Invalid password!") { };
             }
 
-            customer.AuthAttempts = 0;
+            customer.SetAuthAttempts(0);
             await _service.UpdateAsync(customer);
 
             var token = GenerateToken();

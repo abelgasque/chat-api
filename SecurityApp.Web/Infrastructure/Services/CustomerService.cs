@@ -24,8 +24,8 @@ namespace SecurityApp.Web.Infrastructure.Services
                 throw new BadRequestException("E-mail already registered") { };
             }
 
-            pEntity.Id = Guid.NewGuid();
-            pEntity.CreationDate = DateTime.Now;
+            pEntity.SetId();
+            pEntity.SetCreationDate();
             await _repository.CreateAsync(pEntity);
         }
 
@@ -60,7 +60,7 @@ namespace SecurityApp.Web.Infrastructure.Services
 
             if (!entity.Equals(pEntity))
             {
-                pEntity.UpdateDate = DateTime.Now;
+                pEntity.SetUpdateDate();
                 await _repository.UpdateAsync(pEntity);
             }
         }
