@@ -17,6 +17,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System;
+using SecurityApp.Web.Infrastructure.Helpers;
 
 namespace SecurityApp.Web
 {
@@ -43,6 +44,7 @@ namespace SecurityApp.Web
             });
 
             services.Configure<ApplicationSettings>(_configuration.GetSection("ApplicationSettings"));
+            services.Configure<MailMessageSettings>(_configuration.GetSection("MailMessageSettings"));
 
             var settingsSection = _configuration.GetSection("ApplicationSettings");
             var settings = settingsSection.Get<ApplicationSettings>();
@@ -119,7 +121,10 @@ namespace SecurityApp.Web
                 });
             });
 
+            services.AddTransient<MailMessageHelper>();
             services.AddTransient<CustomerRepository>();
+            services.AddTransient<CustomerRoleRepository>();
+            services.AddTransient<CustomerRoleService>();
             services.AddTransient<CustomerService>();
             services.AddTransient<TokenService>();
         }

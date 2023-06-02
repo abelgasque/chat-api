@@ -20,7 +20,7 @@ namespace SecurityApp.Web.Migrations
                     LAST_NAME = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CODE = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     MAIL = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    PASSWORD = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PASSWORD = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PASSWORD_TEMP = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     AUTH_ATTEMPTS = table.Column<int>(type: "int", nullable: false),
                     ACTIVE = table.Column<bool>(type: "bit", nullable: false),

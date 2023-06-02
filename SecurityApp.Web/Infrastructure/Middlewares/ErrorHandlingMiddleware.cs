@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SecurityApp.Web.Infrastructure.Entities.Exceptions;
 using System;
@@ -34,7 +35,9 @@ namespace SecurityApp.Web.Infrastructure.Middlewares
             
             if (exception is UnauthorizedException) code = HttpStatusCode.Unauthorized;
             else if (exception is BadRequestException) code = HttpStatusCode.BadRequest;
-            
+            else if (exception is SecurityTokenValidationException) code = HttpStatusCode.Unauthorized;
+            else if (exception is UnauthorizedAccessException) code = HttpStatusCode.Unauthorized;
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 

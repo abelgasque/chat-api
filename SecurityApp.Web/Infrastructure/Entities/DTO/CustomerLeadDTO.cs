@@ -11,12 +11,12 @@ namespace SecurityApp.Web.Infrastructure.Entities.DTO
         public string FirstName { get; set; }
 
         [Required]
+        [MaxLength(100)]
+        public string LastName { get; set; }
+
+        [Required]
         [EmailAddress]
         [MaxLength(250)]
         public string Mail { get; set; }
-        
-        [Required]
-        [MaxLength(50)]
-        public string Password { get; set; }
     }
 }

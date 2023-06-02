@@ -83,9 +83,17 @@ namespace SecurityApp.Web.Infrastructure.Services
                 throw new UnauthorizedException("User blocked temporarily!") { };
             }
 
-            if (!customer.Password.Equals(pEntity.Password))
+            if ((!customer.IsValidPassword(pEntity.Password)) && (!customer.IsValidPasswordTemp(pEntity.Password)))
             {
                 customer.SetAuthAttempts(customer.AuthAttempts + 1);
+                await _service.UpdateAsync(customer);
+                throw new UnauthorizedException("Invalid password!") { };
+            }
+
+
+            if (customer.IsExpiredPasswordTemp(pEntity.Password))
+            {
+                customer.ClearPasswordTemp();
                 await _service.UpdateAsync(customer);
                 throw new UnauthorizedException("Invalid password!") { };
             }

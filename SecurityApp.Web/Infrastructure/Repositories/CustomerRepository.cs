@@ -20,10 +20,7 @@ namespace SecurityApp.Web.Infrastructure.Repositories
         public async Task CreateAsync(CustomerModel pEntity)
         {
             _context.Customer.Add(pEntity);
-            if (!(await _context.SaveChangesAsync() > 0))
-            {
-                throw new Exception("There was an error create record");
-            }
+            if (!(await _context.SaveChangesAsync() > 0)) throw new Exception("There was an error create record");
         }
 
         public async Task<CustomerModel> ReadById(Guid pId)
@@ -79,10 +76,7 @@ namespace SecurityApp.Web.Infrastructure.Repositories
         public async Task UpdateAsync(CustomerModel pEntity)
         {
             _context.Customer.Update(pEntity);
-            if (!(await _context.SaveChangesAsync() > 0))
-            {
-                throw new Exception("There was an error update record");
-            }
+            if (!(await _context.SaveChangesAsync() > 0)) throw new Exception("There was an error update record");
         }
 
         public async Task DeleteAsync(CustomerModel pEntity)

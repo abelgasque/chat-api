@@ -4,6 +4,7 @@ using SecurityApp.Web.Infrastructure.Entities.DTO;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SecurityApp.Web.Infrastructure.Entities.Models
 {
@@ -15,12 +16,10 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
         {
             Id = Guid.NewGuid();
             FirstName = pEntity.FirstName;
-            LastName = null;
+            LastName = pEntity.LastName;
             Mail = pEntity.Mail;
-            Password = pEntity.Password;
-            AuthAttempts = 0;
-            Active = true;
-            Block = false;
+            IsNewCustomer = true;
+            SetPasswordTemp();            
         }
 
         public CustomerModel(Guid id, Guid idCustomerRole, DateTime? creationDate, DateTime? updateDate, DateTime? passwordTempDate, string firstName, string lastName, string code, string mail, string password, string passwordTemp, int authAttempts, bool active, bool block, bool isNewCustomer)
@@ -69,7 +68,6 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
         [MaxLength(250)]        
         public string Mail { get; protected set; }
 
-        [Required]
         [MaxLength(50)]
         public string Password { get; protected set; }
 
@@ -132,9 +130,24 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
             return hash.ToHashCode();
         }
 
+        public bool IsExpiredPasswordTemp(string password)
+        {
+            return (!string.IsNullOrEmpty(PasswordTemp)) && PasswordTemp.Equals(password) && DateTime.Now > PasswordTempDate.Value;
+        }
+
+        public bool IsValidPassword(string password) 
+        {
+            return (!string.IsNullOrEmpty(Password)) && (Password.Equals(password));
+        }
+
+        public bool IsValidPasswordTemp(string password)
+        {
+            return (!string.IsNullOrEmpty(PasswordTemp)) && (PasswordTemp.Equals(password));
+        }
+
         public void SetId()
         {
-            Id= Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
 
         public void SetCreationDate()
@@ -155,6 +168,39 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
         {
             AuthAttempts = authAttempts;
         }
+
+        public void SetPasswordTemp()
+        {
+            Random random = new Random(DateTime.Now.Millisecond);
+            const string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string password = "";
+
+            for (int i = 0; i < 8; i++)
+            {
+                int indiceAleatorio = random.Next(0, letters.Length);
+                password += letters[indiceAleatorio];
+            }
+
+            PasswordTemp = password;
+            PasswordTempDate = DateTime.Now.AddMinutes(20);
+        }
+
+        public void SetRole(CustomerRoleModel role)
+        {
+            IdCustomerRole = role.Id;
+            Role = role;
+        }
+
+        public void ClearPasswordTemp()
+        {
+            PasswordTemp = null;
+            PasswordTempDate = null;
+        }
+
+        public string GetName()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 
     public class CustomerConfig : IEntityTypeConfiguration<CustomerModel>
@@ -173,7 +219,7 @@ namespace SecurityApp.Web.Infrastructure.Entities.Models
             builder.Property(e => e.LastName).HasColumnName("LAST_NAME").HasMaxLength(100);
             builder.Property(e => e.Code).HasColumnName("CODE").HasMaxLength(10);
             builder.Property(e => e.Mail).HasColumnName("MAIL").IsRequired().HasMaxLength(250);
-            builder.Property(e => e.Password).HasColumnName("PASSWORD").IsRequired().HasMaxLength(50);
+            builder.Property(e => e.Password).HasColumnName("PASSWORD").HasMaxLength(50);
             builder.Property(e => e.PasswordTemp).HasColumnName("PASSWORD_TEMP").HasMaxLength(10);
             builder.Property(e => e.AuthAttempts).HasColumnName("AUTH_ATTEMPTS").IsRequired();
             builder.Property(e => e.Active).HasColumnName("ACTIVE").IsRequired();

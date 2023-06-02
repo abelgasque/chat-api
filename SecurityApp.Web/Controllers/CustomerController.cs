@@ -48,11 +48,7 @@ namespace SecurityApp.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync([FromBody] CustomerModel pEntity)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return new BadRequestObjectResult(this.ModelState);
-            }
-
+            if (!this.ModelState.IsValid) return new BadRequestObjectResult(this.ModelState);
             await _service.CreateAsync(pEntity);
             return new OkObjectResult(pEntity);
         }
@@ -67,8 +63,8 @@ namespace SecurityApp.Web.Controllers
         ///     POST v1/api/customer/lead
         ///     {
         ///         "firstName": "Abel",
-        ///         "mail": "contato.abelgasque@gmail.com",
-        ///         "password": "admin"
+        ///         "lastName": "admin"
+        ///         "mail": "contato.abelgasque@gmail.com",        
         ///     }
         ///
         /// </remarks>
@@ -80,14 +76,9 @@ namespace SecurityApp.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CreateLeadAsync([FromBody] CustomerLeadDTO pEntity)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return new BadRequestObjectResult(this.ModelState);
-            }
-
-            CustomerModel entity = new CustomerModel(pEntity);
-            await _service.CreateAsync(entity);
-            return new OkObjectResult(entity);
+            if (!this.ModelState.IsValid) return new BadRequestObjectResult(this.ModelState);
+            await _service.CreateAsync(pEntity);
+            return new OkObjectResult(null);
         }
 
         /// GET: v1/api/customer/{id}
@@ -146,11 +137,7 @@ namespace SecurityApp.Web.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateAsync([FromBody] CustomerModel pEntity)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return new BadRequestObjectResult(this.ModelState);
-            }
-
+            if (!this.ModelState.IsValid) return new BadRequestObjectResult(this.ModelState);
             await _service.UpdateAsync(pEntity);
             return new OkObjectResult(pEntity);
         }
