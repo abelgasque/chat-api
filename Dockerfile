@@ -10,18 +10,18 @@ apt-get install -y gnupg2 && \
 wget -qO- https://deb.nodesource.com/setup_16.x | bash - && \ 
 apt-get install -y build-essential nodejs 
 
-COPY ["SecurityApp.Web/SecurityApp.Web.csproj", "SecurityApp.Web/"]
+COPY ["SecurityWebApp/SecurityWebApp.csproj", "SecurityWebApp/"]
 
-RUN dotnet restore "SecurityApp.Web/SecurityApp.Web.csproj" --disable-parallel
+RUN dotnet restore "SecurityWebApp/SecurityWebApp.csproj" --disable-parallel
 COPY . .
-WORKDIR "/app/SecurityApp.Web"
-RUN dotnet build "SecurityApp.Web.csproj" -c Release -o /app/build
+WORKDIR "/app/SecurityWebApp"
+RUN dotnet build "SecurityWebApp.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SecurityApp.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SecurityWebApp.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 EXPOSE 80
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SecurityApp.Web.dll"]
+ENTRYPOINT ["dotnet", "SecurityWebApp.dll"]

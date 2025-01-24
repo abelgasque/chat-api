@@ -22,7 +22,7 @@ In a terminal on the application path run the command:
 **Password:** `admin`
 
 
-*Note:* Credentials can be added or changed in the [ApplicationDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/SecurityApp.Web/Infrastructure/Entities/Models/ApplicationDbContext.cs) file and generating a new migration before deploying to the development environment.
+*Note:* Credentials can be added or changed in the [ApplicationDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/SecurityWebApp/Infrastructure/Entities/Models/ApplicationDbContext.cs) file and generating a new migration before deploying to the development environment.
 
 ## References
 
