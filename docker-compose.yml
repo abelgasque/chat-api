@@ -1,37 +1,74 @@
 version: '3.8'
 services:
-  mssql-server:
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+  superset:
+    image: amancevice/superset
+    container_name: superset
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "secapp@2022"
-      MSSQL_PID: Express
-    ports:
-      - "1433:1433"
+      SUPERSET_SECRET_KEY: '2a3e0ea0-2ef5-4928-ab52-22fb482e621e'
+      SUPERSET_ADMIN_USERNAME: 'admin'
+      SUPERSET_ADMIN_PASSWORD: 'admin'
+      DATABASE_URI: 'postgresql://admin:admin@postgres:5432/postgres'
     volumes:
-      - mssql-data:/var/opt/mssql/data
-    restart: always
-
-  security-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
-      DbServer: "localhost"
-      DbPort: "1433"
-      DbUser: "SA"
-      Password: "secapp@2022"
-      Database: "SECURITYAPP_DB"
+      - ./superset/superset_config.py:/etc/superset/superset_config.py
+      - ./superset/jwt_security.py:/etc/superset/jwt_security.py
     ports:
-      - "80:80"
-      - "443:443"
+      - "8088:8088"
     depends_on:
-      - mssql-server
-    restart: always
+      - postgres
+    networks:
+      - production
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: public
+    ports:
+      - "5432:5432"
     volumes:
-      - ./app:/app
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - production
+
+  # mssql-server:
+  #   image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+  #   environment:
+  #     ACCEPT_EULA: "Y"
+  #     SA_PASSWORD: "secapp@2022"
+  #     MSSQL_PID: Express
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     - mssql-data:/var/opt/mssql/data
+  #   restart: always
+
+  # security-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Production"
+  #     DbServer: "localhost"
+  #     DbPort: "1433"
+  #     DbUser: "SA"
+  #     Password: "secapp@2022"
+  #     Database: "SECURITYAPP_DB"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   depends_on:
+  #     - mssql-server
+  #   restart: always
+  #   volumes:
+  #     - ./app:/app
 
 volumes:
+  pg-data:
   mssql-data:
     driver: local
+
+networks:
+  production:
+    driver: bridge
