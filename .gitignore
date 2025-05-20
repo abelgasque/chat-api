@@ -3,4 +3,4 @@
 .vscode
 bin
 obj
-SecurityApp.Web.csproj.user
+SecurityWebApp.csproj.user
