@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      DbServer: "mssql-server"
+      DbServer: "localhost"
       DbPort: "1433"
       DbUser: "SA"
       Password: "secapp@2022"

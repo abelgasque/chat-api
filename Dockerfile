@@ -28,7 +28,7 @@ RUN dotnet publish "SecurityWebApp/SecurityWebApp.csproj" -c Release -o /app/pub
 # Etapa 4: Runtime (Imagem final)
 FROM base AS final
 WORKDIR /csharp-security-webapp
-EXPOSE 443
+EXPOSE 80
 
 # Copiar os arquivos publicados para a imagem final
 COPY --from=publish /app/publish .
