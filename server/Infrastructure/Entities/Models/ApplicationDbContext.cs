@@ -11,10 +11,6 @@ namespace Server.Infrastructure.Entities.Models
 
         public DbSet<CustomerRoleModel> CustomerRole { get; set; }
 
-        public DbSet<CustomerRoleModel> Device { get; set; }
-
-        public DbSet<CustomerRoleModel> MailMessage { get; set; }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
 
