@@ -1,7 +1,7 @@
-﻿using SecurityWebApp.Infrastructure.Entities.Models;
+﻿using Server.Infrastructure.Entities.Models;
 using System;
 
-namespace SecurityWebApp.Infrastructure.Entities.DTO
+namespace Server.Infrastructure.Entities.DTO
 {
     public class CustomerDTO
     {

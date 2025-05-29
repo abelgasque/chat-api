@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SecurityWebApp.Infrastructure.Entities.DTO
+namespace Server.Infrastructure.Entities.DTO
 {
     public class RefreshTokenDTO
     {

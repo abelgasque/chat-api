@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SecurityWebApp.Infrastructure.Entities.DTO;
-using SecurityWebApp.Infrastructure.Services;
+using Server.Infrastructure.Entities.DTO;
+using Server.Infrastructure.Services;
 using System.Threading.Tasks;
 
-namespace SecurityWebApp.Controllers
+namespace Server.Controllers
 {
     [ApiController, AllowAnonymous, Route("v1/api/token")]
     public class TokenController : ControllerBase

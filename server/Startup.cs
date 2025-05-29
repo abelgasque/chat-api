@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using SecurityWebApp.Infrastructure.Middlewares;
-using SecurityWebApp.Infrastructure.Entities.Models;
-using SecurityWebApp.Infrastructure.Entities.Settings;
-using SecurityWebApp.Infrastructure.Repositories;
-using SecurityWebApp.Infrastructure.Services;
+using Server.Infrastructure.Middlewares;
+using Server.Infrastructure.Entities.Models;
+using Server.Infrastructure.Entities.Settings;
+using Server.Infrastructure.Repositories;
+using Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -18,7 +17,7 @@ using System.IO;
 using System.Reflection;
 using System;
 
-namespace SecurityWebApp
+namespace Server
 {
     public class Startup
     {
@@ -32,10 +31,6 @@ namespace SecurityWebApp
         public void ConfigureServices(IServiceCollection services)
         {            
             services.AddControllers();
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
 
             services.AddCors(options =>
             {
@@ -144,11 +139,6 @@ namespace SecurityWebApp
             app.UseAuthorization();
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}/{id?}");
@@ -156,15 +146,6 @@ namespace SecurityWebApp
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Security Application v1"));
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

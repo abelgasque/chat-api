@@ -1,5 +1,34 @@
 version: '3.8'
 services:
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - production
+
+  server:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      DbServer: "mssql-server"
+      DbPort: "1433"
+      DbUser: "SA"
+      Password: "serverApp@2025"
+      Database: "CORE_DB"
+    ports:
+      - "8080:8080"
+      - "443:443"
+    depends_on:
+      - mssql-server
+    restart: always
+    volumes:
+      - dataprotection-keys:/root/.aspnet/DataProtection-Keys
+
   superset:
     image: amancevice/superset
     container_name: superset
@@ -32,39 +61,20 @@ services:
     networks:
       - production
 
-  # mssql-server:
-  #   image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-  #   environment:
-  #     ACCEPT_EULA: "Y"
-  #     SA_PASSWORD: "secapp@2022"
-  #     MSSQL_PID: Express
-  #   ports:
-  #     - "1433:1433"
-  #   volumes:
-  #     - mssql-data:/var/opt/mssql/data
-  #   restart: always
-
-  # security-app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: "Production"
-  #     DbServer: "localhost"
-  #     DbPort: "1433"
-  #     DbUser: "SA"
-  #     Password: "secapp@2022"
-  #     Database: "SECURITYAPP_DB"
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   depends_on:
-  #     - mssql-server
-  #   restart: always
-  #   volumes:
-  #     - ./app:/app
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "serverApp@2025"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql/data
+    restart: always
 
 volumes:
+  dataprotection-keys:
   pg-data:
   mssql-data:
     driver: local

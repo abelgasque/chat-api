@@ -1,4 +1,4 @@
-﻿namespace SecurityApp.Web.Infrastructure.Entities.Settings
+﻿namespace Server.Infrastructure.Entities.Settings
 {
     public class BrokerMailSettings
     {

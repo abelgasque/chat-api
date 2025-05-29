@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SecurityWebApp.Infrastructure.Entities.Exceptions
+namespace Server.Infrastructure.Entities.Exceptions
 {
     public class BadRequestException : Exception
     {

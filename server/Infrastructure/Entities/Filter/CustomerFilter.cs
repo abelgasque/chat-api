@@ -1,7 +1,7 @@
-﻿using SecurityWebApp.Infrastructure.Entities.DTO;
+﻿using Server.Infrastructure.Entities.DTO;
 using System;
 
-namespace SecurityWebApp.Infrastructure.Entities.Filter
+namespace Server.Infrastructure.Entities.Filter
 {
     public class CustomerFilter : PaginationRequestDTO
     {

@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SecurityWebApp.Infrastructure.Entities.DTO;
-using SecurityWebApp.Infrastructure.Entities.Exceptions;
-using SecurityWebApp.Infrastructure.Entities.Models;
-using SecurityWebApp.Infrastructure.Entities.Settings;
+using Server.Infrastructure.Entities.DTO;
+using Server.Infrastructure.Entities.Exceptions;
+using Server.Infrastructure.Entities.Models;
+using Server.Infrastructure.Entities.Settings;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SecurityWebApp.Infrastructure.Services
+namespace Server.Infrastructure.Services
 {
     public class TokenService
     {

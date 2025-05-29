@@ -13,8 +13,17 @@ The project template isn't meant for server-side rendering (SSR).
 ## Command deployed application in Docker
 
 In a terminal on the application path run the command:
+``` bash
+docker-compose up -d
+```
 
-```docker-compose up --build```
+``` bash
+chmod +x start.sh
+```
+
+``` bash
+./start.sh 
+```
 
 ## Admin Credentials
 **Username:** `contato.abelgasque@gmail.com`
@@ -22,7 +31,7 @@ In a terminal on the application path run the command:
 **Password:** `admin`
 
 
-*Note:* Credentials can be added or changed in the [ApplicationDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/SecurityWebApp/Infrastructure/Entities/Models/ApplicationDbContext.cs) file and generating a new migration before deploying to the development environment.
+*Note:* Credentials can be added or changed in the [ApplicationDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/Server/Infrastructure/Entities/Models/ApplicationDbContext.cs) file and generating a new migration before deploying to the development environment.
 
 ## References
 

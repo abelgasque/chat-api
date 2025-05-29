@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SecurityApp.Web.Infrastructure.Entities.Models
+namespace Server.Infrastructure.Entities.Models
 {
     public class DeviceModel
     {

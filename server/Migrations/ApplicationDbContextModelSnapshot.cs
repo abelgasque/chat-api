@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SecurityWebApp.Infrastructure.Entities.Models;
+using Server.Infrastructure.Entities.Models;
 
-namespace SecurityWebApp.Migrations
+namespace Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -19,7 +19,7 @@ namespace SecurityWebApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SecurityWebApp.Infrastructure.Entities.Models.CustomerModel", b =>
+            modelBuilder.Entity("Server.Infrastructure.Entities.Models.CustomerModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace SecurityWebApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SecurityApp.Web.Infrastructure.Entities.Models.CustomerRoleModel", b =>
+            modelBuilder.Entity("Server.Infrastructure.Entities.Models.CustomerRoleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +169,7 @@ namespace SecurityWebApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SecurityApp.Web.Infrastructure.Entities.Models.DeviceModel", b =>
+            modelBuilder.Entity("Server.Infrastructure.Entities.Models.DeviceModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -206,7 +206,7 @@ namespace SecurityWebApp.Migrations
                     b.ToTable("DEVICE");
                 });
 
-            modelBuilder.Entity("SecurityApp.Web.Infrastructure.Entities.Models.MailMessageModel", b =>
+            modelBuilder.Entity("Server.Infrastructure.Entities.Models.MailMessageModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

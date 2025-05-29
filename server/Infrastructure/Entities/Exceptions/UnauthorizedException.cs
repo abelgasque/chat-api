@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SecurityWebApp.Infrastructure.Entities.Exceptions
+namespace Server.Infrastructure.Entities.Exceptions
 {
     public class UnauthorizedException : Exception
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SecurityWebApp.Infrastructure.Entities.Settings
+namespace Server.Infrastructure.Entities.Settings
 {
     public class ApplicationSettings
     {

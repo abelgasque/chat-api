@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SecurityWebApp.Infrastructure.Entities.DTO;
+using Server.Infrastructure.Entities.DTO;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SecurityWebApp.Infrastructure.Entities.Models
+namespace Server.Infrastructure.Entities.Models
 {
     public class CustomerModel
     {

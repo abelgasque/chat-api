@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SecurityWebApp.Infrastructure.Entities.DTO;
-using SecurityWebApp.Infrastructure.Entities.Filter;
-using SecurityWebApp.Infrastructure.Entities.Models;
+using Server.Infrastructure.Entities.DTO;
+using Server.Infrastructure.Entities.Filter;
+using Server.Infrastructure.Entities.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SecurityWebApp.Infrastructure.Repositories
+namespace Server.Infrastructure.Repositories
 {
     public class CustomerRepository
     {

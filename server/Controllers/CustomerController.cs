@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SecurityWebApp.Infrastructure.Entities.DTO;
-using SecurityWebApp.Infrastructure.Entities.Filter;
-using SecurityWebApp.Infrastructure.Entities.Models;
-using SecurityWebApp.Infrastructure.Services;
+using Server.Infrastructure.Entities.DTO;
+using Server.Infrastructure.Entities.Filter;
+using Server.Infrastructure.Entities.Models;
+using Server.Infrastructure.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace SecurityWebApp.Controllers
+namespace Server.Controllers
 {
     [ApiController, Authorize, Route("v1/api/customer")]
     public class CustomerController : ControllerBase

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace SecurityWebApp
+namespace Server
 {
     public class Program
     {
@@ -15,6 +15,7 @@ namespace SecurityWebApp
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:8080"); 
                 });
     }
 }

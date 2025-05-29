@@ -1,11 +1,11 @@
-﻿using SecurityWebApp.Infrastructure.Entities.Exceptions;
-using SecurityWebApp.Infrastructure.Entities.Filter;
-using SecurityWebApp.Infrastructure.Entities.Models;
-using SecurityWebApp.Infrastructure.Repositories;
+﻿using Server.Infrastructure.Entities.Exceptions;
+using Server.Infrastructure.Entities.Filter;
+using Server.Infrastructure.Entities.Models;
+using Server.Infrastructure.Repositories;
 using System;
 using System.Threading.Tasks;
 
-namespace SecurityWebApp.Infrastructure.Services
+namespace Server.Infrastructure.Services
 {
     public class CustomerService
     {

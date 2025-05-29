@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace SecurityApp.Web.Infrastructure.Entities.Models
+namespace Server.Infrastructure.Entities.Models
 {
     public class CustomerRoleModel
     {

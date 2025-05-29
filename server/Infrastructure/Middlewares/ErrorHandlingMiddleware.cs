@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using SecurityWebApp.Infrastructure.Entities.Exceptions;
+using Server.Infrastructure.Entities.Exceptions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace SecurityWebApp.Infrastructure.Middlewares
+namespace Server.Infrastructure.Middlewares
 {
     public class ErrorHandlingMiddleware
     {

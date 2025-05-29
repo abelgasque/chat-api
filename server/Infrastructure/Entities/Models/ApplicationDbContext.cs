@@ -3,7 +3,7 @@ using System.Reflection;
 using System;
 using System.Linq;
 
-namespace SecurityWebApp.Infrastructure.Entities.Models
+namespace Server.Infrastructure.Entities.Models
 {
     public class ApplicationDbContext : DbContext
     {
