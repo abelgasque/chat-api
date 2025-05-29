@@ -79,8 +79,8 @@ namespace Server
                     Contact = new OpenApiContact
                     {
                         Name = "Abel Gasque",
-                        Email = "contato.abelgasque@gmail.com",
-                        Url = new Uri("https://abelgasque.dev")
+                        Email = "abelgasque20@gmail.com",
+                        Url = new Uri("https://abelgasque.com")
                     },
                 });
                

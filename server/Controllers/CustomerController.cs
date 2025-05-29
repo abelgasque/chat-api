@@ -33,7 +33,7 @@ namespace Server.Controllers
         ///         "updateDate": null,
         ///         "firstName": "Abel",
         ///         "lastName": "Gasque L. Silva",
-        ///         "mail": "contato.abelgasque@gmail.com",
+        ///         "mail": "admin",
         ///         "password": "admin",
         ///         "authAttempts": 0,
         ///         "active": true,
@@ -67,7 +67,7 @@ namespace Server.Controllers
         ///     POST v1/api/customer/lead
         ///     {
         ///         "firstName": "Abel",
-        ///         "mail": "contato.abelgasque@gmail.com",
+        ///         "mail": "admin",
         ///         "password": "admin"
         ///     }
         ///
@@ -131,7 +131,7 @@ namespace Server.Controllers
         ///         "updateDate": null,
         ///         "firstName": "Abel",
         ///         "lastName": "Gasque L. Silva",
-        ///         "mail": "contato.abelgasque@gmail.com",
+        ///         "mail": "admin",
         ///         "password": "admin",
         ///         "authAttempts": 0,
         ///         "active": true,

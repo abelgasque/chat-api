@@ -25,7 +25,7 @@ namespace Server.Controllers
         ///
         ///     POST v1/api/token
         ///     {
-        ///         "username": "contato.abelgasque@gmail.com",
+        ///         "username": "admin",
         ///         "password": "admin"
         ///     }
         ///

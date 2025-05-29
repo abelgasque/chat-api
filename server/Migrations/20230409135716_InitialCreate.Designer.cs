@@ -112,7 +112,7 @@ namespace Server.Migrations
                             IdCustomerRole = new Guid("34b23fbf-8eae-4cb9-b6ee-8cd2a30a8197"),
                             IsNewCustomer = false,
                             LastName = "Gasque L. Silva",
-                            Mail = "contato.abelgasque@gmail.com",
+                            Mail = "admin",
                             Password = "admin"
                         });
                 });

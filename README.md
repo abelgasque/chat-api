@@ -26,7 +26,7 @@ chmod +x start.sh
 ```
 
 ## Admin Credentials
-**Username:** `contato.abelgasque@gmail.com`
+**Username:** `admin`
 
 **Password:** `admin`
 

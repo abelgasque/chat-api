@@ -32,7 +32,7 @@ namespace Server.Infrastructure.Entities.Models
 
             var roleAdmin = new CustomerRoleModel(Guid.NewGuid(), DateTime.Now, null, "Administrator", "ROLE_ADMINISTRATOR", true) { };
             var roleCutomer = new CustomerRoleModel(Guid.NewGuid(), DateTime.Now, null, "Customer", "ROLE_CUSTOMER", true) { };
-            var customerAdmin = new CustomerModel(Guid.NewGuid(), roleAdmin.Id, DateTime.Now, null, null, "Abel", "Gasque L. Silva", null, "contato.abelgasque@gmail.com", "admin", null, 0, true, false, false) { };
+            var customerAdmin = new CustomerModel(Guid.NewGuid(), roleAdmin.Id, DateTime.Now, null, null, "Abel", "Gasque L. Silva", null, "admin", "admin", null, 0, true, false, false) { };
 
             modelBuilder.Entity<CustomerRoleModel>().HasData(roleAdmin);
             modelBuilder.Entity<CustomerRoleModel>().HasData(roleCutomer);

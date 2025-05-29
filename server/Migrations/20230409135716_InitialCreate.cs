@@ -84,7 +84,7 @@ namespace Server.Migrations
             migrationBuilder.InsertData(
                 table: "CUSTOMER",
                 columns: new[] { "ID_CUSTOMER", "ACTIVE", "AUTH_ATTEMPTS", "BLOCK", "CODE", "CREATION_DATE", "FIRST_NAME", "ID_CUSTOMER_ROLE", "IS_NEW_CUSTOMER", "LAST_NAME", "MAIL", "PASSWORD", "PASSWORD_TEMP", "PASSWORD_TEMP_DATE", "UPDATE_DATE" },
-                values: new object[] { new Guid("08c26113-f776-4b2d-bc76-7d1e1fa7ec3a"), true, 0, false, null, new DateTime(2023, 4, 9, 10, 57, 16, 174, DateTimeKind.Local).AddTicks(1019), "Abel", new Guid("34b23fbf-8eae-4cb9-b6ee-8cd2a30a8197"), false, "Gasque L. Silva", "contato.abelgasque@gmail.com", "admin", null, null, null });
+                values: new object[] { new Guid("08c26113-f776-4b2d-bc76-7d1e1fa7ec3a"), true, 0, false, null, new DateTime(2023, 4, 9, 10, 57, 16, 174, DateTimeKind.Local).AddTicks(1019), "Abel", new Guid("34b23fbf-8eae-4cb9-b6ee-8cd2a30a8197"), false, "Gasque L. Silva", "admin", "admin", null, null, null });
 
             migrationBuilder.InsertData(
                 table: "CUSTOMER_ROLE",
