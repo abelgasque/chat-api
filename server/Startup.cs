@@ -119,6 +119,7 @@ namespace Server
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<UserService>();
+            services.AddScoped<IBaseController<UserModel>, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

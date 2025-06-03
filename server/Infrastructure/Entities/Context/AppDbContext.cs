@@ -27,8 +27,17 @@ namespace Server.Infrastructure.Entities.Context
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
 
-            //var user = new CustomerModel(Guid.NewGuid() DateTime.Now, null, null, "Admin", "User", null, "admin", "admin", null, 0, true, false, false) { };
-            //modelBuilder.Entity<CustomerModel>().HasData(customerAdmin);
+            modelBuilder.Entity<UserModel>().HasData(new UserModel
+            {
+                Id = 1,
+                guid = Guid.NewGuid(),
+                Name = "Admin",
+                Mail = "admin",
+                Password = "admin",
+                AuthAttempts = 0,
+                ActiveAt = DateTime.UtcNow,
+                BlockedAt = null
+            });
 
             base.OnModelCreating(modelBuilder);
         }

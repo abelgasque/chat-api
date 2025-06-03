@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ServerSide.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace ServerSide.Migrations
                     TENENT_CREATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TENENT_UPDATED_AT = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TENENT_DELETED_AT = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TENANT_NAME = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TENANT_NAME = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TENANT_DATABASE = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -47,6 +47,11 @@ namespace ServerSide.Migrations
                 {
                     table.PrimaryKey("PK_USER", x => x.USER_ID);
                 });
+
+            migrationBuilder.InsertData(
+                table: "USER",
+                columns: new[] { "USER_ID", "USER_ACTIVE_AT", "USER_AUTH_ATTEMPTS", "USER_BLOCKED_AT", "USER_MAIL", "USER_NAME", "USER_PASSWORD", "USER_GUID" },
+                values: new object[] { 1L, new DateTime(2025, 6, 3, 13, 53, 20, 134, DateTimeKind.Utc).AddTicks(8620), 0, null, "admin", "Admin", "admin", new Guid("7863d270-d001-4d7e-b999-fd7105a8f3fb") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_USER_USER_MAIL",

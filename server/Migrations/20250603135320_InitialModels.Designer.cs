@@ -12,15 +12,15 @@ using Server.Infrastructure.Entities.Context;
 namespace ServerSide.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250602211623_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250603135320_InitialModels")]
+    partial class InitialModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -48,7 +48,6 @@ namespace ServerSide.Migrations
                         .HasColumnName("TENENT_DELETED_AT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("TENANT_NAME");
 
@@ -114,6 +113,18 @@ namespace ServerSide.Migrations
                         .IsUnique();
 
                     b.ToTable("USER", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            ActiveAt = new DateTime(2025, 6, 3, 13, 53, 20, 134, DateTimeKind.Utc).AddTicks(8620),
+                            AuthAttempts = 0,
+                            Mail = "admin",
+                            Name = "Admin",
+                            Password = "admin",
+                            guid = new Guid("7863d270-d001-4d7e-b999-fd7105a8f3fb")
+                        });
                 });
 #pragma warning restore 612, 618
         }
