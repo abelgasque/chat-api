@@ -19,7 +19,7 @@ services:
       DbPort: "1433"
       DbUser: "SA"
       Password: "serverApp@2025"
-      Database: "CORE_DB"
+      Database: "CoreDb"
     ports:
       - "8080:8080"
       - "443:443"

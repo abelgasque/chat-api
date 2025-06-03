@@ -9,14 +9,14 @@ WORKDIR /server
 COPY . ./
 
 # Restaurar dependências do projeto
-RUN dotnet restore "server.csproj"
+RUN dotnet restore "ServerSide.csproj"
 
 # Construir o projeto
-RUN dotnet build "server.csproj" -c Release -o /app/build
+RUN dotnet build "ServerSide.csproj" -c Release -o /app/build
 
 # Etapa 3: Publicação
 FROM build AS publish
-RUN dotnet publish "server.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ServerSide.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Etapa 4: Runtime (Imagem final)
 FROM base AS final
@@ -27,4 +27,4 @@ EXPOSE 8080
 COPY --from=publish /app/publish .
 
 # Configurar o ponto de entrada
-ENTRYPOINT ["dotnet", "server.dll"]
+ENTRYPOINT ["dotnet", "ServerSide.dll"]

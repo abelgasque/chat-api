@@ -31,7 +31,7 @@ chmod +x start.sh
 **Password:** `admin`
 
 
-*Note:* Credentials can be added or changed in the [ApplicationDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/Server/Infrastructure/Entities/Models/ApplicationDbContext.cs) file and generating a new migration before deploying to the development environment.
+*Note:* Credentials can be added or changed in the [AppDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/Server/Infrastructure/Entities/Context/AppDbContext.cs) file and generating a new migration before deploying to the development environment.
 
 ## References
 

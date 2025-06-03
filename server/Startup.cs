@@ -5,17 +5,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Server.Infrastructure.Middlewares;
-using Server.Infrastructure.Entities.Models;
-using Server.Infrastructure.Entities.Settings;
-using Server.Infrastructure.Repositories;
-using Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IO;
 using System.Reflection;
 using System;
+using Server.Infrastructure.Middlewares;
+using Server.Infrastructure.Entities.Context;
+using Server.Infrastructure.Entities.Models;
+using Server.Infrastructure.Entities.Interfaces;
+using Server.Infrastructure.Entities.Settings;
+using Server.Infrastructure.Repositories;
+using Server.Infrastructure.Services;
 
 namespace Server
 {
@@ -29,7 +31,7 @@ namespace Server
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
             services.AddControllers();
 
             services.AddCors(options =>
@@ -43,14 +45,14 @@ namespace Server
             var settings = settingsSection.Get<ApplicationSettings>();
 
             var server = _configuration["DbServer"] ?? settings.Server;
-            var port = _configuration["DbPort"] ?? settings.Port; 
+            var port = _configuration["DbPort"] ?? settings.Port;
             var db = _configuration["Database"] ?? settings.Database;
-            var user = _configuration["DbUser"] ?? settings.UserId; 
+            var user = _configuration["DbUser"] ?? settings.UserId;
             var password = _configuration["Password"] ?? settings.PasswordDb;
 
             var connectionString = string.Format(settings.ConnectionString, server, port, db, user, password);
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddAuthentication(x =>
             {
@@ -72,7 +74,8 @@ namespace Server
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
                     Version = "v1",
                     Title = "Security Application",
                     Description = "An example security application with ASP.NET Core Web API",
@@ -83,7 +86,7 @@ namespace Server
                         Url = new Uri("https://abelgasque.com")
                     },
                 });
-               
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -97,7 +100,7 @@ namespace Server
                     BearerFormat = "JWT",
                     Scheme = "bearer",
                 });
-                
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -114,9 +117,8 @@ namespace Server
                 });
             });
 
-            services.AddTransient<CustomerRepository>();
-            services.AddTransient<CustomerService>();
-            services.AddTransient<TokenService>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -149,7 +151,7 @@ namespace Server
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                serviceScope.ServiceProvider.GetService<AppDbContext>().Database.Migrate();
             }
         }
     }
