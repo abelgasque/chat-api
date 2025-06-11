@@ -1,14 +1,5 @@
 version: '3.8'
 services:
-  client:
-    build:
-      context: ./client/
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    networks:
-      - production
-
   server:
     build:
       context: ./server/
@@ -29,38 +20,6 @@ services:
     volumes:
       - dataprotection-keys:/root/.aspnet/DataProtection-Keys
 
-  superset:
-    image: amancevice/superset
-    container_name: superset
-    environment:
-      SUPERSET_SECRET_KEY: '2a3e0ea0-2ef5-4928-ab52-22fb482e621e'
-      SUPERSET_ADMIN_USERNAME: 'admin'
-      SUPERSET_ADMIN_PASSWORD: 'admin'
-      DATABASE_URI: 'postgresql://admin:admin@postgres:5432/postgres'
-    volumes:
-      - ./superset/superset_config.py:/etc/superset/superset_config.py
-      - ./superset/jwt_security.py:/etc/superset/jwt_security.py
-    ports:
-      - "8088:8088"
-    depends_on:
-      - postgres
-    networks:
-      - production
-
-  postgres:
-    image: postgres:15
-    container_name: postgres
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: public
-    ports:
-      - "5432:5432"
-    volumes:
-      - pg-data:/var/lib/postgresql/data
-    networks:
-      - production
-
   mssql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
@@ -75,7 +34,6 @@ services:
 
 volumes:
   dataprotection-keys:
-  pg-data:
   mssql-data:
     driver: local
 

@@ -17,14 +17,6 @@ In a terminal on the application path run the command:
 docker-compose up -d
 ```
 
-``` bash
-chmod +x start.sh
-```
-
-``` bash
-./start.sh 
-```
-
 ## Admin Credentials
 **Username:** `admin`
 

@@ -120,6 +120,8 @@ namespace Server
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<UserService>();
             services.AddScoped<IBaseController<UserModel>, UserService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<TokenService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

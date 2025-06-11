@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Server.Infrastructure.Entities.DTO;
 using Server.Infrastructure.Entities.Exceptions;
 using Server.Infrastructure.Entities.Models;
 using Server.Infrastructure.Entities.Settings;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,11 +16,11 @@ namespace Server.Infrastructure.Services
     {
         private readonly ApplicationSettings _settings;
 
-        private readonly CustomerService _service;
+        private readonly UserService _service;
 
         public TokenService(
             IOptions<ApplicationSettings> settings,
-            CustomerService service
+            UserService service
         )
         {
             _settings = settings.Value;
@@ -69,38 +69,38 @@ namespace Server.Infrastructure.Services
 
         public async Task<TokenDTO> Login(UserDTO pEntity)
         {
-            CustomerModel customer = await _service.ReadByMail(pEntity.Username);
+            UserModel user = await _service.ReadByMail(pEntity.Username);
 
-            if ((!customer.Active) || (customer.Block))
-            {
-                throw new UnauthorizedException("User blocked or inactive!") { };
-            }
+            // if ((!customer.Active) || (customer.Block))
+            // {
+            //     throw new UnauthorizedException("User blocked or inactive!") { };
+            // }
 
-            if (customer.AuthAttempts >= _settings.AuthAttempts)
-            {
-                customer.SetBlock(true);
-                await _service.UpdateAsync(customer);
-                throw new UnauthorizedException("User blocked temporarily!") { };
-            }
+            // if (customer.AuthAttempts >= _settings.AuthAttempts)
+            // {
+            //     customer.SetBlock(true);
+            //     await _service.UpdateAsync(customer);
+            //     throw new UnauthorizedException("User blocked temporarily!") { };
+            // }
 
-            if (!customer.Password.Equals(pEntity.Password))
+            if (!user.Password.Equals(pEntity.Password))
             {
-                customer.SetAuthAttempts(customer.AuthAttempts + 1);
-                await _service.UpdateAsync(customer);
+                user.AuthAttempts += 1;
+                await _service.UpdateAsync(user);
                 throw new UnauthorizedException("Invalid password!") { };
             }
 
-            customer.SetAuthAttempts(0);
-            await _service.UpdateAsync(customer);
+            user.AuthAttempts = 0;
+            await _service.UpdateAsync(user);
 
             var token = GenerateToken();
-            token.Customer = new CustomerDTO(customer) { };
+            //token.Customer = new CustomerDTO(customer) { };
             return token;
         }
 
         public async Task<TokenDTO> Refresh(RefreshTokenDTO pEntity)
         {
-            CustomerModel customer = await _service.ReadById(pEntity.Id);
+            UserModel user = await _service.ReadById(pEntity.Id);
             var principal = GetPrincipalFromExpiredToken(pEntity.AccessToken);
 
             if (principal is null)
@@ -109,7 +109,7 @@ namespace Server.Infrastructure.Services
             }
 
             var token = GenerateToken();
-            token.Customer = new CustomerDTO(customer) { };
+            //token.Customer = new CustomerDTO(user) { };
             return token;
         }
     }
