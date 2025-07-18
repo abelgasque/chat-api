@@ -17,6 +17,20 @@ In a terminal on the application path run the command:
 docker-compose up -d
 ```
 
+## EF Core - Migations
+
+``` bash
+dotnet ef migrations add MigrationInit
+```
+
+``` bash
+dotnet ef database update  
+```
+
+``` bash
+dotnet ef database drop  
+```
+
 ## Admin Credentials
 **Username:** `admin`
 

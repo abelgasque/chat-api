@@ -1,21 +1,17 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ChatApi.Domain.Entities.Models;
 
 namespace ChatApi.Domain.Entities.Tenants
 {
     [Table("Bots")]
-    public class BotModel
+    public class BotModel : BaseModel
     {
         public BotModel() { }
 
-        public long Id { get; set; }
-
         [Required]
-        public Guid Guid { get; set; } = Guid.NewGuid();
-
-        [Required]
-        [MaxLength(255)]
-        public string Name { get; set; }
+        [MaxLength(550)]
+        public string Code { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace ChatApi.Infrastructure.Context
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<ChannelModel> Channels { get; set; }
+
         public DbSet<TenantModel> Tenants { get; set; }
 
         public DbSet<UserModel> Users { get; set; }
@@ -26,13 +28,13 @@ namespace ChatApi.Infrastructure.Context
                 dynamic configurationInstance = Activator.CreateInstance(type);
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
-
+    
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
-                Id = 10,
+                Id = 1,
                 Guid = Guid.NewGuid(),
                 Name = "Admin",
-                Email = "admin",
+                Email = "admin@example.com",
                 Password = "admin",
                 NuLogged = 0,
                 NuRefreshed = 0,
