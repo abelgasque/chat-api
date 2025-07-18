@@ -19,6 +19,7 @@ using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Settings;
 using ChatApi.Infrastructure.Repositories;
 using ChatApi.Infrastructure.Services;
+using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi
 {

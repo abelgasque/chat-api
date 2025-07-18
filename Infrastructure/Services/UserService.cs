@@ -1,11 +1,8 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using ChatApi.API.Interfaces;
 using ChatApi.Domain.Entities.Models;
-using ChatApi.Domain.Entities.DTO;
-using ChatApi.Infrastructure.Repositories;
+using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
 {    

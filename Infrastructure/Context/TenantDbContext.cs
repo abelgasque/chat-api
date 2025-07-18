@@ -3,7 +3,7 @@ using System.Reflection;
 using System;
 using System.Linq;
 using ChatApi.Domain.Entities.Tenants;
-using ChatApi.Infrastructure.Interface;
+using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Context
 {
