@@ -6,32 +6,46 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChatApi.Domain.Entities.Models
 {
+    [Table("Users")]
     public class UserModel
     {
         public UserModel() { }
 
         public long Id { get; set; }
 
-        public Guid guid { get; set; }
+        [Required]
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
-        [Required]      
-        [MaxLength(50)]
+        [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
 
         [Required]
+        [MaxLength(255)]
         [EmailAddress]
-        [MaxLength(250)]        
-        public string Mail { get; set; }
+        public string Email { get; set; }
 
-        [Required]
-        [MaxLength(50)]
         public string Password { get; set; }
-
-        [Required]
-        public int AuthAttempts { get; set; }
 
         public DateTime? ActiveAt { get; set; }
 
         public DateTime? BlockedAt { get; set; }
+
+        [Required]
+        public int NuLogged { get; set; } = 0;
+
+        public DateTime? LoggedAt { get; set; }
+
+        [Required]
+        public int NuRefreshed { get; set; } = 0;
+
+        public DateTime? RefreshedAt { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedAt { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
     }
 }

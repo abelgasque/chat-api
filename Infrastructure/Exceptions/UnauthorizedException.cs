@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChatApi.Domain.Entities.Exceptions
+namespace ChatApi.Infrastructure.Exceptions
 {
     public class UnauthorizedException : Exception
     {

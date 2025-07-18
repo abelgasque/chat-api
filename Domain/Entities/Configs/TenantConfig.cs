@@ -19,12 +19,31 @@ namespace ChatApi.Domain.Entities.Configs
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.guid).HasColumnName("TENANT_GUID").IsRequired();
-            builder.Property(e => e.CreatedAt).HasColumnName("TENENT_CREATED_AT").IsRequired();
-            builder.Property(e => e.UpdatedAt).HasColumnName("TENENT_UPDATED_AT").IsRequired();
-            builder.Property(e => e.DeletedAt).HasColumnName("TENENT_DELETED_AT");
-            builder.Property(e => e.Name).HasColumnName("TENANT_NAME");
-            builder.Property(e => e.Database).HasColumnName("TENANT_DATABASE").IsRequired();
+            builder.Property(e => e.Guid)
+                .HasColumnName("TENANT_GUID")
+                .IsRequired();
+
+            builder.Property(e => e.Name)
+                .HasColumnName("TENANT_NAME")
+                .IsRequired();
+
+            builder.Property(e => e.Domain)
+                .HasColumnName("TENANT_DOMAIN")
+                .IsRequired();
+
+            builder.Property(e => e.Database)
+                .HasColumnName("TENANT_DATABASE")
+                .IsRequired();
+
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("TENANT_CREATED_AT")
+                .IsRequired();
+
+            builder.Property(e => e.UpdatedAt)
+                .HasColumnName("TENANT_UPDATED_AT");
+
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("TENANT_DELETED_AT");
         }
     }
 }

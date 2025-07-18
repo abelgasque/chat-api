@@ -4,7 +4,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using ChatApi.Domain.Entities.DTO;
-using ChatApi.Domain.Entities.Exceptions;
+using ChatApi.Infrastructure.Exceptions;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Settings;
 using System.Text;
@@ -83,15 +83,13 @@ namespace ChatApi.Infrastructure.Services
             //     throw new UnauthorizedException("User blocked temporarily!") { };
             // }
 
+            user.NuLogged += 1;
+            await _service.UpdateAsync(user);
+
             if (!user.Password.Equals(pEntity.Password))
             {
-                user.AuthAttempts += 1;
-                await _service.UpdateAsync(user);
                 throw new UnauthorizedException("Invalid password!") { };
             }
-
-            user.AuthAttempts = 0;
-            await _service.UpdateAsync(user);
 
             var token = GenerateToken();
             //token.Customer = new CustomerDTO(customer) { };

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using ChatApi.Domain.Entities.Exceptions;
+using ChatApi.Infrastructure.Exceptions;
 
 namespace ChatApi.Infrastructure.Middlewares
 {
