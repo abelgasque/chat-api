@@ -2,14 +2,15 @@ version: '3.8'
 services:
   server:
     build:
-      context: ./server/
+      context: ./
       dockerfile: Dockerfile
+    container_name: chat-api-container
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      DbServer: "mssql-server"
+      DbServer: "chat-api-mssql-server"
       DbPort: "1433"
       DbUser: "SA"
-      Password: "serverApp@2025"
+      Password: "Application@2025"
       Database: "CoreDb"
     ports:
       - "8080:8080"
@@ -22,9 +23,10 @@ services:
 
   mssql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    container_name: chat-api-mssql-server
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "serverApp@2025"
+      SA_PASSWORD: "Application@2025"
       MSSQL_PID: Express
     ports:
       - "1433:1433"

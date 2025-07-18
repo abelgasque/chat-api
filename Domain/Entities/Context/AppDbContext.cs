@@ -27,17 +27,17 @@ namespace ChatApi.Domain.Entities.Context
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
 
-            // modelBuilder.Entity<UserModel>().HasData(new UserModel
-            // {
-            //     Id = 1,
-            //     guid = Guid.NewGuid(),
-            //     Name = "Admin",
-            //     Mail = "admin",
-            //     Password = "admin",
-            //     AuthAttempts = 0,
-            //     ActiveAt = DateTime.UtcNow,
-            //     BlockedAt = null
-            // });
+            modelBuilder.Entity<UserModel>().HasData(new UserModel
+            {
+                Id = 10,
+                guid = Guid.NewGuid(),
+                Name = "Admin",
+                Mail = "admin",
+                Password = "admin",
+                AuthAttempts = 0,
+                ActiveAt = DateTime.UtcNow,
+                BlockedAt = null
+            });
 
             base.OnModelCreating(modelBuilder);
         }
