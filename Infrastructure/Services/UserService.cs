@@ -25,25 +25,14 @@ namespace ChatApi.Infrastructure.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<UserModel> ReadByMail(string mail)
+        public async Task<UserModel> ReadByMail(string email)
         {
-            return await _repository.GetByConditionAsync(c => c.Email == mail);
+            return await _repository.GetByConditionAsync(c => c.Email == email);
         }
 
         public async Task<object> Read(object filter)
         {
-            var userFilter = filter as UserModel;
-
-            if (userFilter == null)
-            {
-                throw new ArgumentException("Invalid filter object");
-            }
-
-            var result = await _repository.FindAsync(x =>
-                (string.IsNullOrEmpty(userFilter.Name) || x.Name.Contains(userFilter.Name)) &&
-                (string.IsNullOrEmpty(userFilter.Email) || x.Email.Contains(userFilter.Email)));
-
-            return result;
+            return await _repository.GetAllAsync();
         }
 
         public async Task UpdateAsync(UserModel model)

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChatApi.Domain.Entities.DTO
+namespace ChatApi.Domain.Requests
 {
-    public class UserDTO
+    public class TokenRequest
     {
-        public UserDTO() { }
+        public TokenRequest() { }
 
         [Required]
         public string Username { get; set; }

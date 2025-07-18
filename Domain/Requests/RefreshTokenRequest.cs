@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ChatApi.Domain.Entities.DTO
+namespace ChatApi.Domain.Requests
 {
-    public class RefreshTokenDTO
+    public class RefreshTokenRequest
     {
-        public RefreshTokenDTO() { }
+        public RefreshTokenRequest() { }
 
         [Required]
         public string AccessToken { get; set; }
