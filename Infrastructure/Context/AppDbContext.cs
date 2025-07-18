@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using ChatApi.Domain.Entities.Models;
 
-namespace ChatApi.Domain.Entities.Context
+namespace ChatApi.Infrastructure.Context
 {
     public class AppDbContext : DbContext
     {
