@@ -30,11 +30,12 @@ namespace ChatApi.Domain.Entities.Context
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
                 Id = 10,
-                guid = Guid.NewGuid(),
+                Guid = Guid.NewGuid(),
                 Name = "Admin",
-                Mail = "admin",
+                Email = "admin",
                 Password = "admin",
-                AuthAttempts = 0,
+                NuLogged = 0,
+                NuRefreshed = 0,
                 ActiveAt = DateTime.UtcNow,
                 BlockedAt = null
             });

@@ -13,7 +13,7 @@ namespace ChatApi.Domain.Entities.Models
         {
             builder.ToTable("USERS");
 
-            builder.HasIndex(e => e.Mail).IsUnique();
+            builder.HasIndex(e => e.Email).IsUnique();
 
             builder.HasKey(e => e.Id);
 
@@ -22,34 +22,53 @@ namespace ChatApi.Domain.Entities.Models
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.guid)
+            builder.Property(e => e.Guid)
                 .HasColumnName("USER_GUID")
                 .IsRequired();
 
             builder.Property(e => e.Name)
                 .HasColumnName("USER_NAME")
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .IsRequired();
 
-            builder.Property(e => e.Mail)
-                .HasColumnName("USER_MAIL")
+            builder.Property(e => e.Email)
+                .HasColumnName("USER_EMAIL")
                 .HasMaxLength(250)
                 .IsRequired();
 
             builder.Property(e => e.Password)
                 .HasColumnName("USER_PASSWORD")
-                .HasMaxLength(50)
+                .HasMaxLength(255);
+
+            builder.Property(e => e.NuLogged)
+                .HasColumnName("USER_NU_LOGGED")
                 .IsRequired();
 
-            builder.Property(e => e.AuthAttempts)
-                .HasColumnName("USER_AUTH_ATTEMPTS")
+            builder.Property(e => e.LoggedAt)
+                .HasColumnName("USER_LOGGED_AT");
+
+            builder.Property(e => e.NuRefreshed)
+                .HasColumnName("USER_NU_REFRESHED")
                 .IsRequired();
+
+            builder.Property(e => e.RefreshedAt)
+                .HasColumnName("USER_REFRESHED_AT");
 
             builder.Property(e => e.ActiveAt)
                 .HasColumnName("USER_ACTIVE_AT");
 
             builder.Property(e => e.BlockedAt)
                 .HasColumnName("USER_BLOCKED_AT");
+
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("USER_CREATED_AT")
+                .IsRequired();
+
+            builder.Property(e => e.UpdatedAt)
+                .HasColumnName("USER_UPDATED_AT");
+
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("USER_DELETED_AT");
         }
     }
 }

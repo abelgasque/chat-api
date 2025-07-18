@@ -30,7 +30,7 @@ namespace ChatApi.Infrastructure.Services
 
         public async Task<UserModel> ReadByMail(string mail)
         {
-            return await _repository.GetByConditionAsync(c => c.Mail == mail);
+            return await _repository.GetByConditionAsync(c => c.Email == mail);
         }
 
         public async Task<object> Read(object filter)
@@ -44,7 +44,7 @@ namespace ChatApi.Infrastructure.Services
 
             var result = await _repository.FindAsync(x =>
                 (string.IsNullOrEmpty(userFilter.Name) || x.Name.Contains(userFilter.Name)) &&
-                (string.IsNullOrEmpty(userFilter.Mail) || x.Mail.Contains(userFilter.Mail)));
+                (string.IsNullOrEmpty(userFilter.Email) || x.Email.Contains(userFilter.Email)));
 
             return result;
         }
