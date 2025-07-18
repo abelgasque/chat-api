@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,7 +53,11 @@ namespace ChatApi
 
             var connectionString = string.Format(settings.ConnectionString, server, port, db, user, password);
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+                options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
+            });
 
             services.AddAuthentication(x =>
             {
@@ -151,11 +156,6 @@ namespace ChatApi
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Security Application v1"));
-
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                serviceScope.ServiceProvider.GetService<AppDbContext>().Database.Migrate();
-            }
         }
     }
 }
