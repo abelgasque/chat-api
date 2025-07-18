@@ -3,4 +3,5 @@
 .vscode
 bin
 obj
-Server.csproj.user
+ChatApi.csproj.user
+Migrations/
