@@ -4,7 +4,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using ChatApi.Domain.Entities.DTO;
-using ChatApi.Domain.Entities.Exceptions;
+using ChatApi.Infrastructure.Exceptions;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Settings;
 using System.Text;
