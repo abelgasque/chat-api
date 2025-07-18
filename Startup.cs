@@ -14,11 +14,12 @@ using System.Reflection;
 using System;
 using ChatApi.API.Interfaces;
 using ChatApi.Infrastructure.Middlewares;
-using ChatApi.Domain.Entities.Context;
+using ChatApi.Infrastructure.Context;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Settings;
 using ChatApi.Infrastructure.Repositories;
 using ChatApi.Infrastructure.Services;
+using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi
 {

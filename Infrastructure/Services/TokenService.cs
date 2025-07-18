@@ -3,12 +3,13 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using ChatApi.Domain.Entities.DTO;
 using ChatApi.Infrastructure.Exceptions;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Settings;
 using System.Text;
 using System.Threading.Tasks;
+using ChatApi.Domain.Responses;
+using ChatApi.Domain.Requests;
 
 namespace ChatApi.Infrastructure.Services
 {
@@ -27,7 +28,7 @@ namespace ChatApi.Infrastructure.Services
             _service = service;
         }
 
-        private TokenDTO GenerateToken()
+        private TokenResponse GenerateToken()
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_settings.Secret);
@@ -39,7 +40,7 @@ namespace ChatApi.Infrastructure.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new TokenDTO()
+            return new TokenResponse()
             {
                 AccessToken = tokenHandler.WriteToken(token),
                 ExpiresIn = _settings.ExpireIn
@@ -67,21 +68,9 @@ namespace ChatApi.Infrastructure.Services
             return principal;
         }
 
-        public async Task<TokenDTO> Login(UserDTO pEntity)
+        public async Task<TokenResponse> Login(TokenRequest pEntity)
         {
             UserModel user = await _service.ReadByMail(pEntity.Username);
-
-            // if ((!customer.Active) || (customer.Block))
-            // {
-            //     throw new UnauthorizedException("User blocked or inactive!") { };
-            // }
-
-            // if (customer.AuthAttempts >= _settings.AuthAttempts)
-            // {
-            //     customer.SetBlock(true);
-            //     await _service.UpdateAsync(customer);
-            //     throw new UnauthorizedException("User blocked temporarily!") { };
-            // }
 
             user.NuLogged += 1;
             await _service.UpdateAsync(user);
@@ -92,11 +81,11 @@ namespace ChatApi.Infrastructure.Services
             }
 
             var token = GenerateToken();
-            //token.Customer = new CustomerDTO(customer) { };
+            token.Data = new UserResponse(user) { };
             return token;
         }
 
-        public async Task<TokenDTO> Refresh(RefreshTokenDTO pEntity)
+        public async Task<TokenResponse> Refresh(RefreshTokenRequest pEntity)
         {
             UserModel user = await _service.ReadById(pEntity.Id);
             var principal = GetPrincipalFromExpiredToken(pEntity.AccessToken);
@@ -107,7 +96,7 @@ namespace ChatApi.Infrastructure.Services
             }
 
             var token = GenerateToken();
-            //token.Customer = new CustomerDTO(user) { };
+            token.Data = new UserResponse(user) { };
             return token;
         }
     }

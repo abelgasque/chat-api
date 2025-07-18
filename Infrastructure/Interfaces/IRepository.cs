@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ChatApi.Infrastructure.Repositories
+namespace ChatApi.Infrastructure.Interfaces
 {
     public interface IRepository<T> where T : class
     {

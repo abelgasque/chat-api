@@ -2,18 +2,28 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System;
 using System.Linq;
-using ChatApi.Domain.Entities.Models;
+using ChatApi.Domain.Entities.Tenants;
+using ChatApi.Infrastructure.Interfaces;
 
-namespace ChatApi.Domain.Entities.Context
+namespace ChatApi.Infrastructure.Context
 {
-    public class AppDbContext : DbContext
+    public class TenantDbContext : DbContext
     {
-        public DbSet<TenantModel> Tenants { get; set; }
+        private readonly ITenantService _tenantService;
+        public DbSet<BotModel> Bot { get; set; }
 
-        public DbSet<UserModel> Users { get; set; }
-
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+        public TenantDbContext(DbContextOptions<TenantDbContext> options, ITenantService tenantService)
+            : base(options)
+        {
+            _tenantService = tenantService;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(_tenantService.ConnectionString);
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,19 +36,6 @@ namespace ChatApi.Domain.Entities.Context
                 dynamic configurationInstance = Activator.CreateInstance(type);
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
-
-            modelBuilder.Entity<UserModel>().HasData(new UserModel
-            {
-                Id = 10,
-                Guid = Guid.NewGuid(),
-                Name = "Admin",
-                Email = "admin",
-                Password = "admin",
-                NuLogged = 0,
-                NuRefreshed = 0,
-                ActiveAt = DateTime.UtcNow,
-                BlockedAt = null
-            });
 
             base.OnModelCreating(modelBuilder);
         }

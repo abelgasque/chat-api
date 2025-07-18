@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,18 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ChatApi.Domain.Entities.Models
 {
     [Table("Users")]
-    public class UserModel
+    public class UserModel : BaseModel
     {
         public UserModel() { }
-
-        public long Id { get; set; }
-
-        [Required]
-        public Guid Guid { get; set; } = Guid.NewGuid();
-
-        [Required]
-        [MaxLength(255)]
-        public string Name { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -40,12 +29,5 @@ namespace ChatApi.Domain.Entities.Models
         public int NuRefreshed { get; set; } = 0;
 
         public DateTime? RefreshedAt { get; set; }
-
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; }
-
-        public DateTime? DeletedAt { get; set; }
     }
 }

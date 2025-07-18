@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ChatApi.API.Interfaces;
 using ChatApi.Domain.Entities.Models;
-using ChatApi.Infrastructure.Repositories;
+using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
 {

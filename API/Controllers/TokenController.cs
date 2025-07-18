@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ChatApi.Domain.Entities.DTO;
 using ChatApi.Infrastructure.Services;
 using System.Threading.Tasks;
+using ChatApi.Domain.Requests;
 
 namespace ChatApi.Controllers
 {
@@ -35,7 +35,7 @@ namespace ChatApi.Controllers
         /// <response code="200">Returns access token of the request</response>
         /// <response code="404">Exception return if invalid password, email does not exist, User blocked / inactive or invalid template</response>
         [HttpPost]
-        public async Task<ActionResult> LoginAsync([FromBody] UserDTO pEntity)
+        public async Task<ActionResult> LoginAsync([FromBody] TokenRequest pEntity)
         {
             if (!this.ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace ChatApi.Controllers
         /// <response code="200">Returns access token of the request</response>
         /// <response code="404">Exception return if invalid password, email does not exist, User blocked / inactive or invalid template</response>
         [HttpPost("refresh")]
-        public async Task<ActionResult> RefreshAsync([FromBody] RefreshTokenDTO pEntity)
+        public async Task<ActionResult> RefreshAsync([FromBody] RefreshTokenRequest pEntity)
         {
             if (!this.ModelState.IsValid)
             {
