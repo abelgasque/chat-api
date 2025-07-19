@@ -7,7 +7,6 @@ namespace ChatApi.Domain.Entities.Models
     [Table("Tenants")]
     public class TenantModel : BaseModel
     {
-        [Required]
         public string Domain { get; set; }
 
         [Required]
