@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ChatApi.API.Interfaces;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
-{    
+{
     public class ChannelService : IBaseController<ChannelModel>
     {
         private readonly IRepository<ChannelModel> _repository;
@@ -22,7 +23,8 @@ namespace ChatApi.Infrastructure.Services
 
         public async Task<ChannelModel> ReadById(Guid id)
         {
-            return await _repository.GetByIdAsync(id);
+            var results = await _repository.FindAsync(m => m.Guid == id);
+            return results.FirstOrDefault();
         }
 
         public async Task<object> Read(object filter)
@@ -37,7 +39,7 @@ namespace ChatApi.Infrastructure.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            var model = await _repository.GetByIdAsync(id);
+            var model = await ReadById(id);
             if (model != null)
             {
                 await _repository.DeleteAsync(model);
