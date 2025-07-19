@@ -28,7 +28,7 @@ namespace ChatApi.Infrastructure.Context
                 dynamic configurationInstance = Activator.CreateInstance(type);
                 modelBuilder.ApplyConfiguration(configurationInstance);
             }
-    
+
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
                 Id = 1,
@@ -41,6 +41,33 @@ namespace ChatApi.Infrastructure.Context
                 ActiveAt = DateTime.UtcNow,
                 BlockedAt = null
             });
+
+            for (int i = 2; i < 52; i++)
+            {
+                modelBuilder.Entity<UserModel>().HasData(new UserModel
+                {
+                    Id = i,
+                    Guid = Guid.NewGuid(),
+                    Name = "Dev",
+                    Email = $"dev_{i}@example.com",
+                    Password = "dev",
+                    NuLogged = 0,
+                    NuRefreshed = 0,
+                    ActiveAt = DateTime.UtcNow,
+                    BlockedAt = null
+                });
+            }
+
+            for (int i = 2; i < 52; i++)
+            {
+                modelBuilder.Entity<TenantModel>().HasData(new TenantModel
+                {
+                    Id = i,
+                    Guid = Guid.NewGuid(),
+                    Name = "Dev",
+                    Database = $"{i}_DevDb",
+                });
+            }
 
             base.OnModelCreating(modelBuilder);
         }
