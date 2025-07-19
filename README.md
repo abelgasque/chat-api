@@ -1,6 +1,6 @@
-# Security Application
+# Chat Application
 
-A sample security application with ASP.NET Core Web API, responsible for the main web system using the same domain network. When starting using the deployment command in Docker, we will have system virtualization for the local application development environment.
+A sample chat application with ASP.NET Core Web API, responsible for the main web system using the same domain network. When starting using the deployment command in Docker, we will have system virtualization for the local application development environment.
 
 ## Using the Angular with ASP.NET Core
 
@@ -32,7 +32,7 @@ dotnet ef database drop
 ```
 
 ## Admin Credentials
-**Username:** `admin`
+**Username:** `admin@example.com`
 
 **Password:** `admin`
 

@@ -83,8 +83,8 @@ namespace ChatApi
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Security Application",
-                    Description = "An example security application with ASP.NET Core Web API",
+                    Title = "Chat Application",
+                    Description = "An example chat application with ASP.NET Core Web API",
                     Contact = new OpenApiContact
                     {
                         Name = "Abel Gasque",
@@ -124,9 +124,19 @@ namespace ChatApi
             });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
             services.AddScoped<UserService>();
             services.AddScoped<IBaseController<UserModel>, UserService>();
             services.AddTransient<UserService>();
+
+            services.AddScoped<TenantService>();
+            services.AddScoped<IBaseController<TenantModel>, TenantService>();
+            services.AddTransient<TenantService>();
+
+            services.AddScoped<ChannelService>();
+            services.AddScoped<IBaseController<ChannelModel>, ChannelService>();
+            services.AddTransient<ChannelService>();
+
             services.AddTransient<TokenService>();
         }
 
@@ -156,7 +166,7 @@ namespace ChatApi
             });
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Security Application v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
         }
     }
 }

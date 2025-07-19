@@ -26,7 +26,7 @@ namespace ChatApi.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(long id)
         {
             return await _dbSet.FindAsync(id);
         }

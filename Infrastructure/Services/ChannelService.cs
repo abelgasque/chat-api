@@ -7,29 +7,24 @@ using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
 {
-    public class UserService : IBaseController<UserModel>
+    public class ChannelService : IBaseController<ChannelModel>
     {
-        private readonly IRepository<UserModel> _repository;
+        private readonly IRepository<ChannelModel> _repository;
 
-        public UserService(IRepository<UserModel> repository)
+        public ChannelService(IRepository<ChannelModel> repository)
         {
             _repository = repository;
         }
 
-        public async Task CreateAsync(UserModel model)
+        public async Task CreateAsync(ChannelModel model)
         {
             await _repository.CreateAsync(model);
         }
 
-        public async Task<UserModel> ReadById(Guid id)
+        public async Task<ChannelModel> ReadById(Guid id)
         {
             var results = await _repository.FindAsync(m => m.Guid == id);
             return results.FirstOrDefault();
-        }
-
-        public async Task<UserModel> ReadByMail(string email)
-        {
-            return await _repository.GetByConditionAsync(c => c.Email == email);
         }
 
         public async Task<object> Read(object filter)
@@ -37,7 +32,7 @@ namespace ChatApi.Infrastructure.Services
             return await _repository.GetAllAsync();
         }
 
-        public async Task UpdateAsync(UserModel model)
+        public async Task UpdateAsync(ChannelModel model)
         {
             await _repository.UpdateAsync(model);
         }
