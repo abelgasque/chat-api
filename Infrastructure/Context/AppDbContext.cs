@@ -58,7 +58,7 @@ namespace ChatApi.Infrastructure.Context
                 });
             }
 
-            for (int i = 2; i < 52; i++)
+            for (int i = 1; i < 51; i++)
             {
                 modelBuilder.Entity<TenantModel>().HasData(new TenantModel
                 {
@@ -66,6 +66,17 @@ namespace ChatApi.Infrastructure.Context
                     Guid = Guid.NewGuid(),
                     Name = "Dev",
                     Database = $"{i}_DevDb",
+                });
+            }
+
+            for (int i = 1; i < 51; i++)
+            {
+                modelBuilder.Entity<ChannelModel>().HasData(new ChannelModel
+                {
+                    Id = i,
+                    Guid = Guid.NewGuid(),
+                    Name = $"Dev_{i}",
+                    TenantId = i,
                 });
             }
 
