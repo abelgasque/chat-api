@@ -7,37 +7,37 @@ using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Context
 {
-    public class TenantDbContext : DbContext
-    {
-        private readonly ITenantService _tenantService;
-        public DbSet<BotModel> Bot { get; set; }
+    // public class TenantDbContext : DbContext
+    // {
+    //     private readonly ITenantService _tenantService;
+    //     public DbSet<BotModel> Bot { get; set; }
 
-        public TenantDbContext(DbContextOptions<TenantDbContext> options, ITenantService tenantService)
-            : base(options)
-        {
-            _tenantService = tenantService;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(_tenantService.ConnectionString);
-            }
-        }
+    //     public TenantDbContext(DbContextOptions<TenantDbContext> options, ITenantService tenantService)
+    //         : base(options)
+    //     {
+    //         _tenantService = tenantService;
+    //     }
+    //     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //     {
+    //         if (!optionsBuilder.IsConfigured)
+    //         {
+    //             optionsBuilder.UseSqlServer(_tenantService.ConnectionString);
+    //         }
+    //     }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            var typesToRegister =
-                    Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterfaces().Any(gi => gi.IsGenericType
-                    && gi.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))).ToList();
+    //     protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //     {
+    //         var typesToRegister =
+    //                 Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterfaces().Any(gi => gi.IsGenericType
+    //                 && gi.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))).ToList();
 
-            foreach (var type in typesToRegister)
-            {
-                dynamic configurationInstance = Activator.CreateInstance(type);
-                modelBuilder.ApplyConfiguration(configurationInstance);
-            }
+    //         foreach (var type in typesToRegister)
+    //         {
+    //             dynamic configurationInstance = Activator.CreateInstance(type);
+    //             modelBuilder.ApplyConfiguration(configurationInstance);
+    //         }
 
-            base.OnModelCreating(modelBuilder);
-        }
-    }
+    //         base.OnModelCreating(modelBuilder);
+    //     }
+    // }
 }

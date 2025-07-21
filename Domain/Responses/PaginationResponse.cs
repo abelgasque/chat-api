@@ -1,12 +1,12 @@
-﻿using ChatApi.Domain.Requests;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ChatApi.Domain.Requests;
 
 namespace ChatApi.Domain.Responses
 {
     public class PaginationResponse : PaginationRequest
     {
-        public PaginationResponse() { }
-
         public int Total { get; set; }
-        public object Data { get; set; }
+        public IEnumerable<object> Data { get; set; } = Enumerable.Empty<object>();
     }
 }

@@ -35,8 +35,7 @@ namespace ChatApi.Domain.Entities.Configs
                 .HasColumnName("TENANT_DELETED_AT");
 
             builder.Property(e => e.Domain)
-                .HasColumnName("TENANT_DOMAIN")
-                .IsRequired();
+                .HasColumnName("TENANT_DOMAIN");
 
             builder.Property(e => e.Database)
                 .HasColumnName("TENANT_DATABASE")
