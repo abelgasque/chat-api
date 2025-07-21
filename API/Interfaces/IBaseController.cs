@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using ChatApi.Domain.Requests;
+using ChatApi.Domain.Responses;
 
 namespace ChatApi.API.Interfaces
 {
@@ -7,7 +9,7 @@ namespace ChatApi.API.Interfaces
     {
         Task CreateAsync(TModel entity);
         Task<TModel> ReadById(Guid id);
-        Task<object> Read(object filter);
+        Task<PaginationResponse> Read(PaginationRequest filter);
         Task UpdateAsync(TModel entity);
         Task DeleteAsync(Guid id);
     }

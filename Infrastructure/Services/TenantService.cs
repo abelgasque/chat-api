@@ -6,6 +6,9 @@ using ChatApi.Domain.Entities.Models;
 using ChatApi.Infrastructure.Interfaces;
 // using ChatApi.Infrastructure.Context;
 using System.Linq;
+using ChatApi.Domain.Responses;
+using ChatApi.Domain.Requests;
+using System.Collections.Generic;
 
 namespace ChatApi.Infrastructure.Services
 {
@@ -30,15 +33,15 @@ namespace ChatApi.Infrastructure.Services
 
         // public async Task SetTenantAsync(string tenantId)
         // {
-            // using var scope = _serviceProvider.CreateScope();
-            // var db = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
+        // using var scope = _serviceProvider.CreateScope();
+        // var db = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
 
-            // _tenant = await db.Tenants.FirstOrDefaultAsync(t => t.Guid.ToString() == tenantId);
-            // if (_tenant == null)
-            //     throw new Exception("Tenant not found");
+        // _tenant = await db.Tenants.FirstOrDefaultAsync(t => t.Guid.ToString() == tenantId);
+        // if (_tenant == null)
+        //     throw new Exception("Tenant not found");
 
-            // ConnectionString = _configuration.GetConnectionString("TenantTemplate")
-            //     .Replace("{DB_NAME}", _tenant.Database);
+        // ConnectionString = _configuration.GetConnectionString("TenantTemplate")
+        //     .Replace("{DB_NAME}", _tenant.Database);
         // }
 
         public async Task CreateAsync(TenantModel model)
@@ -52,9 +55,25 @@ namespace ChatApi.Infrastructure.Services
             return results.FirstOrDefault();
         }
 
-        public async Task<object> Read(object filter)
+        public async Task<PaginationResponse> Read(PaginationRequest filter)
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            var filtered = entities.ToList();
+
+            var skip = (filter.Page - 1) * filter.PageSize;
+
+            List<TenantModel> paged = filtered
+                .Skip(skip)
+                .Take(filter.PageSize)
+                .ToList();
+
+            return new PaginationResponse
+            {
+                Page = filter.Page,
+                PageSize = filter.PageSize,
+                Total = filtered.Count,
+                Data = paged
+            };
         }
 
         public async Task UpdateAsync(TenantModel model)
