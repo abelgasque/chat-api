@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+// using Microsoft.Extensions.Configuration;
 using ChatApi.API.Interfaces;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Infrastructure.Interfaces;
-using ChatApi.Infrastructure.Context;
+// using ChatApi.Infrastructure.Context;
 using System.Linq;
 
 namespace ChatApi.Infrastructure.Services
@@ -28,8 +28,8 @@ namespace ChatApi.Infrastructure.Services
         //     _configuration = configuration;
         // }
 
-        public async Task SetTenantAsync(string tenantId)
-        {
+        // public async Task SetTenantAsync(string tenantId)
+        // {
             // using var scope = _serviceProvider.CreateScope();
             // var db = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
 
@@ -39,7 +39,7 @@ namespace ChatApi.Infrastructure.Services
 
             // ConnectionString = _configuration.GetConnectionString("TenantTemplate")
             //     .Replace("{DB_NAME}", _tenant.Database);
-        }
+        // }
 
         public async Task CreateAsync(TenantModel model)
         {
