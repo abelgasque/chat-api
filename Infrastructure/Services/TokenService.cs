@@ -28,12 +28,23 @@ namespace ChatApi.Infrastructure.Services
             _service = service;
         }
 
-        private TokenResponse GenerateToken()
+        private TokenResponse GenerateToken(UserModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_settings.Secret);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+
+            var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Guid.ToString()),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
+                //new Claim(ClaimTypes.Role, user.Role),
+                //new Claim("TenantId", user.TenantId)
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(_settings.ExpireIn),
                 NotBefore = DateTime.Now,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -80,9 +91,7 @@ namespace ChatApi.Infrastructure.Services
                 throw new UnauthorizedException("Invalid password!") { };
             }
 
-            var token = GenerateToken();
-            token.Data = new UserResponse(user) { };
-            return token;
+            return GenerateToken(user);
         }
 
         public async Task<TokenResponse> Refresh(RefreshTokenRequest pEntity)
@@ -95,9 +104,7 @@ namespace ChatApi.Infrastructure.Services
                 throw new BadRequestException("Invalid access token or refresh token!");
             }
 
-            var token = GenerateToken();
-            token.Data = new UserResponse(user) { };
-            return token;
+            return GenerateToken(user);
         }
     }
 }
