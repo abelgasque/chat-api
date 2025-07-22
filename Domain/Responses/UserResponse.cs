@@ -8,23 +8,23 @@ namespace ChatApi.Domain.Responses
         public UserResponse(UserModel pEntity)
         {
             Id = pEntity.Guid;
-            CreatedAt = pEntity.CreatedAt;
-            UpdatedAt = pEntity.UpdatedAt;
             Username = pEntity.Name;
             Email = pEntity.Email;
-            ActiveAt = pEntity.ActiveAt;
+            CreatedAt = pEntity.CreatedAt;
+            IsActive = !pEntity.DeletedAt.HasValue;
+            IsBlock = pEntity.BlockedAt.HasValue;
         }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
-        public DateTime CreatedAt { get; set; }
+        public string Username { get; private set; }
 
-        public DateTime? UpdatedAt { get; set; }
+        public string Email { get; private set; }
 
-        public string Username { get; set; }
+        public DateTime CreatedAt { get; private set; }
 
-        public string Email { get; set; }
+        public bool IsActive { get; private set; }
 
-        public DateTime? ActiveAt { get; set; }
+        public bool IsBlock { get; private set; }
     }
 }
