@@ -20,15 +20,29 @@ docker-compose up -d
 ## EF Core - Migations
 
 ``` bash
-dotnet ef migrations add MigrationInit
+dotnet ef migrations add MigrationCore --context AppDbContext --output-dir Migrations/AppDb
 ```
 
 ``` bash
-dotnet ef database update  
+dotnet ef database update --context AppDbContext
 ```
 
 ``` bash
-dotnet ef database drop  
+dotnet ef database drop --context AppDbContext
+```
+
+## EF Core - Migations tenant default
+
+``` bash
+dotnet ef migrations add MigrationTenants --context TenantDbContext --output-dir Migrations/TenantDb
+```
+
+``` bash
+dotnet ef database update --context TenantDbContext
+```
+
+``` bash
+dotnet ef database drop --context TenantDbContext
 ```
 
 ## Admin Credentials

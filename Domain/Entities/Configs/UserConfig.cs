@@ -7,7 +7,7 @@ using ChatApi.Domain.Entities.Models;
 
 namespace ChatApi.Domain.Entities.Models
 {
-    public class UserConfig : IEntityTypeConfiguration<UserModel>
+    public class UserModelConfig : IEntityTypeConfiguration<UserModel>
     {
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {

@@ -52,11 +52,11 @@ namespace ChatApi
             var user = _configuration["DbUser"] ?? settings.UserId;
             var password = _configuration["Password"] ?? settings.PasswordDb;
 
-            var connectionString = string.Format(settings.ConnectionString, server, port, db, user, password);
-
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(
+                    string.Format(settings.ConnectionString, server, port, db, user, password)
+                );
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
 

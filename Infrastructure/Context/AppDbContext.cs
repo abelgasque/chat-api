@@ -3,6 +3,7 @@ using System.Reflection;
 using System;
 using System.Linq;
 using ChatApi.Domain.Entities.Models;
+using ChatApi.Domain.Entities.Configs;
 
 namespace ChatApi.Infrastructure.Context
 {
@@ -14,20 +15,13 @@ namespace ChatApi.Infrastructure.Context
 
         public DbSet<UserModel> Users { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var typesToRegister =
-                    Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterfaces().Any(gi => gi.IsGenericType
-                    && gi.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))).ToList();
-
-            foreach (var type in typesToRegister)
-            {
-                dynamic configurationInstance = Activator.CreateInstance(type);
-                modelBuilder.ApplyConfiguration(configurationInstance);
-            }
+            modelBuilder.ApplyConfiguration(new ChannelModelConfig());
+            modelBuilder.ApplyConfiguration(new TenantModelConfig());
+            modelBuilder.ApplyConfiguration(new UserModelConfig());
 
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
@@ -40,6 +34,14 @@ namespace ChatApi.Infrastructure.Context
                 NuRefreshed = 0,
                 ActiveAt = DateTime.UtcNow,
                 BlockedAt = null
+            });
+
+            modelBuilder.Entity<TenantModel>().HasData(new TenantModel
+            {
+                Id = 1,
+                Guid = Guid.NewGuid(),
+                Name = "Default",
+                Database = $"TenantDb_Default",
             });
 
             for (int i = 2; i < 52; i++)
@@ -58,7 +60,7 @@ namespace ChatApi.Infrastructure.Context
                 });
             }
 
-            for (int i = 1; i < 51; i++)
+            for (int i = 2; i < 51; i++)
             {
                 modelBuilder.Entity<TenantModel>().HasData(new TenantModel
                 {
