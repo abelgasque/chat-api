@@ -49,6 +49,7 @@ namespace ChatApi
             var server = _configuration["DbServer"] ?? settings.Server;
             var port = _configuration["DbPort"] ?? settings.Port;
             var db = _configuration["Database"] ?? settings.Database;
+            var tenant = _configuration["TenantDb"] ?? settings.TenantDb;
             var user = _configuration["DbUser"] ?? settings.UserId;
             var password = _configuration["Password"] ?? settings.PasswordDb;
 
@@ -56,6 +57,14 @@ namespace ChatApi
             {
                 options.UseSqlServer(
                     string.Format(settings.ConnectionString, server, port, db, user, password)
+                );
+                options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
+            });
+
+            services.AddDbContext<TenantDbContext>(options =>
+            {
+                options.UseSqlServer(
+                    string.Format(settings.ConnectionString, server, port, tenant, user, password)
                 );
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });

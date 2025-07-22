@@ -25,6 +25,9 @@ namespace ChatApi.Domain.Entities.Settings
         [JsonProperty("Database")]
         public string Database { get; set; }
 
+        [JsonProperty("TenantDb")]
+        public string TenantDb { get; set; }
+
         [JsonProperty("UserId")]
         public string UserId { get; set; }
 
