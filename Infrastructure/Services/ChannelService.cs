@@ -37,9 +37,10 @@ namespace ChatApi.Infrastructure.Services
 
             var skip = (filter.Page - 1) * filter.PageSize;
 
-            List<ChannelModel> paged = filtered
+            List<ChannelResponse> paged = filtered
                 .Skip(skip)
                 .Take(filter.PageSize)
+                .Select(entity => new ChannelResponse(entity))
                 .ToList();
 
             return new PaginationResponse
