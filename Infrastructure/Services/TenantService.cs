@@ -56,9 +56,10 @@ namespace ChatApi.Infrastructure.Services
 
             var skip = (filter.Page - 1) * filter.PageSize;
 
-            List<TenantModel> paged = filtered
+            List<TenantResponse> paged = filtered
                 .Skip(skip)
                 .Take(filter.PageSize)
+                .Select(entity => new TenantResponse(entity))
                 .ToList();
 
             return new PaginationResponse
