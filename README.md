@@ -49,10 +49,3 @@ dotnet ef database drop --context TenantDbContext
 **Username:** `admin@example.com`
 
 **Password:** `admin`
-
-
-*Note:* Credentials can be added or changed in the [AppDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/Server/Infrastructure/Entities/Context/AppDbContext.cs) file and generating a new migration before deploying to the development environment.
-
-## References
-
-[Use the Angular project template with ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-7.0&tabs=visual-studio)

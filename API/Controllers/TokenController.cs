@@ -25,7 +25,7 @@ namespace ChatApi.Controllers
         ///
         ///     POST v1/api/token
         ///     {
-        ///         "username": "admin",
+        ///         "username": "admin@example.com",
         ///         "password": "admin"
         ///     }
         ///
