@@ -8,9 +8,6 @@ namespace ChatApi.Domain.Requests
         public RefreshTokenRequest() { }
 
         [Required]
-        public string AccessToken { get; set; }
-
-        [Required]
-        public Guid Id { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

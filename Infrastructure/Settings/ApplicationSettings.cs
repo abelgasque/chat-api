@@ -7,12 +7,18 @@ namespace ChatApi.Domain.Entities.Settings
         [JsonProperty("Secret")]
         public string Secret { get; set; }
 
+        [JsonProperty("RefreshSecret")]
+        public string RefreshSecret { get; set; }
+
         [JsonProperty("ExpireIn")]
         public int ExpireIn { get; set; }
 
+        [JsonProperty("ExpireDays")]
+        public int ExpireDays { get; set; }
+
         [JsonProperty("AuthAttempts")]
         public int AuthAttempts { get; set; }
-        
+
         [JsonProperty("ConnectionString")]
         public string ConnectionString { get; set; }
 
@@ -25,10 +31,19 @@ namespace ChatApi.Domain.Entities.Settings
         [JsonProperty("Database")]
         public string Database { get; set; }
 
+        [JsonProperty("TenantDb")]
+        public string TenantDb { get; set; }
+
         [JsonProperty("UserId")]
         public string UserId { get; set; }
 
         [JsonProperty("PasswordDb")]
         public string PasswordDb { get; set; }
+
+        public string GetConnectionString(string database = null)
+        {
+            var dbName = string.IsNullOrEmpty(database) ? this.Database : database;
+            return $"Server={this.Server},{this.Port};Database={dbName};User Id={this.UserId};Password={this.PasswordDb};TrustServerCertificate=True;MultipleActiveResultSets=true;";
+        }
     }
 }

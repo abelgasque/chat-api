@@ -9,13 +9,11 @@ namespace ChatApi.Domain.Entities.Models
         public ChannelModel() { }
 
         [Required]
-        public string Type { get; set; }
+        public int Type { get; set; } = 1;
 
-        [Required]
-        public string Lang { get; set; }
+        public string Lang { get; set; } = null;
 
-        [Required]
-        public string Url { get; set; }
+        public string Url { get; set; } = null;
 
         [Required]
         public long TenantId { get; set; }

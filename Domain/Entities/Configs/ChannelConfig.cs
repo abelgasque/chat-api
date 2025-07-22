@@ -35,7 +35,8 @@ namespace ChatApi.Domain.Entities.Configs
                 .HasColumnName("CHANNEL_DELETED_AT");
 
             builder.Property(e => e.Type)
-                .HasColumnName("CHANNEL_TYPE");
+                .HasColumnName("CHANNEL_TYPE")
+                .IsRequired();
 
             builder.Property(e => e.Lang)
                 .HasColumnName("CHANNEL_LANG");

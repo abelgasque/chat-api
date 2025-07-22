@@ -7,13 +7,10 @@ namespace ChatApi.Domain.Entities.Models
     [Table("Tenants")]
     public class TenantModel : BaseModel
     {
-        [Required]
-        public string Domain { get; set; }
+        public string Domain { get; set; } = null;
 
         [Required]
         [MaxLength(255)]
         public string Database { get; set; }
-
-        public ICollection<ChannelModel> Channels { get; set; }
     }
 }

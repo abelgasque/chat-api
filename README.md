@@ -20,25 +20,32 @@ docker-compose up -d
 ## EF Core - Migations
 
 ``` bash
-dotnet ef migrations add MigrationInit
+dotnet ef migrations add MigrationCore --context AppDbContext --output-dir Migrations/AppDb
 ```
 
 ``` bash
-dotnet ef database update  
+dotnet ef database update --context AppDbContext
 ```
 
 ``` bash
-dotnet ef database drop  
+dotnet ef database drop --context AppDbContext
+```
+
+## EF Core - Migations tenant default
+
+``` bash
+dotnet ef migrations add MigrationTenants --context TenantDbContext --output-dir Migrations/TenantDb
+```
+
+``` bash
+dotnet ef database update --context TenantDbContext
+```
+
+``` bash
+dotnet ef database drop --context TenantDbContext
 ```
 
 ## Admin Credentials
 **Username:** `admin@example.com`
 
 **Password:** `admin`
-
-
-*Note:* Credentials can be added or changed in the [AppDbContext](https://github.com/abelgasque/AbelGasque.WebApp.SecurityApp/tree/main/Server/Infrastructure/Entities/Context/AppDbContext.cs) file and generating a new migration before deploying to the development environment.
-
-## References
-
-[Use the Angular project template with ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-7.0&tabs=visual-studio)

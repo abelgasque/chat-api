@@ -1,33 +1,35 @@
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using Microsoft.Extensions.Options;
 using System;
-using System.Linq;
 using ChatApi.Domain.Entities.Models;
+using ChatApi.Domain.Entities.Configs;
+using ChatApi.Domain.Entities.Settings;
 
 namespace ChatApi.Infrastructure.Context
 {
     public class AppDbContext : DbContext
     {
+        private readonly ApplicationSettings _settings;
+
         public DbSet<ChannelModel> Channels { get; set; }
 
         public DbSet<TenantModel> Tenants { get; set; }
 
         public DbSet<UserModel> Users { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+        public AppDbContext(
+            DbContextOptions<AppDbContext> options,
+            IOptions<ApplicationSettings> optionsSettings
+        ) : base(options)
+        {
+            _settings = optionsSettings.Value;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var typesToRegister =
-                    Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterfaces().Any(gi => gi.IsGenericType
-                    && gi.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))).ToList();
-
-            foreach (var type in typesToRegister)
-            {
-                dynamic configurationInstance = Activator.CreateInstance(type);
-                modelBuilder.ApplyConfiguration(configurationInstance);
-            }
+            modelBuilder.ApplyConfiguration(new ChannelModelConfig());
+            modelBuilder.ApplyConfiguration(new TenantModelConfig());
+            modelBuilder.ApplyConfiguration(new UserModelConfig());
 
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
@@ -42,30 +44,22 @@ namespace ChatApi.Infrastructure.Context
                 BlockedAt = null
             });
 
-            for (int i = 2; i < 52; i++)
+            modelBuilder.Entity<TenantModel>().HasData(new TenantModel
             {
-                modelBuilder.Entity<UserModel>().HasData(new UserModel
-                {
-                    Id = i,
-                    Guid = Guid.NewGuid(),
-                    Name = "Dev",
-                    Email = $"dev_{i}@example.com",
-                    Password = "dev",
-                    NuLogged = 0,
-                    NuRefreshed = 0,
-                    ActiveAt = DateTime.UtcNow,
-                    BlockedAt = null
-                });
-            }
+                Id = 1,
+                Guid = Guid.NewGuid(),
+                Name = "Default",
+                Database = _settings.TenantDb,
+            });
 
-            for (int i = 2; i < 52; i++)
+            for (int i = 1; i < 51; i++)
             {
-                modelBuilder.Entity<TenantModel>().HasData(new TenantModel
+                modelBuilder.Entity<ChannelModel>().HasData(new ChannelModel
                 {
                     Id = i,
                     Guid = Guid.NewGuid(),
-                    Name = "Dev",
-                    Database = $"{i}_DevDb",
+                    Name = $"Dev_{i}",
+                    TenantId = 1,
                 });
             }
 

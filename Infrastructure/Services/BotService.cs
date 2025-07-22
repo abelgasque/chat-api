@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChatApi.API.Interfaces;
-using ChatApi.Domain.Entities.Models;
+using ChatApi.Domain.Entities.Tenants;
 using ChatApi.Domain.Requests;
 using ChatApi.Domain.Responses;
 using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
 {
-    public class ChannelService : IBaseController<ChannelModel>
+    public class BotService : IBaseController<BotModel>
     {
-        private readonly IRepository<ChannelModel> _repository;
+        private readonly IRepository<BotModel> _repository;
 
-        public ChannelService(IRepository<ChannelModel> repository)
+        public BotService(IRepository<BotModel> repository)
         {
             _repository = repository;
         }
 
-        public async Task CreateAsync(ChannelModel model)
+        public async Task CreateAsync(BotModel model)
         {
             await _repository.CreateAsync(model);
         }
 
-        public async Task<ChannelModel> ReadById(Guid id)
+        public async Task<BotModel> ReadById(Guid id)
         {
             var results = await _repository.FindAsync(m => m.Guid == id);
             return results.FirstOrDefault();
@@ -37,10 +37,10 @@ namespace ChatApi.Infrastructure.Services
 
             var skip = (filter.Page - 1) * filter.PageSize;
 
-            List<ChannelResponse> paged = filtered
+            List<BotResponse> paged = filtered
                 .Skip(skip)
                 .Take(filter.PageSize)
-                .Select(entity => new ChannelResponse(entity))
+                .Select(entity => new BotResponse(entity))
                 .ToList();
 
             return new PaginationResponse
@@ -52,7 +52,7 @@ namespace ChatApi.Infrastructure.Services
             };
         }
 
-        public async Task UpdateAsync(ChannelModel model)
+        public async Task UpdateAsync(BotModel model)
         {
             await _repository.UpdateAsync(model);
         }

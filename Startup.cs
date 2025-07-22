@@ -13,10 +13,11 @@ using System.IO;
 using System.Reflection;
 using System;
 using ChatApi.API.Interfaces;
+using ChatApi.Domain.Entities.Models;
+using ChatApi.Domain.Entities.Tenants;
+using ChatApi.Domain.Entities.Settings;
 using ChatApi.Infrastructure.Middlewares;
 using ChatApi.Infrastructure.Context;
-using ChatApi.Domain.Entities.Models;
-using ChatApi.Domain.Entities.Settings;
 using ChatApi.Infrastructure.Repositories;
 using ChatApi.Infrastructure.Services;
 using ChatApi.Infrastructure.Interfaces;
@@ -49,14 +50,23 @@ namespace ChatApi
             var server = _configuration["DbServer"] ?? settings.Server;
             var port = _configuration["DbPort"] ?? settings.Port;
             var db = _configuration["Database"] ?? settings.Database;
+            var tenant = _configuration["TenantDb"] ?? settings.TenantDb;
             var user = _configuration["DbUser"] ?? settings.UserId;
             var password = _configuration["Password"] ?? settings.PasswordDb;
 
-            var connectionString = string.Format(settings.ConnectionString, server, port, db, user, password);
-
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(
+                    string.Format(settings.ConnectionString, server, port, db, user, password)
+                );
+                options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
+            });
+
+            services.AddDbContext<TenantDbContext>(options =>
+            {
+                options.UseSqlServer(
+                    string.Format(settings.ConnectionString, server, port, tenant, user, password)
+                );
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
 
@@ -136,6 +146,10 @@ namespace ChatApi
             services.AddScoped<ChannelService>();
             services.AddScoped<IBaseController<ChannelModel>, ChannelService>();
             services.AddTransient<ChannelService>();
+
+            services.AddScoped<BotService>();
+            services.AddScoped<IBaseController<BotModel>, BotService>();
+            services.AddTransient<BotService>();
 
             services.AddTransient<TokenService>();
         }

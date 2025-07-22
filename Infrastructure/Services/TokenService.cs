@@ -28,44 +28,50 @@ namespace ChatApi.Infrastructure.Services
             _service = service;
         }
 
-        private TokenResponse GenerateToken()
+        private SecurityTokenDescriptor SetTokenDecriptor(string secret, Claim[] claims, DateTime expireIn)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_settings.Secret);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            var key = Encoding.ASCII.GetBytes(secret);
+            return new SecurityTokenDescriptor
             {
-                Expires = DateTime.UtcNow.AddMinutes(_settings.ExpireIn),
+                Subject = new ClaimsIdentity(claims),
+                Expires = expireIn,
                 NotBefore = DateTime.Now,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new TokenResponse()
-            {
-                AccessToken = tokenHandler.WriteToken(token),
-                ExpiresIn = _settings.ExpireIn
-            };
         }
 
-        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        private TokenResponse GenerateToken(UserModel user)
         {
-            var tokenValidationParameters = new TokenValidationParameters
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var claims = new[]
             {
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Secret)),
-                ValidateLifetime = false
+                new Claim(ClaimTypes.NameIdentifier, user.Guid.ToString()),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
-            if (
-                securityToken is not JwtSecurityToken jwtSecurityToken ||
-                !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase)
-            ) throw new UnauthorizedException("Invalid token!");
+            var accessTokenDescriptor = SetTokenDecriptor(
+                _settings.Secret,
+                claims,
+                DateTime.UtcNow.AddMinutes(_settings.ExpireIn)
+            );
 
-            return principal;
+            var refreshTokenDescriptor = SetTokenDecriptor(
+                _settings.RefreshSecret,
+                claims,
+                DateTime.UtcNow.AddDays(_settings.ExpireDays)
+            );
+
+            var accessToken = tokenHandler.CreateToken(accessTokenDescriptor);
+            var refreshToken = tokenHandler.CreateToken(refreshTokenDescriptor);
+
+            return new TokenResponse()
+            {
+                AccessToken = tokenHandler.WriteToken(accessToken),
+                RefreshToken = tokenHandler.WriteToken(refreshToken),
+                ExpiresIn = _settings.ExpireIn
+            };
         }
 
         public async Task<TokenResponse> Login(TokenRequest pEntity)
@@ -80,24 +86,39 @@ namespace ChatApi.Infrastructure.Services
                 throw new UnauthorizedException("Invalid password!") { };
             }
 
-            var token = GenerateToken();
-            token.Data = new UserResponse(user) { };
-            return token;
+            return GenerateToken(user);
         }
 
         public async Task<TokenResponse> Refresh(RefreshTokenRequest pEntity)
         {
-            UserModel user = await _service.ReadById(pEntity.Id);
-            var principal = GetPrincipalFromExpiredToken(pEntity.AccessToken);
-
-            if (principal is null)
+            var refreshTokenValidationParameters = new TokenValidationParameters
             {
-                throw new BadRequestException("Invalid access token or refresh token!");
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.RefreshSecret)),
+                ValidateLifetime = true
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            ClaimsPrincipal principal;
+            try
+            {
+                principal = tokenHandler.ValidateToken(pEntity.RefreshToken, refreshTokenValidationParameters, out _);
+            }
+            catch
+            {
+                throw new UnauthorizedException("Invalid refresh token!");
             }
 
-            var token = GenerateToken();
-            token.Data = new UserResponse(user) { };
-            return token;
+            var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UnauthorizedException("Invalid token payload.");
+            }
+
+            var user = await _service.ReadById(Guid.Parse(userId));
+            return GenerateToken(user);
         }
     }
 }
