@@ -1,21 +1,29 @@
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using Microsoft.Extensions.Options;
 using System;
-using System.Linq;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Configs;
+using ChatApi.Domain.Entities.Settings;
 
 namespace ChatApi.Infrastructure.Context
 {
     public class AppDbContext : DbContext
     {
+        private readonly ApplicationSettings _settings;
+
         public DbSet<ChannelModel> Channels { get; set; }
 
         public DbSet<TenantModel> Tenants { get; set; }
 
         public DbSet<UserModel> Users { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext(
+            DbContextOptions<AppDbContext> options,
+            IOptions<ApplicationSettings> optionsSettings
+        ) : base(options)
+        {
+            _settings = optionsSettings.Value;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,35 +49,8 @@ namespace ChatApi.Infrastructure.Context
                 Id = 1,
                 Guid = Guid.NewGuid(),
                 Name = "Default",
-                Database = $"TenantDb_Default",
+                Database = _settings.TenantDb,
             });
-
-            for (int i = 2; i < 52; i++)
-            {
-                modelBuilder.Entity<UserModel>().HasData(new UserModel
-                {
-                    Id = i,
-                    Guid = Guid.NewGuid(),
-                    Name = "Dev",
-                    Email = $"dev_{i}@example.com",
-                    Password = "dev",
-                    NuLogged = 0,
-                    NuRefreshed = 0,
-                    ActiveAt = DateTime.UtcNow,
-                    BlockedAt = null
-                });
-            }
-
-            for (int i = 2; i < 51; i++)
-            {
-                modelBuilder.Entity<TenantModel>().HasData(new TenantModel
-                {
-                    Id = i,
-                    Guid = Guid.NewGuid(),
-                    Name = "Dev",
-                    Database = $"{i}_DevDb",
-                });
-            }
 
             for (int i = 1; i < 51; i++)
             {
@@ -78,7 +59,7 @@ namespace ChatApi.Infrastructure.Context
                     Id = i,
                     Guid = Guid.NewGuid(),
                     Name = $"Dev_{i}",
-                    TenantId = i,
+                    TenantId = 1,
                 });
             }
 

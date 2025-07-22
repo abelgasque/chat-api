@@ -1,51 +1,45 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-// using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using ChatApi.API.Interfaces;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Infrastructure.Interfaces;
-// using ChatApi.Infrastructure.Context;
-using System.Linq;
 using ChatApi.Domain.Responses;
 using ChatApi.Domain.Requests;
-using System.Collections.Generic;
+using ChatApi.Infrastructure.Context;
+using ChatApi.Domain.Entities.Settings;
 
 namespace ChatApi.Infrastructure.Services
 {
     public class TenantService : IBaseController<TenantModel>
     {
-        // private readonly IServiceProvider _serviceProvider;
-        // private readonly IConfiguration _configuration;
-        // private TenantModel _tenant;
-        // public string ConnectionString { get; private set; }
-
         private readonly IRepository<TenantModel> _repository;
-        public TenantService(IRepository<TenantModel> repository)
+        private readonly ApplicationSettings _settings;
+
+        public TenantService(
+            IRepository<TenantModel> repository,
+            IOptions<ApplicationSettings> options
+        )
         {
             _repository = repository;
+            _settings = options.Value;
         }
 
-        // public TenantService(IServiceProvider serviceProvider, IConfiguration configuration)
-        // {
-        //     _serviceProvider = serviceProvider;
-        //     _configuration = configuration;
-        // }
+        private async Task ApplyMigrationsToTenantAsync(string database)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
+            optionsBuilder.UseSqlServer(_settings.GetConnectionString(database));
 
-        // public async Task SetTenantAsync(string tenantId)
-        // {
-        // using var scope = _serviceProvider.CreateScope();
-        // var db = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
-
-        // _tenant = await db.Tenants.FirstOrDefaultAsync(t => t.Guid.ToString() == tenantId);
-        // if (_tenant == null)
-        //     throw new Exception("Tenant not found");
-
-        // ConnectionString = _configuration.GetConnectionString("TenantTemplate")
-        //     .Replace("{DB_NAME}", _tenant.Database);
-        // }
+            using var context = new TenantDbContext(optionsBuilder.Options);
+            await context.Database.MigrateAsync();
+        }
 
         public async Task CreateAsync(TenantModel model)
         {
+            await ApplyMigrationsToTenantAsync(model.Database);
             await _repository.CreateAsync(model);
         }
 

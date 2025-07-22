@@ -33,5 +33,11 @@ namespace ChatApi.Domain.Entities.Settings
 
         [JsonProperty("PasswordDb")]
         public string PasswordDb { get; set; }
+
+        public string GetConnectionString(string database = null)
+        {
+            var dbName = string.IsNullOrEmpty(database) ? this.Database : database;
+            return $"Server={this.Server},{this.Port};Database={dbName};User Id={this.UserId};Password={this.PasswordDb};TrustServerCertificate=True;MultipleActiveResultSets=true;";
+        }
     }
 }
