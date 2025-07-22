@@ -7,12 +7,18 @@ namespace ChatApi.Domain.Entities.Settings
         [JsonProperty("Secret")]
         public string Secret { get; set; }
 
+        [JsonProperty("RefreshSecret")]
+        public string RefreshSecret { get; set; }
+
         [JsonProperty("ExpireIn")]
         public int ExpireIn { get; set; }
 
+        [JsonProperty("ExpireDays")]
+        public int ExpireDays { get; set; }
+
         [JsonProperty("AuthAttempts")]
         public int AuthAttempts { get; set; }
-        
+
         [JsonProperty("ConnectionString")]
         public string ConnectionString { get; set; }
 
