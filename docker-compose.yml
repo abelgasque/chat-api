@@ -7,32 +7,25 @@ services:
     container_name: chat-api-container
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      DbServer: "chat-api-mssql-server"
-      DbPort: "1433"
-      DbUser: "SA"
-      Password: "Application@2025"
-      Database: "CoreDb"
+      ASPNETCORE_URLS: "http://+:8080"
     ports:
       - "8080:8080"
       - "443:443"
     depends_on:
-      - mssql-server
+      - postgres
     restart: always
     volumes:
       - dataprotection-keys:/root/.aspnet/DataProtection-Keys
 
-  mssql-server:
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-    container_name: chat-api-mssql-server
+  postgres:
+    image: postgres:16
+    container_name: chat-api-postgres
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Application@2025"
-      MSSQL_PID: Express
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "Application@2025"
+      POSTGRES_DB: "postgres"
     ports:
-      - "1433:1433"
-    volumes:
-      - mssql-data:/var/opt/mssql/data
-    restart: always
+      - "5432:5432"
 
 volumes:
   dataprotection-keys:

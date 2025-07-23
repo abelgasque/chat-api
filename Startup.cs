@@ -56,7 +56,7 @@ namespace ChatApi
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(
+                options.UseNpgsql(
                     string.Format(settings.ConnectionString, server, port, db, user, password)
                 );
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
@@ -64,7 +64,7 @@ namespace ChatApi
 
             services.AddDbContext<TenantDbContext>(options =>
             {
-                options.UseSqlServer(
+                options.UseNpgsql(
                     string.Format(settings.ConnectionString, server, port, tenant, user, password)
                 );
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
