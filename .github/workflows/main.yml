@@ -2,6 +2,8 @@ name: Build and Deploy Chat API Docker Image
 
 on:
   push:
+    branches:
+      - 'main'
     tags:
       - 'v*'
 
