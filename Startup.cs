@@ -167,8 +167,6 @@ namespace ChatApi
             }
 
             app.UseCors("AllowOrigin");
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
