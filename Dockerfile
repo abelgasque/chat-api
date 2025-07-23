@@ -23,6 +23,8 @@ FROM base AS final
 WORKDIR /server
 EXPOSE 8080
 
+RUN mkdir -p /app/keys
+
 # Copiar os arquivos publicados para a imagem final
 COPY --from=publish /app/publish .
 
