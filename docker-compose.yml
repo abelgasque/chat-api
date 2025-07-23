@@ -6,8 +6,14 @@ services:
       dockerfile: Dockerfile
     container_name: chat-api-container
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:8080"
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+      DbServer: ${DbServer}
+      DbPort: ${DbPort}
+      Database: ${Database}
+      DbTenant: ${DbTenant}
+      DbUser: ${DbUser}
+      DbPassword: ${DbPassword}
     ports:
       - "8080:8080"
       - "443:443"
