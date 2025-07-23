@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -41,6 +42,10 @@ namespace ChatApi
             {
                 options.AddPolicy("AllowOrigin", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo("/app/keys"))
+                .SetApplicationName("ChatApi");
 
             services.Configure<ApplicationSettings>(_configuration.GetSection("ApplicationSettings"));
 
@@ -162,7 +167,7 @@ namespace ChatApi
             }
             else
             {
-                app.UseExceptionHandler("/Error");                
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 

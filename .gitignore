@@ -7,3 +7,4 @@ obj
 ChatApi.csproj.user
 Migrations/
 Docs/
+keys/

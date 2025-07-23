@@ -15,7 +15,7 @@ services:
       - postgres
     restart: always
     volumes:
-      - dataprotection-keys:/root/.aspnet/DataProtection-Keys
+      - ./keys:/app/keys
 
   postgres:
     image: postgres:16
@@ -26,11 +26,6 @@ services:
       POSTGRES_DB: "postgres"
     ports:
       - "5432:5432"
-
-volumes:
-  dataprotection-keys:
-  mssql-data:
-    driver: local
 
 networks:
   production:
