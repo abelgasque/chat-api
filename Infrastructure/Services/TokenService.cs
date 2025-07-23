@@ -35,7 +35,7 @@ namespace ChatApi.Infrastructure.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = expireIn,
-                NotBefore = DateTime.Now,
+                NotBefore = DateTime.UtcNow,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
         }
@@ -76,15 +76,22 @@ namespace ChatApi.Infrastructure.Services
 
         public async Task<TokenResponse> Login(TokenRequest pEntity)
         {
-            UserModel user = await _service.ReadByMail(pEntity.Username);
+            UserModel user = await _service.ReadByMail(pEntity.Username)
+                ?? throw new UnauthorizedException("Invalid credentials.");
 
-            user.NuLogged += 1;
-            await _service.UpdateAsync(user);
+            if (!user.ActiveAt.HasValue)
+                throw new UnauthorizedException("User inactive!") { };
+
+
+            if (user.BlockedAt.HasValue)
+                throw new UnauthorizedException("User blocked!") { };
 
             if (!user.Password.Equals(pEntity.Password))
-            {
                 throw new UnauthorizedException("Invalid password!") { };
-            }
+
+            user.NuLogged += 1;
+            user.LoggedAt = DateTime.UtcNow;
+            await _service.UpdateAsync(user);
 
             return GenerateToken(user);
         }
@@ -118,6 +125,10 @@ namespace ChatApi.Infrastructure.Services
             }
 
             var user = await _service.ReadById(Guid.Parse(userId));
+            user.NuRefreshed += 1;
+            user.RefreshedAt = DateTime.UtcNow;
+            await _service.UpdateAsync(user);
+
             return GenerateToken(user);
         }
     }
