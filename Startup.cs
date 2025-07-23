@@ -31,6 +31,7 @@ namespace ChatApi
 
         public Startup(IConfiguration configuration)
         {
+            DotNetEnv.Env.Load();
             _configuration = configuration;
         }
 
@@ -52,12 +53,12 @@ namespace ChatApi
             var settingsSection = _configuration.GetSection("ApplicationSettings");
             var settings = settingsSection.Get<ApplicationSettings>();
 
-            var server = _configuration["DbServer"] ?? settings.Server;
-            var port = _configuration["DbPort"] ?? settings.Port;
-            var db = _configuration["Database"] ?? settings.Database;
-            var tenant = _configuration["TenantDb"] ?? settings.TenantDb;
-            var user = _configuration["DbUser"] ?? settings.UserId;
-            var password = _configuration["Password"] ?? settings.PasswordDb;
+            var server = Environment.GetEnvironmentVariable("DbServer") ?? settings.Server;
+            var port = Environment.GetEnvironmentVariable("DbPort") ?? settings.Port;
+            var db = Environment.GetEnvironmentVariable("Database") ?? settings.Database;
+            var tenant = Environment.GetEnvironmentVariable("DbTenant") ?? settings.TenantDb;
+            var user = Environment.GetEnvironmentVariable("DbUser") ?? settings.UserId;
+            var password = Environment.GetEnvironmentVariable("DbPassword") ?? settings.PasswordDb;
 
             services.AddDbContext<AppDbContext>(options =>
             {
