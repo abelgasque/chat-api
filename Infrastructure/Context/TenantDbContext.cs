@@ -16,6 +16,7 @@ namespace ChatApi.Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BotModelConfig());
+            modelBuilder.ApplyConfiguration(new ChatUserMessageConfig());
         }
     }
 }
