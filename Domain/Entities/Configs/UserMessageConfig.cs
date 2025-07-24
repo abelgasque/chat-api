@@ -4,9 +4,9 @@ using ChatApi.Domain.Entities.Tenants;
 
 namespace ChatApi.Domain.Entities.Configs
 {
-    public class ChatUserMessageModelConfig : IEntityTypeConfiguration<ChatUserMessageModel>
+    public class UserMessageModelConfig : IEntityTypeConfiguration<UserMessageModel>
     {
-        public void Configure(EntityTypeBuilder<ChatUserMessageModel> builder)
+        public void Configure(EntityTypeBuilder<UserMessageModel> builder)
         {
             builder.ToTable("CHAT_USER_MESSAGES");
 
