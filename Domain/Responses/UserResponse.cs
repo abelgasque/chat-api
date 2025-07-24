@@ -7,7 +7,7 @@ namespace ChatApi.Domain.Responses
     {
         public UserResponse(UserModel pEntity)
         {
-            Id = pEntity.Guid;
+            Id = pEntity.Id;
             Username = pEntity.Name;
             Email = pEntity.Email;
             CreatedAt = pEntity.CreatedAt;

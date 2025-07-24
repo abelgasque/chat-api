@@ -10,21 +10,21 @@ using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
 {
-    public class BotService : IBaseController<BotModel>
+    public class ChatUserMessageService : IBaseController<ChatUserMessageModel>
     {
-        private readonly IRepository<BotModel> _repository;
+        private readonly IRepository<ChatUserMessageModel> _repository;
 
-        public BotService(IRepository<BotModel> repository)
+        public ChatUserMessageService(IRepository<ChatUserMessageModel> repository)
         {
             _repository = repository;
         }
 
-        public async Task CreateAsync(BotModel model)
+        public async Task CreateAsync(ChatUserMessageModel model)
         {
             await _repository.CreateAsync(model);
         }
 
-        public async Task<BotModel> ReadById(Guid id)
+        public async Task<ChatUserMessageModel> ReadById(Guid id)
         {
             var results = await _repository.FindAsync(m => m.Id == id);
             return results.FirstOrDefault();
@@ -37,10 +37,9 @@ namespace ChatApi.Infrastructure.Services
 
             var skip = (filter.Page - 1) * filter.PageSize;
 
-            List<BotResponse> paged = filtered
+            List<ChatUserMessageModel> paged = filtered
                 .Skip(skip)
                 .Take(filter.PageSize)
-                .Select(entity => new BotResponse(entity))
                 .ToList();
 
             return new PaginationResponse
@@ -52,7 +51,7 @@ namespace ChatApi.Infrastructure.Services
             };
         }
 
-        public async Task UpdateAsync(BotModel model)
+        public async Task UpdateAsync(ChatUserMessageModel model)
         {
             await _repository.UpdateAsync(model);
         }

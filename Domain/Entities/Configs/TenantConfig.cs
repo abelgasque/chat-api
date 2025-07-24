@@ -9,36 +9,35 @@ namespace ChatApi.Domain.Entities.Configs
         public void Configure(EntityTypeBuilder<TenantModel> builder)
         {
             builder.ToTable("TENANTS");
-            builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Id)
-                .HasColumnName("TENANT_ID")
-                .IsRequired()
-                .ValueGeneratedOnAdd();
+            builder.HasIndex(m => m.Database)
+                .IsUnique()
+                .HasDatabaseName("IX_TENANTS_DATABASE");
 
-            builder.Property(e => e.Guid)
-                .HasColumnName("TENANT_GUID")
-                .IsRequired();
+            builder.HasKey(m => m.Id);
+            builder.Property(m => m.Id)
+                .HasColumnName("ID")
+                .HasDefaultValueSql("gen_random_uuid()");
 
             builder.Property(e => e.Name)
-                .HasColumnName("TENANT_NAME")
+                .HasColumnName("NAME")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
-                .HasColumnName("TENANT_CREATED_AT")
+                .HasColumnName("CREATED_AT")
                 .IsRequired();
 
             builder.Property(e => e.UpdatedAt)
-                .HasColumnName("TENANT_UPDATED_AT");
+                .HasColumnName("UPDATED_AT");
 
             builder.Property(e => e.DeletedAt)
-                .HasColumnName("TENANT_DELETED_AT");
+                .HasColumnName("DELETED_AT");
 
             builder.Property(e => e.Domain)
-                .HasColumnName("TENANT_DOMAIN");
+                .HasColumnName("DOMAIN");
 
             builder.Property(e => e.Database)
-                .HasColumnName("TENANT_DATABASE")
+                .HasColumnName("DATABASE")
                 .IsRequired();
         }
     }

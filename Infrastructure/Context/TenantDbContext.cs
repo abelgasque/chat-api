@@ -1,21 +1,24 @@
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using System;
-using System.Linq;
-using ChatApi.Domain.Entities.Tenants;
 using ChatApi.Domain.Entities.Configs;
+using ChatApi.Domain.Entities.Tenants;
 
 namespace ChatApi.Infrastructure.Context
 {
     public class TenantDbContext : DbContext
     {
-        public DbSet<BotModel> Bot { get; set; }
+        public DbSet<BotModel> Bots { get; set; }
 
-        public TenantDbContext(DbContextOptions<TenantDbContext> options) : base(options) { }
+        public DbSet<ChatUserMessageModel> ChatUserMessages { get; set; }
+
+        public TenantDbContext(DbContextOptions<TenantDbContext> options) : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new BotModelConfig());
+            modelBuilder.ApplyConfiguration(new ChatUserMessageModelConfig());
         }
     }
 }

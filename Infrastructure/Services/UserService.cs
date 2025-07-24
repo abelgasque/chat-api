@@ -26,7 +26,7 @@ namespace ChatApi.Infrastructure.Services
 
         public async Task<UserModel> ReadById(Guid id)
         {
-            var results = await _repository.FindAsync(m => m.Guid == id);
+            var results = await _repository.FindAsync(m => m.Id == id);
             return results.FirstOrDefault();
         }
 

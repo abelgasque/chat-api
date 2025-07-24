@@ -14,10 +14,5 @@ namespace ChatApi.Domain.Entities.Models
         public string Lang { get; set; } = null;
 
         public string Url { get; set; } = null;
-
-        [Required]
-        public long TenantId { get; set; }
-
-        public TenantModel Tenant { get; set; }
     }
 }

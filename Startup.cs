@@ -60,19 +60,18 @@ namespace ChatApi
             var user = Environment.GetEnvironmentVariable("DbUser") ?? settings.UserId;
             var password = Environment.GetEnvironmentVariable("DbPassword") ?? settings.PasswordDb;
 
+            var connectionStringApp = string.Format(settings.ConnectionString, server, port, db, user, password);
+            var connectionStringTenant = string.Format(settings.ConnectionString, server, port, tenant, user, password);
+
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseNpgsql(
-                    string.Format(settings.ConnectionString, server, port, db, user, password)
-                );
+                options.UseNpgsql(connectionStringApp);
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
 
             services.AddDbContext<TenantDbContext>(options =>
             {
-                options.UseNpgsql(
-                    string.Format(settings.ConnectionString, server, port, tenant, user, password)
-                );
+                options.UseNpgsql(connectionStringTenant);
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
 
@@ -139,23 +138,33 @@ namespace ChatApi
                 });
             });
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(AppRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(TenantRepository<>));
 
             services.AddScoped<UserService>();
+            services.AddScoped<IRepository<UserModel>, AppRepository<UserModel>>();
             services.AddScoped<IBaseController<UserModel>, UserService>();
             services.AddTransient<UserService>();
 
             services.AddScoped<TenantService>();
+            services.AddScoped<IRepository<TenantModel>, AppRepository<TenantModel>>();
             services.AddScoped<IBaseController<TenantModel>, TenantService>();
             services.AddTransient<TenantService>();
 
             services.AddScoped<ChannelService>();
+            services.AddScoped<IRepository<ChannelModel>, AppRepository<ChannelModel>>();
             services.AddScoped<IBaseController<ChannelModel>, ChannelService>();
             services.AddTransient<ChannelService>();
 
             services.AddScoped<BotService>();
+            services.AddScoped<IRepository<BotModel>, TenantRepository<BotModel>>();
             services.AddScoped<IBaseController<BotModel>, BotService>();
             services.AddTransient<BotService>();
+
+            services.AddScoped<ChatUserMessageService>();
+            services.AddScoped<IRepository<ChatUserMessageModel>, TenantRepository<ChatUserMessageModel>>();
+            services.AddScoped<IBaseController<ChatUserMessageModel>, ChatUserMessageService>();
+            services.AddTransient<ChatUserMessageService>();
 
             services.AddTransient<TokenService>();
         }
