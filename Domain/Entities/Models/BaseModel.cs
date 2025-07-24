@@ -5,10 +5,8 @@ namespace ChatApi.Domain.Entities.Models
 {
     public class BaseModel
     {
-        public long Id { get; set; }
-
-        [Required]
-        public Guid Guid { get; set; } = Guid.NewGuid();
+        [Key]
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         [MaxLength(255)]

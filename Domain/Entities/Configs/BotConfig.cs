@@ -12,30 +12,26 @@ namespace ChatApi.Domain.Entities.Configs
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                .HasColumnName("BOT_ID")
+                .HasColumnName("ID")
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.Guid)
-                .HasColumnName("BOT_GUID")
-                .IsRequired();
-
             builder.Property(e => e.Name)
-                .HasColumnName("BOT_NAME")
+                .HasColumnName("NAME")
                 .IsRequired();
 
             builder.Property(e => e.CreatedAt)
-                .HasColumnName("BOT_CREATED_AT")
+                .HasColumnName("CREATED_AT")
                 .IsRequired();
 
             builder.Property(e => e.UpdatedAt)
-                .HasColumnName("BOT_UPDATED_AT");
+                .HasColumnName("UPDATED_AT");
 
             builder.Property(e => e.DeletedAt)
-                .HasColumnName("BOT_DELETED_AT");
+                .HasColumnName("DELETED_AT");
 
             builder.Property(e => e.Code)
-                .HasColumnName("BOT_CODE");
+                .HasColumnName("CODE");
         }
     }
 }
