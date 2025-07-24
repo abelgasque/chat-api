@@ -35,11 +35,17 @@ namespace ChatApi.Infrastructure.Services
             return await _repository.GetByConditionAsync(c => c.Email == email);
         }
 
-        public async Task<PaginationResponse> Read(PaginationRequest filter)
+        public async Task<PaginationResponse> Read(UserFilterRequest filter)
         {
             var entities = await _repository.GetAllAsync();
             var filtered = entities.ToList();
 
+            if (filter.Active.HasValue && filter.Active.Value == true)
+            {
+                filtered = filtered.Where(x => x.ActiveAt.HasValue).ToList();
+            }
+
+            var total = filtered.Count;
             var skip = (filter.Page - 1) * filter.PageSize;
 
             List<UserResponse> paged = filtered
@@ -52,7 +58,7 @@ namespace ChatApi.Infrastructure.Services
             {
                 Page = filter.Page,
                 PageSize = filter.PageSize,
-                Total = filtered.Count,
+                Total = total,
                 Data = paged
             };
         }

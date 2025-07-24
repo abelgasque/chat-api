@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using ChatApi.API.Interfaces;
-using ChatApi.Domain.Requests;
 
 namespace ChatApi.Controllers
 {
@@ -51,19 +50,6 @@ namespace ChatApi.Controllers
             var result = await _service.ReadById(id);
             if (result == null) return NotFound();
 
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// Endpoint that retrieves a list of entities based on filters
-        /// </summary>
-        /// <param name="filter">Filter parameters</param>
-        /// <returns>List of entities</returns>
-        /// <response code="200">Returns the list of entities</response>
-        [HttpGet]
-        public virtual async Task<IActionResult> Read([FromQuery] PaginationRequest filter)
-        {
-            var result = await _service.Read(filter);
             return Ok(result);
         }
 
