@@ -7,7 +7,7 @@ namespace ChatApi.Domain.Responses
     {
         public ChannelResponse(ChannelModel pEntity)
         {
-            Id = pEntity.Guid;
+            Id = pEntity.Id;
             Name = pEntity.Name;
             CreatedAt = pEntity.CreatedAt;
             IsActive = pEntity.DeletedAt.HasValue ? false : true;

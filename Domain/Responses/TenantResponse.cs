@@ -7,7 +7,7 @@ namespace ChatApi.Domain.Responses
     {
         public TenantResponse(TenantModel pEntity)
         {
-            Id = pEntity.Guid;
+            Id = pEntity.Id;
             Name = pEntity.Name;
             Database = pEntity.Database;
             CreatedAt = pEntity.CreatedAt;

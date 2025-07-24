@@ -31,10 +31,12 @@ namespace ChatApi.Infrastructure.Context
             modelBuilder.ApplyConfiguration(new TenantModelConfig());
             modelBuilder.ApplyConfiguration(new UserModelConfig());
 
+            Guid tenantId = Guid.NewGuid();
+            Guid userId = Guid.NewGuid();
+
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
-                Id = 1,
-                Guid = Guid.NewGuid(),
+                Id = userId,
                 Name = "Admin",
                 Email = "admin@example.com",
                 Password = "admin",
@@ -46,22 +48,10 @@ namespace ChatApi.Infrastructure.Context
 
             modelBuilder.Entity<TenantModel>().HasData(new TenantModel
             {
-                Id = 1,
-                Guid = Guid.NewGuid(),
+                Id = tenantId,
                 Name = "Default",
                 Database = _settings.TenantDb,
             });
-
-            for (int i = 1; i < 51; i++)
-            {
-                modelBuilder.Entity<ChannelModel>().HasData(new ChannelModel
-                {
-                    Id = i,
-                    Guid = Guid.NewGuid(),
-                    Name = $"Dev_{i}",
-                    TenantId = 1,
-                });
-            }
 
             base.OnModelCreating(modelBuilder);
         }

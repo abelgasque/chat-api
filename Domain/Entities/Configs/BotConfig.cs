@@ -9,12 +9,11 @@ namespace ChatApi.Domain.Entities.Configs
         public void Configure(EntityTypeBuilder<BotModel> builder)
         {
             builder.ToTable("BOTS");
-            builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Id)
+            builder.HasKey(m => m.Id);
+            builder.Property(m => m.Id)
                 .HasColumnName("ID")
-                .IsRequired()
-                .ValueGeneratedOnAdd();
+                .HasDefaultValueSql("gen_random_uuid()");
 
             builder.Property(e => e.Name)
                 .HasColumnName("NAME")
