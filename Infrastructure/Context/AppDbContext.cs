@@ -54,6 +54,21 @@ namespace ChatApi.Infrastructure.Context
                 Name = "Default",
                 Database = _settings.TenantDb,
             });
+
+            for (int i = 1; i <= 50; i++)
+            {
+                modelBuilder.Entity<UserModel>().HasData(new UserModel
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Developer " + i,
+                    Email = "dev" + i + "@example.com",
+                    Password = "admin",
+                    NuLogged = 0,
+                    NuRefreshed = 0,
+                    ActiveAt = DateTime.UtcNow,
+                    BlockedAt = null
+                });
+            }
         }
     }
 }
