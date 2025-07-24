@@ -4,7 +4,7 @@ using ChatApi.Domain.Entities.Tenants;
 
 namespace ChatApi.Domain.Entities.Configs
 {
-    public class ChatUserMessageConfig : IEntityTypeConfiguration<ChatUserMessageModel>
+    public class ChatUserMessageModelConfig : IEntityTypeConfiguration<ChatUserMessageModel>
     {
         public void Configure(EntityTypeBuilder<ChatUserMessageModel> builder)
         {

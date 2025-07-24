@@ -27,6 +27,8 @@ namespace ChatApi.Infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new ChannelModelConfig());
             modelBuilder.ApplyConfiguration(new TenantModelConfig());
             modelBuilder.ApplyConfiguration(new UserModelConfig());
@@ -52,8 +54,6 @@ namespace ChatApi.Infrastructure.Context
                 Name = "Default",
                 Database = _settings.TenantDb,
             });
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }
