@@ -8,7 +8,7 @@ namespace ChatApi.Domain.Entities.Configs
     {
         public void Configure(EntityTypeBuilder<UserMessageModel> builder)
         {
-            builder.ToTable("CHAT_USER_MESSAGES");
+            builder.ToTable("USER_MESSAGES");
 
             builder.HasIndex(m => m.SenderId);
             builder.HasIndex(m => m.ReceiverId);
