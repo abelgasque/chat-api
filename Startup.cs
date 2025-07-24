@@ -142,14 +142,17 @@ namespace ChatApi
             services.AddScoped(typeof(IRepository<>), typeof(TenantRepository<>));
 
             services.AddScoped<UserService>();
+            services.AddScoped<IRepository<UserModel>, AppRepository<UserModel>>();
             services.AddScoped<IBaseController<UserModel>, UserService>();
             services.AddTransient<UserService>();
 
             services.AddScoped<TenantService>();
+            services.AddScoped<IRepository<TenantModel>, AppRepository<TenantModel>>();
             services.AddScoped<IBaseController<TenantModel>, TenantService>();
             services.AddTransient<TenantService>();
 
             services.AddScoped<ChannelService>();
+            services.AddScoped<IRepository<ChannelModel>, AppRepository<ChannelModel>>();
             services.AddScoped<IBaseController<ChannelModel>, ChannelService>();
             services.AddTransient<ChannelService>();
 
