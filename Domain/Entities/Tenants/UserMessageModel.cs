@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChatApi.Domain.Entities.Tenants
 {
-    [Table("ChatUserMessages")]
-    public class ChatUserMessageModel
+    [Table("UserMessages")]
+    public class UserMessageModel
     {
         [Key]
         public Guid Id { get; set; }
