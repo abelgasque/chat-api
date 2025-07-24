@@ -9,12 +9,12 @@ using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class AppRepository<T> : IRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public Repository(AppDbContext context)
+        public AppRepository(AppDbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

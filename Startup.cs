@@ -138,7 +138,8 @@ namespace ChatApi
                 });
             });
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(AppRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(TenantRepository<>));
 
             services.AddScoped<UserService>();
             services.AddScoped<IBaseController<UserModel>, UserService>();
@@ -153,10 +154,12 @@ namespace ChatApi
             services.AddTransient<ChannelService>();
 
             services.AddScoped<BotService>();
+            services.AddScoped<IRepository<BotModel>, TenantRepository<BotModel>>();
             services.AddScoped<IBaseController<BotModel>, BotService>();
             services.AddTransient<BotService>();
 
             services.AddScoped<ChatUserMessageService>();
+            services.AddScoped<IRepository<ChatUserMessageModel>, TenantRepository<ChatUserMessageModel>>();
             services.AddScoped<IBaseController<ChatUserMessageModel>, ChatUserMessageService>();
             services.AddTransient<ChatUserMessageService>();
 
