@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ChatApi.Domain.Responses;
-
-namespace ChatApi.Domain.Requests
+﻿namespace ChatApi.Domain.Requests
 {
     public class UserFilterRequest : PaginationRequest
     {
