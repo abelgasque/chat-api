@@ -35,22 +35,20 @@ namespace ChatApi.Infrastructure.Services
             var entities = await _repository.GetAllAsync();
             var filtered = entities.ToList();
 
-            if (filter.SenderId != Guid.Empty)
+            if (filter.SenderId != Guid.Empty && filter.ReceiverId != Guid.Empty)
             {
-                filtered = filtered.Where(x => x.SenderId == filter.SenderId).ToList();
-            }
-
-            if (filter.ReceiverId != Guid.Empty)
-            {
-                filtered = filtered.Where(x => x.ReceiverId == filter.ReceiverId).ToList();
+                filtered = filtered.Where(x =>
+                    (x.SenderId == filter.SenderId && x.ReceiverId == filter.ReceiverId) ||
+                    (x.SenderId == filter.ReceiverId && x.ReceiverId == filter.SenderId)
+                ).ToList();
             }
 
             var skip = (filter.Page - 1) * filter.PageSize;
 
             List<UserMessageModel> paged = filtered
+                .OrderByDescending(x => x.SentAt)
                 .Skip(skip)
                 .Take(filter.PageSize)
-                .OrderByDescending(x => x.SentAt)
                 .ToList();
 
             return new PaginationResponse
