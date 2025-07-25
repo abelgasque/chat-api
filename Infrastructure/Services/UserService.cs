@@ -52,6 +52,7 @@ namespace ChatApi.Infrastructure.Services
                 .Skip(skip)
                 .Take(filter.PageSize)
                 .Select(entity => new UserResponse(entity))
+                .OrderBy(x => x.Username)
                 .ToList();
 
             return new PaginationResponse
