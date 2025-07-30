@@ -1,4 +1,5 @@
 #cache
+appsettings.Production.json
 .env
 .vs
 .vscode

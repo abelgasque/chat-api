@@ -14,6 +14,10 @@ namespace ChatApi.Domain.Entities.Models
                 .HasColumnName("ID")
                 .HasDefaultValueSql("gen_random_uuid()");
 
+            builder.Property(e => e.AvatarUrl)
+                .HasColumnName("AVATAR_URL")
+                .HasMaxLength(500);
+
             builder.Property(e => e.Name)
                 .HasColumnName("NAME")
                 .HasMaxLength(255)

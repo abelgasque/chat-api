@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ChatApi.API.Interfaces;
 using ChatApi.Domain.Entities.Models;
@@ -12,11 +14,13 @@ namespace ChatApi.Infrastructure.Services
 {
     public class UserService : IBaseController<UserModel>
     {
+        private readonly IDistributedCache _cache;
         private readonly IRepository<UserModel> _repository;
 
-        public UserService(IRepository<UserModel> repository)
+        public UserService(IRepository<UserModel> repository, IDistributedCache cache)
         {
             _repository = repository;
+            _cache = cache;
         }
 
         public async Task CreateAsync(UserModel model)
@@ -26,13 +30,55 @@ namespace ChatApi.Infrastructure.Services
 
         public async Task<UserModel> ReadById(Guid id)
         {
+            string cacheKey = $"user:id:{id}";
+
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cached))
+            {
+                return JsonSerializer.Deserialize<UserModel>(cached);
+            }
+
             var results = await _repository.FindAsync(m => m.Id == id);
-            return results.FirstOrDefault();
+            var user = results.FirstOrDefault();
+
+            if (user != null)
+            {
+                var options = new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                };
+
+                var json = JsonSerializer.Serialize(user);
+                await _cache.SetStringAsync(cacheKey, json, options);
+            }
+
+            return user;
         }
 
         public async Task<UserModel> ReadByMail(string email)
         {
-            return await _repository.GetByConditionAsync(c => c.Email == email);
+            string cacheKey = $"user:email:{email.ToLower()}";
+
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cached))
+            {
+                return JsonSerializer.Deserialize<UserModel>(cached);
+            }
+
+            var user = await _repository.GetByConditionAsync(c => c.Email == email);
+
+            if (user != null)
+            {
+                var options = new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                };
+
+                var json = JsonSerializer.Serialize(user);
+                await _cache.SetStringAsync(cacheKey, json, options);
+            }
+
+            return user;
         }
 
         public async Task<PaginationResponse> Read(UserFilterRequest filter)
