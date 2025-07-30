@@ -9,6 +9,9 @@ namespace ChatApi.Domain.Entities.Models
     {
         public UserModel() { }
 
+        [MaxLength(500)]
+        public string AvatarUrl { get; set; }
+
         [Required]
         [MaxLength(255)]
         [EmailAddress]

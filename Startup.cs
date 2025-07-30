@@ -53,38 +53,33 @@ namespace ChatApi
             var settingsSection = _configuration.GetSection("ApplicationSettings");
             var settings = settingsSection.Get<ApplicationSettings>();
 
-            var server = Environment.GetEnvironmentVariable("DbServer") ?? settings.Server;
-            var port = Environment.GetEnvironmentVariable("DbPort") ?? settings.Port;
-            var db = Environment.GetEnvironmentVariable("Database") ?? settings.Database;
-            var tenant = Environment.GetEnvironmentVariable("DbTenant") ?? settings.TenantDb;
-            var user = Environment.GetEnvironmentVariable("DbUser") ?? settings.UserId;
-            var password = Environment.GetEnvironmentVariable("DbPassword") ?? settings.PasswordDb;
-
-            var connectionStringApp = string.Format(settings.ConnectionString, server, port, db, user, password);
-            var connectionStringTenant = string.Format(settings.ConnectionString, server, port, tenant, user, password);
-
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseNpgsql(connectionStringApp);
+                options.UseNpgsql(settings.GetConnectionString());
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
 
             services.AddDbContext<TenantDbContext>(options =>
             {
-                options.UseNpgsql(connectionStringTenant);
+                options.UseNpgsql(settings.GetConnectionStringTenant());
                 options.ConfigureWarnings(x => x.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
 
-            services.AddAuthentication(x =>
+            services.AddStackExchangeRedisCache(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.Configuration = settings.GetConnectionStringRedis();
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x =>
+            .AddJwtBearer(options =>
             {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(settings.Secret)),

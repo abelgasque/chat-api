@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace ChatApi.Domain.Entities.Settings
 {
@@ -40,10 +41,36 @@ namespace ChatApi.Domain.Entities.Settings
         [JsonProperty("PasswordDb")]
         public string PasswordDb { get; set; }
 
+        [JsonProperty("Redis")]
+        public string Redis { get; set; }
+
         public string GetConnectionString(string database = null)
         {
-            var dbName = string.IsNullOrEmpty(database) ? this.Database : database;
-            return $"Server={this.Server},{this.Port};Database={dbName};User Id={this.UserId};Password={this.PasswordDb};TrustServerCertificate=True;MultipleActiveResultSets=true;";
+            var server = Environment.GetEnvironmentVariable("DbServer") ?? Server;
+            var port = Environment.GetEnvironmentVariable("DbPort") ?? Port;
+            var dbName = string.IsNullOrEmpty(database)
+                ? (Environment.GetEnvironmentVariable("Database") ?? Database)
+                : database;
+            var user = Environment.GetEnvironmentVariable("DbUser") ?? UserId;
+            var password = Environment.GetEnvironmentVariable("DbPassword") ?? PasswordDb;
+
+            return string.Format(ConnectionString, server, port, dbName, user, password);
+        }
+
+        public string GetConnectionStringTenant()
+        {
+            var server = Environment.GetEnvironmentVariable("DbServer") ?? Server;
+            var port = Environment.GetEnvironmentVariable("DbPort") ?? Port;
+            var tenant = Environment.GetEnvironmentVariable("DbTenant") ?? TenantDb;
+            var user = Environment.GetEnvironmentVariable("DbUser") ?? UserId;
+            var password = Environment.GetEnvironmentVariable("DbPassword") ?? PasswordDb;
+
+            return string.Format(ConnectionString, server, port, tenant, user, password);
+        }
+
+        public string GetConnectionStringRedis()
+        {
+            return Environment.GetEnvironmentVariable("Redis") ?? Redis;
         }
     }
 }
