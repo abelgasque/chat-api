@@ -95,10 +95,10 @@ namespace ChatApi.Infrastructure.Services
             var skip = (filter.Page - 1) * filter.PageSize;
 
             List<UserResponse> paged = filtered
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip(skip)
                 .Take(filter.PageSize)
                 .Select(entity => new UserResponse(entity))
-                .OrderByDescending(x => x.CreatedAt)
                 .ToList();
 
             return new PaginationResponse
