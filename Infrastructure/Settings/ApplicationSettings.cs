@@ -44,6 +44,9 @@ namespace ChatApi.Domain.Entities.Settings
         [JsonProperty("Redis")]
         public string Redis { get; set; }
 
+        [JsonProperty("Rabbit")]
+        public string Rabbit { get; set; }
+
         public string GetConnectionString(string database = null)
         {
             var server = Environment.GetEnvironmentVariable("DbServer") ?? Server;
