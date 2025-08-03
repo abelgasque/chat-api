@@ -6,32 +6,61 @@ services:
       dockerfile: Dockerfile
     container_name: chat-api-container
     environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      DbServer: ${DbServer}
-      DbPort: ${DbPort}
-      Database: ${Database}
-      DbTenant: ${DbTenant}
-      DbUser: ${DbUser}
-      DbPassword: ${DbPassword}
+      ASPNETCORE_ENVIRONMENT: Production
     ports:
       - "8080:8080"
       - "443:443"
-    depends_on:
-      - postgres
     restart: always
     volumes:
       - ./keys:/app/keys
+    networks:
+    - production
+
+  chat-websocket:
+    image: abelgasque/chat-websocket:latest
+    platform: linux/amd64
+    container_name: chat-api-websocket
+    environment:
+      NODE_ENV: development
+      NODE_PORT: 8081
+      CORS_ORIGINS: http://localhost:80,http://localhost:4200,http://localhost:3000,http://localhost:8081
+      CHAT_API_BASE_URL: http://localhost:8080
+      REDIS_URL: redis://default:default@host.docker.internal:6379
+    ports:
+      - "8081:8081"
+    networks:
+      - production
 
   postgres:
     image: postgres:16
+    platform: linux/amd64
     container_name: chat-api-postgres
     environment:
-      POSTGRES_USER: "admin"
-      POSTGRES_PASSWORD: "Application@2025"
-      POSTGRES_DB: "postgres"
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - production
+
+  redis:
+    image: redis:latest
+    platform: linux/amd64
+    command: redis-server --requirepass default
+    container_name: chat-api-redis
+    environment:
+      REDIS_USER: default
+      REDIS_PASSWORD: default
+    ports:
+      - "6379:6379"
+    networks:
+      - production
+
+volumes:
+  pgdata:
 
 networks:
   production:
