@@ -19,7 +19,6 @@ namespace ChatApi.Domain.Entities.Models
 
         [Required]
         [MaxLength(20)]
-        [Phone]
         public string Phone { get; set; }
 
         public string Password { get; set; }
