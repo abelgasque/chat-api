@@ -28,6 +28,23 @@ namespace ChatApi.Infrastructure.Services
             await _repository.CreateAsync(model);
         }
 
+        public async Task CreateLeadAsync(UserLeadRequest model)
+        {
+            var entity = new UserModel
+            {
+                Id = Guid.NewGuid(),
+                Name = model.Username,
+                Email = model.Email,
+                Phone = model.Phone,
+                NuLogged = 0,
+                NuRefreshed = 0,
+                ActiveAt = DateTime.UtcNow,
+                BlockedAt = null
+            };
+
+            await _repository.CreateAsync(entity);
+        }
+
         public async Task<UserModel> ReadById(Guid id)
         {
             string cacheKey = $"user:id:{id}";

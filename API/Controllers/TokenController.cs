@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ChatApi.Infrastructure.Services;
 using System.Threading.Tasks;
 using ChatApi.Domain.Requests;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ChatApi.Controllers
 {
@@ -10,10 +11,12 @@ namespace ChatApi.Controllers
     public class TokenController : ControllerBase
     {
         private readonly TokenService _service;
-        
-        public TokenController(TokenService service) 
-        { 
+        private readonly UserService _userService;
+
+        public TokenController(TokenService service, UserService userService)
+        {
             _service = service;
+            _userService = userService;
         }
 
         /// POST: v1/api/token
@@ -41,7 +44,7 @@ namespace ChatApi.Controllers
             {
                 return new BadRequestObjectResult(this.ModelState);
             }
-            
+
             return new OkObjectResult(await _service.Login(pEntity));
         }
 
@@ -72,6 +75,26 @@ namespace ChatApi.Controllers
             }
 
             return new OkObjectResult(await _service.Refresh(pEntity));
+        }
+
+        /// POST: v1/api/token/user
+        /// <summary>
+        /// Endpoint for create User lead 
+        /// </summary>
+        /// <param name="pEntity"></param>
+        /// <returns>Returns User access token</returns>
+        /// <response code="200">Returns access token of the request</response>
+        /// <response code="404">Exception return if invalid password, email does not exist, User blocked / inactive or invalid template</response>
+        [HttpPost("user")]
+        public async Task<ActionResult> CreateLeadAsync([FromBody] UserLeadRequest pEntity)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return new BadRequestObjectResult(this.ModelState);
+            }
+
+            await _userService.CreateLeadAsync(pEntity);
+            return new OkResult();
         }
 
     }
