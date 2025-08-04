@@ -17,6 +17,11 @@ namespace ChatApi.Domain.Entities.Models
         [EmailAddress]
         public string Email { get; set; }
 
+        [Required]
+        [MaxLength(20)]
+        [Phone]
+        public string Phone { get; set; }
+
         public string Password { get; set; }
 
         public DateTime? ActiveAt { get; set; }

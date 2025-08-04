@@ -28,6 +28,11 @@ namespace ChatApi.Domain.Entities.Models
                 .HasMaxLength(250)
                 .IsRequired();
 
+            builder.Property(e => e.Phone)
+                .HasColumnName("PHONE")
+                .HasMaxLength(20)
+                .IsRequired();
+
             builder.Property(e => e.Password)
                 .HasColumnName("PASSWORD")
                 .HasMaxLength(255);
