@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ChatApi.Infrastructure.Services;
 using System.Threading.Tasks;
 using ChatApi.Domain.Requests;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ChatApi.Controllers
 {
@@ -96,6 +95,5 @@ namespace ChatApi.Controllers
             await _userService.CreateLeadAsync(pEntity);
             return new OkResult();
         }
-
     }
 }

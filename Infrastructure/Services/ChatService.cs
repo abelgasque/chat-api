@@ -10,43 +10,41 @@ using ChatApi.Infrastructure.Interfaces;
 
 namespace ChatApi.Infrastructure.Services
 {
-    public class UserMessageService : IBaseController<UserMessageModel>
+    public class ChatService : IBaseController<ChatModel>
     {
-        private readonly IRepository<UserMessageModel> _repository;
+        private readonly IRepository<ChatModel> _repository;
 
-        public UserMessageService(IRepository<UserMessageModel> repository)
+        public ChatService(IRepository<ChatModel> repository)
         {
             _repository = repository;
         }
 
-        public async Task CreateAsync(UserMessageModel model)
+        public async Task CreateAsync(ChatModel model)
         {
             await _repository.CreateAsync(model);
         }
 
-        public async Task<UserMessageModel> ReadById(Guid id)
+        public async Task<ChatModel> ReadById(Guid id)
         {
             var results = await _repository.FindAsync(m => m.Id == id);
             return results.FirstOrDefault();
         }
 
-        public async Task<PaginationResponse> Read(UserMessageFilterRequest filter)
+        public async Task<ChatModel> ReadByUserId(Guid id)
+        {
+            var results = await _repository.FindAsync(x => x.SenderId == id || x.ReceiverId == id);
+            return results.FirstOrDefault();
+        }
+
+        public async Task<PaginationResponse> Read(ChatFilterRequest filter)
         {
             var entities = await _repository.GetAllAsync();
             var filtered = entities.ToList();
 
-            if (filter.SenderId != Guid.Empty && filter.ReceiverId != Guid.Empty)
-            {
-                filtered = filtered.Where(x =>
-                    (x.SenderId == filter.SenderId && x.ReceiverId == filter.ReceiverId) ||
-                    (x.SenderId == filter.ReceiverId && x.ReceiverId == filter.SenderId)
-                ).ToList();
-            }
-
             var skip = (filter.Page - 1) * filter.PageSize;
 
-            List<UserMessageModel> paged = filtered
-                .OrderByDescending(x => x.SentAt)
+            List<ChatModel> paged = filtered
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip(skip)
                 .Take(filter.PageSize)
                 .ToList();
@@ -60,7 +58,7 @@ namespace ChatApi.Infrastructure.Services
             };
         }
 
-        public async Task UpdateAsync(UserMessageModel model)
+        public async Task UpdateAsync(ChatModel model)
         {
             await _repository.UpdateAsync(model);
         }
