@@ -8,30 +8,44 @@ namespace ChatApi.Domain.Entities.Configs
     {
         public void Configure(EntityTypeBuilder<ChatModel> builder)
         {
-            builder.ToTable("Chats");
+            builder.ToTable("CHATS");
 
             builder.HasKey(m => m.Id);
             builder.Property(m => m.Id)
                 .HasColumnName("ID")
                 .HasDefaultValueSql("gen_random_uuid()");
 
-            builder.Property(c => c.MeId)
-                .HasColumnName("ME_ID");
+            builder.Property(e => e.Name)
+                .HasColumnName("NAME")
+                .IsRequired();
 
-            builder.Property(c => c.MeName)
-                .HasColumnName("ME_NAME");
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("CREATED_AT")
+                .IsRequired();
 
-            builder.Property(c => c.MeJid)
-                .HasColumnName("ME_JID");
+            builder.Property(e => e.UpdatedAt)
+                .HasColumnName("UPDATED_AT");
 
-            builder.Property(c => c.ChannelId)
-                .HasColumnName("CHANNEL_ID");
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("DELETED_AT");
 
-            builder.Property(c => c.ContactId)
-                .HasColumnName("CONTACT_ID");
+            builder.Property(m => m.SenderId)
+                .HasColumnName("SENDER_ID")
+                .IsRequired();
 
-            builder.Property(c => c.ContactName)
-                .HasColumnName("CONTACT_NAME");
+            builder.Property(m => m.ReceiverId)
+                .HasColumnName("RECEIVER_ID")
+                .IsRequired();
+
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("CREATED_AT")
+                .IsRequired();
+
+            builder.Property(e => e.UpdatedAt)
+                .HasColumnName("UPDATED_AT");
+
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("DELETED_AT");
         }
     }
 }

@@ -8,7 +8,6 @@ namespace ChatApi.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("v1/api/[controller]")]
     public abstract class BaseController<TModel, TService> : ControllerBase
         where TModel : class
         where TService : IBaseController<TModel>

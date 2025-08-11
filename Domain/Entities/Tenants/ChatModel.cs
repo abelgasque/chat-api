@@ -8,14 +8,8 @@ namespace ChatApi.Domain.Entities.Tenants
     [Table("Chats")]
     public class ChatModel : BaseModel
     {
-        public string MeId { get; set; }
-        public string MeName { get; set; }
-        public string MeJid { get; set; }
-
-        public Guid ChannelId { get; set; }
-        public string ContactId { get; set; }
-        public string ContactName { get; set; }
-
+        public Guid SenderId { get; set; }
+        public Guid ReceiverId { get; set; }
         public List<ChatMessageModel> Messages { get; set; }
     }
 }

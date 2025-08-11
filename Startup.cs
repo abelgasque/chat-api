@@ -157,6 +157,9 @@ namespace ChatApi
             services.AddTransient<BotService>();
 
             services.AddScoped<IRepository<ChatModel>, TenantRepository<ChatModel>>();
+            services.AddScoped<ChatService>();
+            services.AddScoped<IBaseController<ChatModel>, ChatService>();
+            services.AddTransient<ChatService>();
 
             services.AddScoped<IRepository<ChatMessageModel>, TenantRepository<ChatMessageModel>>();
             services.AddScoped<ChatMessageService>();

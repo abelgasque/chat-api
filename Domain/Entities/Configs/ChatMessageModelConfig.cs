@@ -7,60 +7,39 @@ namespace ChatApi.Domain.Entities.Configs
     {
         public void Configure(EntityTypeBuilder<ChatMessageModel> builder)
         {
-            builder.ToTable("ChatMessages");
+            builder.ToTable("CHAT_MESSAGES");
 
             builder.HasKey(m => m.Id);
             builder.Property(m => m.Id)
                 .HasColumnName("ID")
                 .HasDefaultValueSql("gen_random_uuid()");
 
-            builder.Property(m => m.ExternalId)
-                .HasColumnName("EXTERNAL_ID")
+            builder.Property(e => e.Name)
+                .HasColumnName("NAME")
                 .IsRequired();
+
+            builder.Property(e => e.CreatedAt)
+                .HasColumnName("CREATED_AT")
+                .IsRequired();
+
+            builder.Property(e => e.UpdatedAt)
+                .HasColumnName("UPDATED_AT");
+
+            builder.Property(e => e.DeletedAt)
+                .HasColumnName("DELETED_AT");
 
             builder.Property(m => m.ChatId)
                 .HasColumnName("CHAT_ID")
                 .IsRequired();
 
-            builder.Property(m => m.Timestamp)
-                .HasColumnName("TIMESTAMP")
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            builder.Property(m => m.Body)
-                .HasColumnName("BODY")
+            builder.Property(m => m.Message)
+                .HasColumnName("MESSAGE")
+                .HasMaxLength(5000)
                 .IsRequired();
 
-            builder.Property(m => m.FromMe)
-                .HasColumnName("FROM_ME")
-                .IsRequired();
-
-            builder.Property(m => m.Source)
-                .HasColumnName("SOURCE")
-                .IsRequired(false);
-
-            builder.Property(m => m.HasMedia)
-                .HasColumnName("HAS_MEDIA")
-                .IsRequired();
-
-            builder.Property(m => m.Ack)
-                .HasColumnName("ACK")
-                .IsRequired();
-
-            builder.Property(m => m.AckName)
-                .HasColumnName("ACK_NAME")
-                .IsRequired(false);
-
-            builder.Property(m => m.Engine)
-                .HasColumnName("ENGINE")
-                .IsRequired(false);
-
-            builder.Property(m => m.SenderId)
-                .HasColumnName("SENDER_ID")
-                .IsRequired(false);
-
-            builder.Property(m => m.SenderName)
-                .HasColumnName("SENDER_NAME")
-                .IsRequired(false);
+            builder.HasOne(m => m.Chat)
+                .WithMany()
+                .HasForeignKey(m => m.ChatId);
         }
     }
 }
