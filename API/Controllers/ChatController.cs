@@ -33,18 +33,5 @@ namespace ChatApi.Controllers
             var result = await _service.Read(filter);
             return Ok(result);
         }
-
-        /// <summary>
-        /// Endpoint that retrieves a list of entities based on filters
-        /// </summary>
-        /// <param name="id">Filter parameters</param>
-        /// <returns>List of entities</returns>
-        /// <response code="200">Returns the list of entities</response>
-        [HttpGet("user/{id}")]
-        public virtual async Task<IActionResult> ReadByUser([FromQuery] Guid id)
-        {
-            var result = await _service.ReadByUserId(id);
-            return Ok(result);
-        }
     }
 }

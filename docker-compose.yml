@@ -31,6 +31,51 @@ services:
     networks:
       - production
 
+  n8n:
+    image: n8nio/n8n:1.103.2
+    platform: linux/amd64
+    container_name: chat-api-n8n
+    environment:
+      N8N_ENCRYPTION_KEY: u1wK6D7jJ2nMv3FqAbLwUzpZJrYPlzqA1onlcHz3rU0=
+      N8N_HOST: host.docker.internal
+      N8N_LOG_LEVEL: debug
+      N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: true
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
+      N8N_SECURE_COOKIE: false
+      GENERIC_TIMEZONE: America/Sao_Paulo
+      WEBHOOK_URL: http://host.docker.internal:5678
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: host.docker.internal
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: postgres
+      DB_POSTGRESDB_USER: admin
+      DB_POSTGRESDB_PASSWORD: admin
+      REDIS_URL: redis://default:default@host.docker.internal:6379/0
+    volumes:
+      - n8n_data:/home/node/.n8n
+    ports:
+      - "5678:5678"
+    networks:
+      - production
+
+  waha:
+    image: devlikeapro/waha:latest-2025.7.11
+    platform: linux/amd64
+    container_name: chat-api-waha
+    environment:
+      WAHA_API_KEY_PLAIN: 76c3e0b38d4bb48df243c920d538f91b491271e8f19fa17e9e4b2517989607ce9d52a218160e5a15a6bcbfcdb8be6071a75b12b95cf49cdb5eb44212f3b61bcf
+      WHATSAPP_HOOK_URL: http://host.docker.internal:5678/webhook/webhook
+      WHATSAPP_DEFAULT_ENGINE: GOWS
+      WHATSAPP_HOOK_EVENTS: message
+      TZ: America/Sao_Paulo
+    ports:
+      - "3000:3000"
+    volumes:
+      - waha_sessions:/app/.sessions
+      - waha_media:/app/.media
+    networks:
+      - production
+
   postgres:
     image: postgres:16
     platform: linux/amd64
@@ -61,6 +106,9 @@ services:
 
 volumes:
   pgdata:
+  n8n_data:
+  waha_sessions:
+  waha_media:
 
 networks:
   production:
