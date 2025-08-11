@@ -156,10 +156,12 @@ namespace ChatApi
             services.AddScoped<IBaseController<BotModel>, BotService>();
             services.AddTransient<BotService>();
 
-            services.AddScoped<UserMessageService>();
-            services.AddScoped<IRepository<UserMessageModel>, TenantRepository<UserMessageModel>>();
-            services.AddScoped<IBaseController<UserMessageModel>, UserMessageService>();
-            services.AddTransient<UserMessageService>();
+            services.AddScoped<IRepository<ChatModel>, TenantRepository<ChatModel>>();
+
+            services.AddScoped<IRepository<ChatMessageModel>, TenantRepository<ChatMessageModel>>();
+            services.AddScoped<ChatMessageService>();
+            services.AddScoped<IBaseController<ChatMessageModel>, ChatMessageService>();
+            services.AddTransient<ChatMessageService>();
 
             services.AddTransient<TokenService>();
         }

@@ -2,7 +2,7 @@
 
 namespace ChatApi.Domain.Requests
 {
-    public class UserMessageFilterRequest : PaginationRequest
+    public class ChatMessageFilterRequest : PaginationRequest
     {
         public Guid SenderId { get; set; }
 

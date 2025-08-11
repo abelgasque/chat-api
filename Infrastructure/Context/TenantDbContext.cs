@@ -8,7 +8,9 @@ namespace ChatApi.Infrastructure.Context
     {
         public DbSet<BotModel> Bots { get; set; }
 
-        public DbSet<UserMessageModel> UserMessages { get; set; }
+        public DbSet<ChatModel> Chats { get; set; }
+
+        public DbSet<ChatMessageModel> ChatMessages { get; set; }
 
         public TenantDbContext(DbContextOptions<TenantDbContext> options) : base(options)
         { }
@@ -18,7 +20,8 @@ namespace ChatApi.Infrastructure.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new BotModelConfig());
-            modelBuilder.ApplyConfiguration(new UserMessageModelConfig());
+            modelBuilder.ApplyConfiguration(new ChatModelConfig());
+            modelBuilder.ApplyConfiguration(new ChatMessageModelConfig());
         }
     }
 }
