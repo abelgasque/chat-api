@@ -30,17 +30,18 @@ namespace ChatApi.Infrastructure.Services
             return results.FirstOrDefault();
         }
 
-        public async Task<ChatModel> ReadByUserId(Guid id)
-        {
-            var results = await _repository.FindAsync(x => x.SenderId == id || x.ReceiverId == id);
-            return results.FirstOrDefault();
-        }
-
         public async Task<PaginationResponse> Read(ChatFilterRequest filter)
         {
             var entities = await _repository.GetAllAsync();
-            var filtered = entities.ToList();
 
+            if (filter.SenderId.HasValue)
+                entities = entities.Where(e => e.SenderId == filter.SenderId.Value);
+            
+
+            if (filter.ReceiverId.HasValue)
+                entities = entities.Where(e => e.ReceiverId == filter.ReceiverId.Value);
+
+            var filtered = entities.ToList();
             var skip = (filter.Page - 1) * filter.PageSize;
 
             List<ChatModel> paged = filtered
