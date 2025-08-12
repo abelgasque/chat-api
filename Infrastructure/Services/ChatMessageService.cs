@@ -35,7 +35,7 @@ namespace ChatApi.Infrastructure.Services
             var skip = (filter.Page - 1) * filter.PageSize;
 
             List<ChatMessageModel> paged = filtered
-                .OrderByDescending(x => x.CreatedAt)
+                .OrderByDescending(x => x.Timestamp)
                 .Skip(skip)
                 .Take(filter.PageSize)
                 .ToList();

@@ -14,19 +14,13 @@ namespace ChatApi.Domain.Entities.Configs
                 .HasColumnName("ID")
                 .HasDefaultValueSql("gen_random_uuid()");
 
-            builder.Property(e => e.Name)
-                .HasColumnName("NAME")
+            builder.Property(e => e.SenderId)
+                .HasColumnName("SENDER_ID")
                 .IsRequired();
 
-            builder.Property(e => e.CreatedAt)
-                .HasColumnName("CREATED_AT")
+            builder.Property(e => e.Timestamp)
+                .HasColumnName("TIMESTAMP")
                 .IsRequired();
-
-            builder.Property(e => e.UpdatedAt)
-                .HasColumnName("UPDATED_AT");
-
-            builder.Property(e => e.DeletedAt)
-                .HasColumnName("DELETED_AT");
 
             builder.Property(m => m.ChatId)
                 .HasColumnName("CHAT_ID")
