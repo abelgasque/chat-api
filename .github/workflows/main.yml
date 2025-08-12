@@ -27,18 +27,6 @@ jobs:
     - name: Run Tests
       run: dotnet test ChatApi.Tests/ChatApi.Tests.csproj --no-restore --verbosity normal
 
-    - name: Install Coverlet Console
-      run: dotnet tool install -g coverlet.console
-
-    - name: Build Test Project
-      run: dotnet build ChatApi.Tests/ChatApi.Tests.csproj -c Debug
-
-    - name: Run Coverlet Coverage
-      run: |
-        export PATH="$PATH:$HOME/.dotnet/tools"
-        cd ChatApi.Tests/bin/Debug/net9.0
-        coverlet ChatApi.Tests.dll --target "dotnet" --targetargs "test --no-build" --format "opencover"
-
   build:
     name: Build Docker Image
     needs: test
