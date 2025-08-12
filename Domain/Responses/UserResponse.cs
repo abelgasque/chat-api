@@ -8,6 +8,7 @@ namespace ChatApi.Domain.Responses
         public UserResponse(UserModel pEntity)
         {
             Id = pEntity.Id;
+            AvatarUrl = pEntity.AvatarUrl;
             Username = pEntity.Name;
             Email = pEntity.Email;
             CreatedAt = pEntity.CreatedAt;
@@ -17,6 +18,7 @@ namespace ChatApi.Domain.Responses
 
         public Guid Id { get; private set; }
 
+        public string AvatarUrl { get; private set; }
         public string Username { get; private set; }
 
         public string Email { get; private set; }

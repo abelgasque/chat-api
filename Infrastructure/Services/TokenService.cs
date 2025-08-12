@@ -49,6 +49,7 @@ namespace ChatApi.Infrastructure.Services
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim("AvatarUrl", user.AvatarUrl),
             };
 
             var accessTokenDescriptor = SetTokenDecriptor(
