@@ -9,7 +9,8 @@ on:
       - 'v*'
 
 jobs:
-  build-deploy:
+  test:
+    name: Run Tests and Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +38,14 @@ jobs:
         export PATH="$PATH:$HOME/.dotnet/tools"
         cd ChatApi.Tests/bin/Debug/net9.0
         coverlet ChatApi.Tests.dll --target "dotnet" --targetargs "test --no-build" --format "opencover"
+
+  build:
+    name: Build Docker Image
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
 
     - name: Notify Discord (Build Started)
       run: |
@@ -74,7 +83,7 @@ jobs:
 
   report-status:
     name: Report Build Status
-    needs: build-deploy
+    needs: build
     environment: production
     runs-on: ubuntu-latest
 
