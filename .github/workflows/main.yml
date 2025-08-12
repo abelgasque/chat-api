@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
     tags:
       - 'v*'
 
@@ -16,6 +17,17 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ChatApi/ChatApi.csproj
+
+    - name: Run Tests
+      run: dotnet test ChatApi.Tests/ChatApi.Tests.csproj --no-restore --verbosity normal
 
     - name: Notify Discord (Build Started)
       run: |
@@ -38,6 +50,12 @@ jobs:
       run: |
         docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-api:latest .
         docker push ${{ secrets.DOCKER_USERNAME }}/chat-api:latest
+
+    - name: Build and push Docker image (branch develop)
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-api:develop .
+        docker push ${{ secrets.DOCKER_USERNAME }}/chat-api:develop
 
     - name: Build and push Docker image (tagged release)
       if: startsWith(github.ref, 'refs/tags/')
