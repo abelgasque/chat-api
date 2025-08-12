@@ -4,6 +4,7 @@ using System;
 using ChatApi.Domain.Entities.Models;
 using ChatApi.Domain.Entities.Configs;
 using ChatApi.Domain.Entities.Settings;
+using System.Collections.Generic;
 
 namespace ChatApi.Infrastructure.Context
 {
@@ -36,11 +37,23 @@ namespace ChatApi.Infrastructure.Context
             Guid tenantId = Guid.NewGuid();
             Guid userId = Guid.NewGuid();
 
+            string avatarLink = "https://github.com/{0}.png";
+            var users = new List<string>
+            {
+                "abelgasque","sindresorhus","kamranahmedse","donnemartin","jwasham","996icu","vinta","karpathy","trekhleb",
+                "trimstray","getify","visionmedia","c9s","fabpot","weierophinney","springmeyer","dcramer",
+                "jeromeetienne","ornicar","davglass","postmodern","tmcw","isaacs","torvalds","fsouza",
+                "taylorotwell","yihui","josevalim","kevinsawicki","jordansissel","kripken","sferik","Raynos",
+                "Shougo","ekmett","svenfuchs","radar","TooTallNate","dominictarr","davidfowl","torvalds",
+                "yyx990803","gustavoguanabara","gaearon","peng-zhihui","charliermarsh","peppy","phodal",
+                "dtolnay","GrahamCampbell","freekmurze","Borda"
+            };
+
             modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
                 Id = userId,
                 Name = "Admin",
-                AvatarUrl = "https://github.com/abelgasque.png",
+                AvatarUrl = string.Format(avatarLink, users[0]),
                 Email = "admin@example.com",
                 Phone = "11111111111",
                 Password = "admin",
@@ -63,9 +76,10 @@ namespace ChatApi.Infrastructure.Context
                 {
                     Id = Guid.NewGuid(),
                     Name = "Developer " + i,
+                    AvatarUrl = string.Format(avatarLink, users[i]),
                     Email = "dev" + i + "@example.com",
                     Phone = "11111111111",
-                    Password = BCrypt.Net.BCrypt.HashPassword("dev"),
+                    Password = "admin",
                     NuLogged = 0,
                     NuRefreshed = 0,
                     ActiveAt = DateTime.UtcNow,
