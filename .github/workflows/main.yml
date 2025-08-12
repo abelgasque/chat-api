@@ -29,10 +29,14 @@ jobs:
     - name: Install Coverlet Console
       run: dotnet tool install -g coverlet.console
 
+    - name: Build Test Project
+      run: dotnet build ChatApi.Tests/ChatApi.Tests.csproj -c Debug
+
     - name: Run Coverlet Coverage
       run: |
         export PATH="$PATH:$HOME/.dotnet/tools"
-        coverlet ./bin/Debug/net9.0/ChatApi.Tests.dll --target "dotnet" --targetargs "test --no-build" --format "opencover"
+        cd ChatApi.Tests/bin/Debug/net9.0
+        coverlet ChatApi.Tests.dll --target "dotnet" --targetargs "test --no-build" --format "opencover"
 
     - name: Notify Discord (Build Started)
       run: |
