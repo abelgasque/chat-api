@@ -36,10 +36,6 @@ namespace ChatApi.Domain.Entities.Configs
                 .HasColumnName("MESSAGE")
                 .HasMaxLength(5000)
                 .IsRequired();
-
-            builder.HasOne(m => m.Chat)
-                .WithMany()
-                .HasForeignKey(m => m.ChatId);
         }
     }
 }
