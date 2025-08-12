@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatApi.Domain.Responses;
 using ChatApi.Domain.Requests;
+using System.Collections.Generic;
 
 namespace ChatApi.Infrastructure.Services
 {
@@ -44,14 +45,20 @@ namespace ChatApi.Infrastructure.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var claims = new[]
+            var claimList = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("AvatarUrl", user.AvatarUrl),
             };
 
+            if (!string.IsNullOrEmpty(user.AvatarUrl))
+            {
+                claimList.Add(new Claim("AvatarUrl", user.AvatarUrl));
+            }
+
+            var claims = claimList.ToArray();
+    
             var accessTokenDescriptor = SetTokenDecriptor(
                 _settings.Secret,
                 claims,
