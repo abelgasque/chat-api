@@ -9,7 +9,5 @@ namespace ChatApi.Domain.Entities.Tenants
     {
         public Guid ChatId { get; set; }
         public string Message { get; set; }
-
-        public ChatModel Chat { get; set; }
     }
 }

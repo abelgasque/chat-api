@@ -10,6 +10,5 @@ namespace ChatApi.Domain.Entities.Tenants
     {
         public Guid SenderId { get; set; }
         public Guid ReceiverId { get; set; }
-        public List<ChatMessageModel> Messages { get; set; }
     }
 }
