@@ -1,17 +1,21 @@
 # Etapa 1: Base para runtime
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /server
 EXPOSE 8080
 
 # Etapa 2: Build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /server
-COPY . ./
+WORKDIR /src
 
-# Restaurar dependências do projeto
-RUN dotnet restore "ChatApi.csproj"
+# Copiar arquivos de solução e projeto
+COPY ChatApi/ChatApi.csproj ChatApi/
+RUN dotnet restore "ChatApi/ChatApi.csproj"
+
+# Copiar o restante do código
+COPY . .
 
 # Construir o projeto
+WORKDIR /src/ChatApi
 RUN dotnet build "ChatApi.csproj" -c Release -o /app/build
 
 # Etapa 3: Publicação
